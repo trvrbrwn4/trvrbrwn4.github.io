@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Colored</title>
+	<link rel="icon" href="http://www.messiahlutherangermantown.org/wp-content/uploads/2014/06/classes-clip-art-3.png">
+	<link rel="stylesheet" href="Styles/tbroStyle.css">
+	<style>
+		body {
+			background-color: #000;
+		}
+		.content {
+			text-align: center;
+		}
+		input[type="range"] {
+			margin-top: 5%;
+			width: 40%;
+			
+		}
+		p, h5 {
+			font-size: 64px;
+			color: #fff;
+			font-weight: 200;
+			margin-top: 10%;
+			text-shadow:
+			-2px -2px 0 #000,
+			2px -2px 0 #000,
+			-2px 2px 0 #000,
+			2px 2px 0 #000; 
+		}
+		h5 {
+			margin: 0;
+			font-size: 36px;
+			text-shadow:
+			-1px -1px 0 #000,
+			1px -1px 0 #000,
+			-1px 1px 0 #000,
+			1px 1px 0 #000;
+		}
+		redCol {
+			color: #f66;
+		}
+		greCol {
+			color: #6f6;
+		}
+		blueCol {
+			color: #66f;
+		}
+	</style>
+	</head>
+
+	<body onload="rainbowGo();">
+			<div class="content"">
+				<p id="text"></p>
+				<input type="range" name="speed" id="speed" min="-500" max="450"><br>
+				<h5>^ Speed ^</h5>
+			</div>
+		<script src="Scripts/tbroScript.js" type="Text/Javascript"></script>
+	</body>
+</html>

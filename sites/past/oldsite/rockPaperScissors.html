@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Rock Paper Scissors</title>
+	<link rel="icon" href="https://s-media-cache-ak0.pinimg.com/originals/23/67/f5/2367f5816fbf876c1f639f94495a3515.jpg">
+	<link rel="stylesheet" href="Styles/tbroStyle.css">
+	<style>
+		/* Prevents highlight from appearing */
+		::selection {
+			background: transparent;
+		}
+		
+		/* Background */
+		body {
+			background-color: black;
+		}
+		
+		/* Padding for content */
+		.content {
+			padding: 20px;
+			text-align: center;
+		}
+		
+		/* Styles computer and user containers */
+		.bigComp, .bigUser {
+			width: 50%;
+		}
+		.bigComp {
+			float: left;
+		}
+		.bigUser {
+			float: right;
+		}
+		.userBox {
+			margin-right: 20px;
+		}
+		.computerBox {
+			max-width: 60%;
+		}
+		.computerBox, .userBox, button, #score {
+			text-align: center;
+			background-color: rgba(255, 255, 255, .4);
+			border: 15px solid #fff;
+			border-radius: 40px;
+			font-size: 36px;
+			font-weight: 200;
+			color: #ddd;
+			text-shadow:
+			-1px -1px 0 #000,
+			1px -1px 0 #000,
+			-1px 1px 0 #000,
+			1px 1px 0 #000;
+			
+		}
+		.computerBox, .userBox {
+			float: left;
+		}
+		p {
+			margin-bottom: 10px;
+		}
+		#score {
+			background-color: transparent;
+			border: none;
+			border-radius: 0;
+		}
+		
+		/* Styles the alert box */
+		#alertBox {
+			position: absolute;
+			font-size: 96px;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, .8);
+			color: #fff;
+			visibility: hidden;
+			text-align: center;
+			padding-top: 15%;
+		}
+		
+		/* Styles user buttons */
+		button {
+			font-size: 24px;
+			border: 2px solid #fff;
+			border-radius: 5px;
+			margin-bottom: 10px;
+			min-width: 120px;
+			height: 80px;
+			transition: all .2s ease;
+		}
+		button:hover {
+			background-color: rgba(255, 255, 255, .6);
+			font-size: 25px;
+		}
+		button:active {
+			background-color: rgba(255, 255, 255, .2);
+			font-size: 23px;
+			color: #bbb;
+		}
+	</style>
+	</head>
+
+	<body onload="loadHeader();">
+			<div class="header">
+				<h1 id="title"></h1>
+				<nav></nav>
+			</div>
+			<!-- Container for alerts -->
+			<div id="alertBox" onclick="this.style.visibility = 'hidden'">
+				<p id="alert"></p>
+			</div>
+			<!-- Container for everything else -->
+			<div class="content"">
+				<!-- Container for computer -->
+				<div class="bigComp">
+					<div class="computerBox">
+						<img id="compPic" width="350px" height="350px">
+						<p id="compMove"></p>
+					</div>
+					<!-- For displaying the score -->
+					<p id="score">Computer: 0<br>User: 0</p>
+				</div>
+				
+				<!-- Container for user -->
+				<div class="bigUser">
+					<div class="userBox">
+						<img id="userPic" width="350px" height="350px">
+						<p id="userMove"></p>
+					</div>
+					<button type="button" onclick="rockPaperScissors(0);">Rock</button><br>
+					<button type="button" onclick="rockPaperScissors(1);">Paper</button><br>
+					<button type="button" onclick="rockPaperScissors(2);">Scissors</button>
+				</div>
+				
+				<!-- Script to generate a random starting picture -->
+				<script>
+					var compStart =  Math.floor(Math.random() * (2 + 1)),
+						userStart =  Math.floor(Math.random() * (2 + 1)),
+						greetings = ["Hello there!",
+										"How's it hanging?",
+										"What up!",
+										"You're going down punk.",
+										"Oh, hi.",
+										"You ready or what?",
+										"Time to Die.",
+										"Good Day Mate!"],
+						userGreeting = Math.floor(Math.random() * (7 + 1)),
+						compGreeting = Math.floor(Math.random() * (7 + 1));
+					document.getElementById("compPic").src = "Images/site5/compStart"+compStart+".png";
+					document.getElementById("compMove").innerHTML = greetings[compGreeting];
+					document.getElementById("userPic").src = "Images/site5/userStart"+userStart+".png";
+					document.getElementById("userMove").innerHTML = greetings[userGreeting];
+				</script>
+			</div>
+		<script src="Scripts/tbroScript.js" type="Text/Javascript"></script>
+	</body>
+</html>

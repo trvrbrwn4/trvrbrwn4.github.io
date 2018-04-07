@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" onmousemove="mouseMove(event);">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="author" content="Trevor Brown"/>
+		<link rel="icon" href="ball.png">
+		<title>Pong</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			html, body, #board {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			body {
+				text-align: center;	
+			}
+			
+			#auto {
+				float: left;
+			}
+			#but {
+				margin: 100px auto;
+			}
+			
+			#board {
+				visibility: hidden;
+			}
+			#paddle {	
+				position: absolute;
+				bottom: 40px;
+			}
+			#ball {
+				position: absolute;
+				animation: rotateBall .8s linear infinite;
+			}
+			@keyframes rotateBall {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+			
+			#leaderWrap {
+				color: black;
+				list-style: none;
+			}
+			li {
+				margin: 10px auto;
+			}
+		</style>
+	</head>
+	<body onresize="windowResized();">
+		<button id="auto" onclick="startAuto();"></button>
+		<button id="but" onclick="startGame();">Lets play!</button>
+		<div id="board">
+			<p id="score"></p>
+			<img id="paddle" src="paddle.png" height="20" width="120"/>
+			<img id="ball" src="ball.png" height="40" width="40"/>
+		</div>
+		<ul id="leaderWrap"></ul>
+		<script>
+			var paddle = document.getElementById("paddle").style,
+				ball = document.getElementById("ball").style,
+				ballX = 2, ballY = 2,
+				moveX = randNum(2,4), moveY = randNum(2,4),
+				width = document.body.clientWidth,
+				height = document.body.clientHeight,
+				ballLength = 40, paddleLength = 120,
+				mouse, score = 0,
+				auto = false,
+				scoreAdded = false,
+				leaderboard = [];
+				
+				if (!(sessionStorage.getItem("leaderboard"))) {
+					leaderboard = [{name:"Chief", score:"117"},{name:"Jack", score:"45"},{name:"Wendy", score:"30"},{name:"King", score:"15"},{name:"Ronald", score:"4"}];
+					sessionStorage.setItem("leaderboard", leaderboard);
+				} else {
+					leaderboard = sessionStorage.getItem("leaderboard");
+				}
+			// Gets window size constantly for use
+			function windowResized() {
+				width = document.body.clientWidth;
+				height = document.body.clientHeight;
+			}
+			// Random number generator, reusable everywhere
+			function randNum(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+			// Plays a sound passed to it
+			function playSound(src) {
+				var audioElement = document.createElement("audio");
+				audioElement.setAttribute("src", src);
+				audioElement.play();
+			}
+			
+			// Starts game
+			function startGame() {
+				// makes board visible (hidden on load)
+				document.getElementById("board").style.visibility = "visible";
+				// Removes button
+				document.getElementById("but").parentNode.removeChild(document.getElementById("but"));
+				document.getElementById("auto").parentNode.removeChild(document.getElementById("auto"));
+				// Starts the ball
+				moveBall();
+			}
+			
+			// Autopilot
+			function startAuto() {
+				// makes board visible (hidden on load)
+				document.getElementById("board").style.visibility = "visible";
+				// Removes button
+				document.getElementById("but").parentNode.removeChild(document.getElementById("but"));
+				document.getElementById("auto").parentNode.removeChild(document.getElementById("auto"));
+				auto = true;
+				// Starts the ball
+				moveBall();
+			}
+			
+			// Tracks mouse
+			function mouseMove(e) {
+				// Little delay for eye candy
+				if (!auto) {
+					setTimeout( function() {
+						// Paddle is 120 wide, so it moves the left over by half and moves paddle.
+						mouse = (e.clientX - (paddleLength/2));
+						paddle.left = mouse+"px";
+
+					}, 25);
+				}
+			}
+			
+			// Moves ball and checks for conditions
+			function moveBall() {
+				// If ball is higher than page bottom level runs code, otherwise if its lower, you lose
+				if (!(ballY >= height)) {
+					//	Sees if ball is at paddle height, AND if its within the paddle width. the 30 and 50 give 30 more px for paddle
+					if ((ballY >= (height - ((paddleLength/2)+30))) && ((ballX >= mouse-30)) && ((ballX+ballLength) <= (mouse+(paddleLength+30)))) {
+						// increase score
+						score++;
+						document.getElementById("score").innerText = score;
+						
+						// reverse ball direction
+						if (moveY > 0) {
+							moveY = randNum(2,10);
+						}
+						moveY *= -1;
+					}
+					// If ball hits top of page, bounce back
+					if (ballY <= 0) {
+						moveY *= -1;
+					}
+					// Move ball up/down
+					ballY += moveY;
+					ball.top = ballY+"px";
+				
+					// If ball hits either side, bounce back
+					if ((((ballX + ballLength) >= width)) || ballX <= 0) {
+						moveX *= -1;
+					}
+					// Move ball left/right
+					ballX += moveX;
+					ball.left = ballX+"px";
+					
+					// Autopilot
+					if (auto) {
+						mouse = ballX-ballLength;
+						paddle.left = (ballX-ballLength)	+"px";
+					}
+					
+					// callback for function to keep ball moving
+					setTimeout(function() {
+						moveBall();
+					}, 7);
+				} else {
+					document.getElementById("board").style.display = "none";
+					if (confirm("Play again?")) {
+						location.reload();
+					}
+				}
+			}
+			
+			function showLeaderboard() {
+				for(var i = 0; i < 5; i++) {
+					if ((score > leaderboard[i].score) && !scoreAdded) {
+						leaderboard[i].name = prompt("Enter your name...");
+						leaderboard[i].score = score;
+						scoreAdded = true;
+					}
+					winner = document.createElement("li");
+					w = winner;
+					w.innerText = leaderboard[i].name+" : "+leaderboard[i].score;
+					document.getElementById("leaderWrap").appendChild(w);
+					sessionStorage.setItem("leaderboard", leaderboard);
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,208 @@
+/* universal reset */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* import font */
+@font-face {
+    font-family: Ubuntu;
+    src: url(Ubuntu/Ubuntu-Light.ttf);
+}
+@keyframes animateLogo {
+	0%, 100% {transform: scale(1);}
+	50% {transform: scale(.9);}
+}
+
+/* padding, bg color and font size */
+body {
+	font-size: 1.25em;
+	height: 100%;
+	background-color: #000	;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 300;
+}
+h1, h2, h3 {
+	font-weight: 500;
+}
+button {
+	margin: 0 10px;
+	border: none;
+	background-color: black;
+	color: white;
+	padding: 5px;
+}
+
+/* universal font color */
+body {
+	color: #2f6690;
+}
+#header, #header a {
+	color: #8cdeff;
+}
+
+/* a styling */
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+	color: #d9dcd6;
+}
+#projects a, #musicProjects a {
+	color: black;
+}
+/* styles current page to be visible */
+#currentPage {
+	font-size: 1.4em;
+	font-weight: 700;
+}
+
+/* content holds everything, so this sets the size of the box and cuts off the Y-overflow */
+#content {
+	position: relative;
+	width: 86vw;
+	height: 86vh;
+	margin: 5vh 5vw;
+	padding: 2vh 2vw;
+	background-color: #8cdeff;
+	overflow-y: scroll;
+}
+
+/* header holds the nav tabs */
+#header {
+	z-index: 10000;
+	position: sticky;
+	top: 0;
+	padding: 5px;
+	border: 2px solid black;
+	width: 80vw;
+	text-align: center;
+	margin: 0 auto;
+	background-color: #2f6690;
+	margin-bottom: 20px;
+}
+/* styles the header list to all fit on one line */
+#header li {
+	display: inline-block;
+	margin: 0 40px;
+}
+
+/* styles the content of each paragraph to have a background, and the title to have a border */
+h2 {
+	border: 3px solid #2f6690;
+}
+h2, .paragraph {
+	background-color: #d9dcd6;
+}
+.paragraph {
+	padding: 20px;
+	margin-bottom: 40px;
+}
+
+/* first p element is always indented for visual sake */
+p {
+	text-indent: 30px;
+}
+/* padding for all the content */
+#content h2,p {
+	padding: 5px;
+}	
+#socials ul {
+	text-align: center;
+}
+#socials li {
+	list-style-type: none;
+	display: inline-block;	
+	margin: 5px 10px;
+}
+#socials li:hover {
+	animation: animateLogo .6s infinite linear;
+}
+
+#projects, #art, #musicProjects {
+	width: 100%;
+	text-align: center;
+}
+#projects div, #art div {
+	display: inline-block;
+	margin: 20px;
+	width: 45%;
+	height: 220px;
+	overflow-y: scroll;
+	border: 3px solid #2f6690;
+}
+#projects>div>h3, #art>div>h3, #musicProjects>div>h3 {
+	position: sticky;
+	background-color: #d9dcd6;
+	border-bottom: 1px solid #2f6690;
+	font-size: 1.5em;
+	top: 0;
+}
+#projects li, #art li {
+	list-style-type: none;
+	text-align: left;
+}
+#projects li:nth-child(odd) {
+	font-size: 1.2em;
+}
+#projects li:nth-child(even) {
+	font-size: .8em;
+}
+#art li {
+	color: black;
+	margin-bottom: 10px;
+}
+#exampleBox {
+	position: relative;
+	overflow: hidden !important;
+}
+#example {
+	height: 100%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+#musicProjects div {
+	display: inline-block;
+	margin: 20px;
+}
+#songPicWrap {
+	overflow: scroll;
+}
+
+/* all of this styles the work history section in the about page */
+h2, #work li, li>h3 {
+	display: inline-block;
+}
+#work li:nth-child(even) {
+	display: block;
+	margin-left: 30px;
+}
+
+/* fixes divs and pics for different screen sizes */
+@media screen and (max-width: 1400px) {
+	#songPic {
+		width: 90%;
+	}
+}
+@media screen and (max-width: 1180px) {
+	#projects div, #art div {
+		width: 90%;
+	}
+}
+@media screen and (max-width: 800px) {
+	#songPic {
+		width: 100%;
+	}
+}
+html {
+	cursor: url(../cursor.png), default;
+}
+button:hover, a:hover, #art li:hover {
+	cursor: url(../cursorPointer.png), pointer;
+}
+#art li:hover {
+	text-decoration: underline;
+}

@@ -1,0 +1,403 @@
+<!DOCTYPE HTML>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=2">
+	<head>
+		<title>Tic Tac Toe</title>
+		<style>
+			* {
+				margin: 0;
+				padding 0;
+			}
+			html {
+				font-family: "Arial";
+				cursor: default;
+				background: linear-gradient(to bottom left, #22f, #808 80%);
+				text-align: center;
+				height: 100%;
+			}
+			#title {
+				display: inline-block;
+				position: absolute;
+				float: left;
+				padding: 10px;
+				border: 5px solid black;
+				background-color: rgba(255, 255, 255, .4);
+				font-size: 3em;
+				top: -5px;
+				left: -5px;
+			}
+			#title:hover {
+				cursor: help;
+			}
+			h1 {
+				margin-top: 40px;
+				color: white;
+				text-shadow: 0 0 64px rgba(255, 255, 255, 1);
+				display: inline-block;
+			}
+			button {
+				margin: 20px;
+				width: 140px;
+				font-size: 1.5em;
+				letter-spacing: 4px;
+				border: 3px solid #fff;
+				border-radius: 3px;
+				background-color: transparent;
+				color: white;
+			}
+			button:hover {
+				cursor: pointer;
+				text-decoration: underline;
+				transform: scale(1.025);
+			}
+			button:focus {
+				outline: none;
+			}
+			table {
+				margin: 0 auto 0 auto;
+				padding: 20px;
+			}
+			table, td {
+				border-radius: 5px;
+			}
+			td {
+				width: 120px;
+				height: 120px;
+				font-size: 6em;
+				border: 4px solid #bbb;
+				box-shadow: 0 0 128px rgba(255, 255, 255, .3);
+				color: rgba(255, 255, 255, .4);
+				background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .2));
+				transition: all .3s ease, color .2s ease;
+			}
+			.notclicked:hover {
+				cursor: pointer;
+				background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .4));
+				border: 4px solid #777;
+				transform: scale(1.025);
+			}
+			.notclicked:active {
+				transform: scale(.975);
+				color: #b134fc;
+			}
+			.clicked {
+				transform: scale(.95);
+				border: 4px solid #222;
+				color: #fff;
+			}
+			.clicked:hover {
+				cursor: default;
+			}
+			.winningTile {
+				color: #39f;
+				border: 4px solid #fff;
+			}
+			.scoreBox {
+				position: absolute;
+				top: 100px;
+				left: 10px;
+				text-align: left;
+				width: 160px;
+				font-size: 2em;
+				color: white;
+			}
+			.scoreBox button {
+				width: initial;
+				margin: 0;
+				padding: 0;
+				text-align: left;
+				font-size: 1em;
+				letter-spacing: 0;
+				border: none;
+				border-radius: 0;
+			}
+			.scoreBox p {
+				display: inline;
+			}
+			.scoreNum {
+				float: right;
+				cursor: help;
+			}
+		</style>
+	</head>
+	<body onload="refreshData();addListeners();">
+		<div id="title">Tic-Tac-Toe</div>
+		<h1 id="text">Player 1's turn</h1>
+		<br>
+		<button onclick="boardWorks('reset');" onmouseover="playSound('hover.wav');">Reset</button>
+		<table class="table">
+			<tr>
+				<td class="notclicked"></td>
+				<td class="notclicked"></td>
+				<td class="notclicked"></td>
+			</tr>
+			<tr>
+				<td class="notclicked"></td>
+				<td class="notclicked"></td>
+				<td class="notclicked"></td>
+			</tr>
+			<tr>
+				<td class="notclicked"></td>
+				<td class="notclicked"></td>
+				<td class="notclicked"></td>
+			</tr>
+		</table>
+		<div class="scoreBox">
+			<button id="player1" onmouseover="playSound('hover.wav');" onclick="changeName('player1');">Player 1</button><p class="scoreNum" id="player1Score">0</p><br>
+			<p>Ties</p><p class="scoreNum" id="ties">0</p><br>
+			<button id="player2" onmouseover="playSound('hover.wav');" onclick="changeName('player2');">Player 2</button><p class="scoreNum" id="player2Score">0</p><br>
+		</div>
+		<audio src="click.wav" preload="auto"</audio>
+		<audio src="gameover.wav" preload="auto"</audio>
+		<audio src="hover.wav" preload="auto"</audio>
+		<audio src="restart.wav" preload="auto"</audio>
+		<script>
+			var turn = "x",
+				playerCount = null,
+				board = ["a", "b", "c",
+					"d", "e", "f",
+					"g", "h", "i"],
+				player1 = null, player2 = null,
+				player1Score, player2Score, ties,
+				text = document.querySelector("#text");
+				playSound("restart.wav");
+			function playSound(src) {
+					var audioElement = document.createElement("audio");
+					audioElement.setAttribute("src", src);
+					audioElement.play();
+				}
+			function changeName(player) {
+				// Change scoreboard name, and place new name in storage
+				if (player == "player1") {
+					// Ask for name
+					var newName = prompt("Enter a new name.", player1),
+							oldName = player1;
+					if (newName == null) {
+						newName = oldName;
+					}
+					player1 = newName;
+					sessionStorage.setItem("player1", player1);
+					document.getElementById("player1").innerHTML = player1;
+				} else {
+					// Ask for name
+					var newName = prompt("Enter a new name.", player2),
+							oldName = player2;
+					if (newName == null) {
+						newName = oldName;
+					}
+					player2 = newName;
+					sessionStorage.setItem("player2", player2);
+					document.getElementById("player2").innerHTML = player2;
+				}
+				
+				displayCurrentPlayer();
+			}
+			function refreshData() {
+				// See if player1 has a name already, else ask for one
+				if (!(sessionStorage.getItem("player1"))) {
+					player1 = prompt("What is Player 1's name?","");
+					sessionStorage.setItem("player1", player1);
+				} else {
+					player1 = sessionStorage.getItem("player1");
+				}
+				
+				// See if player1 has a score already, else give them one
+				if (!(sessionStorage.getItem("player1Score"))) {
+					player1Score = 0;
+					sessionStorage.setItem("player1Score", player1Score);
+				} else {
+					player1Score = sessionStorage.getItem("player1Score");
+				}
+				
+				// See if player2 has a name already, else ask for one
+				if (!(sessionStorage.getItem("player2"))) {
+					player2 = prompt("What is Player 2's name?","");
+					sessionStorage.setItem("player2", player2);
+				} else {
+					player2 = sessionStorage.getItem("player2");
+				}
+				
+				// See if player2 has a score already, else give them one
+				if (!(sessionStorage.getItem("player2Score"))) {
+					player2Score = 0;
+					sessionStorage.setItem("player2Score", player2Score);
+				} else {
+					player2Score = sessionStorage.getItem("player2Score");
+				}
+				
+				// See if there are any ties
+				if (!(sessionStorage.getItem("ties"))) {
+					ties = 0;
+					sessionStorage.setItem("ties", ties);
+				} else {
+					ties = sessionStorage.getItem("ties");
+				}
+				
+				// Set player count on load
+				if (!(sessionStorage.getItem("playerCount"))) {
+					playerCount = 0;
+					sessionStorage.setItem("playerCount", playerCount);
+				} else {
+					playerCount = sessionStorage.getItem("playerCount");
+				}
+				
+				// See if players entered names, else give them a default one
+				if (!player1) {
+					player1 = "Player 1";
+				}
+				if (!player2) {
+					player2 = "Player 2";
+				}
+				
+				displayCurrentPlayer();
+				
+				// On load set scores
+				document.getElementById("player1").innerHTML = player1;
+				document.getElementById("player1Score").innerHTML = player1Score;
+				document.getElementById("player2").innerHTML = player2;
+				document.getElementById("player2Score").innerHTML = player2Score;
+				document.getElementById("ties").innerHTML = ties;
+			}
+			function addListeners() {
+				var buttons = document.getElementsByClassName("notclicked");
+				for (var i=0; i<=(buttons.length-1); i++) {
+					buttons[i].id = i;
+					try {
+						buttons[i].addEventListener("click", function() {
+							if (this.className == "notclicked") {
+								playSound("click.wav");
+								this.className = "clicked";
+								this.innerHTML = turn;
+								playerCount++;
+								displayCurrentPlayer();
+								if (turn == "x") {
+									turn = "o";
+								} else {
+									turn = "x";
+								}
+								checkBoard(this.id);
+							}
+						}); // Click
+						buttons[i].addEventListener("mouseenter", function() {
+							if (this.className == "notclicked") {
+								playSound("hover.wav");
+								this.innerHTML = turn;
+							}
+						}); // Mouse Enter
+						buttons[i].addEventListener("mouseout", function() {
+							if (this.className == "notclicked") {
+								this.innerHTML = "";
+							}
+						}); // Mouse Exit
+					}
+					catch(err) {}
+				}
+			}
+			function boardWorks(word) {
+				if (word == "clear") {
+					for (var i=0; i<9;i++) {
+						document.getElementById(i).className = "clicked";
+					}
+				} else if (word == "reset") {
+					for (var i=0; i<9;i++) {
+						document.getElementById(i).className = "notclicked";
+						document.getElementById(i).innerHTML = "";
+					}
+					document.querySelector(".table").parentNode.removeChild(document.querySelector(".table"));
+					text.innerHTML = "Loading...";
+					setTimeout(function() {	
+						document.location.reload(false);
+					}, 200);
+				}
+			}
+			function checkBoard(position) {
+				board[position] = turn;
+				if ( (board[0] == board[1] && board[1] == board[2]) || // Top horizontal
+						(board[3] == board[4] && board[4] == board[5]) || // Middle horizontal
+						(board[6] == board[7] && board[7] == board[8]) || // Bottom horizontal
+						(board[0] == board[3] && board[3] == board[6]) || // Left vertical
+						(board[1] == board[4] && board[4] == board[7]) || // Middle vertical
+						(board[2] == board[5] && board[5] == board[8]) || // Right vertical
+						(board[0] == board[4] && board[4] == board[8]) || // Top left diagonal
+						(board[2] == board[4] && board[4] == board[6]) ) { // Top right diagonal
+					boardWorks("clear");
+					if (playerCount%2 == 0) {
+						winner = player2;
+						player2Score++;
+						sessionStorage.setItem("player2Score", player2Score);	
+					} else {
+						winner = player1;
+						player1Score++;
+						sessionStorage.setItem("player1Score", player1Score);	
+					}
+					fixPlayerCount();
+					sessionStorage.setItem("playerCount", playerCount);
+					text.innerHTML = winner+" wins!";
+					playSound("gameover.wav");
+				} else if (playerCount%9 == 0) {
+					boardWorks("clear");
+					ties++;
+					sessionStorage.setItem("ties", ties);
+					fixPlayerCount();
+					sessionStorage.setItem("playerCount", playerCount);
+					text.innerHTML = "Tie. Play Again?";
+					playSound("gameover.wav");
+				}
+				if (board[0] == board[1] && board[1] == board[2]) {
+					document.getElementById("0").className = "winningTile";
+					document.getElementById("1").className = "winningTile";
+					document.getElementById("2").className = "winningTile";
+				} // Top Horizontal
+				if (board[3] == board[4] && board[4] == board[5]) {
+					document.getElementById("3").className = "winningTile";
+					document.getElementById("4").className = "winningTile";
+					document.getElementById("5").className = "winningTile";
+				} // Middle Horizontal
+				if (board[6] == board[7] && board[7] == board[8]) { 
+					document.getElementById("6").className = "winningTile";
+					document.getElementById("7").className = "winningTile";
+					document.getElementById("8").className = "winningTile";
+				} // Bottom Horizontal
+				if (board[0] == board[3] && board[3] == board[6]) { 
+					document.getElementById("0").className = "winningTile";
+					document.getElementById("3").className = "winningTile";
+					document.getElementById("6").className = "winningTile";
+				} // Left Vertical
+				if (board[1] == board[4] && board[4] == board[7]) {
+					document.getElementById("1").className = "winningTile";
+					document.getElementById("4").className = "winningTile";
+					document.getElementById("7").className = "winningTile";
+				} // Middle Vertical
+				if (board[2] == board[5] && board[5] == board[8]) {
+					document.getElementById("2").className = "winningTile";
+					document.getElementById("5").className = "winningTile";
+					document.getElementById("8").className = "winningTile";
+				} // Right Vertical
+				if (board[0] == board[4] && board[4] == board[8]) {
+					document.getElementById("0").className = "winningTile";
+					document.getElementById("4").className = "winningTile";
+					document.getElementById("8").className = "winningTile";
+				} // Top Left Diagonal
+				if (board[2] == board[4] && board[4] == board[6]) {
+					document.getElementById("2").className = "winningTile";
+					document.getElementById("4").className = "winningTile";
+					document.getElementById("6").className = "winningTile";
+				} // Top Right Diagonal
+			}
+			function fixPlayerCount() {
+				if (!(playerCount%9 == 0)) {
+					playerCount += 1;
+					fixPlayerCount();
+				}
+			}
+			function displayCurrentPlayer() {
+				// See whos turn it is, then set their name
+				if (playerCount%2 == 0) {
+					text.innerHTML = player1+"'s turn";
+				} else {
+					text.innerHTML = player2+"'s turn";
+				}
+			}
+		</script>
+	</body>
+</html>

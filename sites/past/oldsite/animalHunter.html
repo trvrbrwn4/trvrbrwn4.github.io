@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html onclick="animalClick(event);">
+	<head>
+	<title>Animal Hunter</title>
+	<link rel="stylesheet" href="Styles/tbroStyle.css">
+	<style>
+		html {
+			cursor: url(Images/site1/crosshair.png) 24 24, crosshair;
+		}
+		body {
+			background-image: url("Images/site1/bg.jpg");
+			width: 100vw;
+			height: 100vh;
+		}
+		.header {
+			opacity: .9;
+		}
+		.content {
+			margin: 20px;
+		}
+		.scoreBox {
+			display: inline-block;
+			cursor: help;
+			background-color: black;
+			height: 60px;
+			padding: 5px;
+		}
+		p {
+			color: #fff;
+			margin-bottom: 10px;
+		}
+		#score {
+			color: #88f;
+			margin-left: 40px;
+		}
+	</style>
+	</head>
+	
+	<body onload="animalMaker(20), document.getElementById('backgroundAudio').play();" onresize="windowResized();">
+			<div class="content">
+				<div class="scoreBox">
+					<p>Your score is</p>
+					<score id="score">0</score>
+				</div>
+			</div>
+		<script src="Scripts/tbroScript.js" type="Text/Javascript"></script>
+		<audio loop id="backgroundAudio"><source src="Images/site1/ambience.mp3" type="audio/mp3"></audio>
+	</body>
+</html>

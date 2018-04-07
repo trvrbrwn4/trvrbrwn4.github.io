@@ -1,0 +1,69 @@
+/* Universal reset */
+html, body, h1, h2, h3, h4, p, header{
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	cursor: url(../Images/main/mouse.png), auto;
+}
+		
+/* Font Family */
+body {
+	font-family: "Helvetica Neue", arial;
+}
+
+/* Makes dark header bar with styling */
+.header {
+	background-image: url("../Images/main/headerbg.png");
+	background-color: #222;
+	opacity: .8;
+	padding: 0 20px;
+	height: 60px;
+	position: relative;
+	overflow-x: auto;
+}
+nav {
+	display: inline;
+}
+
+/* Disables scrollbar from showing */
+::-webkit-scrollbar { 
+	display: none; 
+}
+
+/* Header words and hover effect */
+h1, h2 {
+	display: inline;
+	transition: all .4s ease-in-out;
+}
+h1 {
+	color: #bbb;
+	font-size: 48px;
+	font-weight: 500;
+	margin-right: 24px;
+}
+h2 {
+	color: #888;
+	font-size: 24px;
+	font-weight: 200;
+	margin-right: 16px;
+}
+
+/* Title hover effects */
+h1:hover, h2:hover {
+	color: #eee;
+	text-shadow: 0 0 16px #555;
+}
+h1:hover {
+	font-size: 50px;
+	margin-right: 22px;
+}
+h2:hover {
+	font-size: 28px;
+}
+
+/* Rocket with flame effect */
+h1:hover, h2:hover, vg:hover, emp:hover, cp:hover, a:hover, button:hover{
+	cursor: url(../Images/main/pointer.png), pointer;
+}

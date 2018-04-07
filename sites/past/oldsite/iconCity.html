@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Icon City</title>
+	<link rel="icon" href="http://www.clker.com/cliparts/o/G/K/z/8/x/real-estate-high-rise-buildings-hi.png">
+	<link rel="stylesheet" href="Styles/tbroStyle.css">
+	<style>
+		/* Blurred background */
+		html {
+			background: url("Images/site2/bg.jpg");
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+		
+		/* Content Block */
+		.content {
+			width: 90vw;
+			height: 90vh;
+			margin: 5vh 5vw;
+			border-radius: 20px;
+			background-color: rgba(0, 0, 0, .4);
+			overflow-y: auto;
+		}
+		
+		/* Title Block */
+		.titleBlock {
+			border-radius: 10px;
+			background-color: black;
+			width: 356px;
+			height: 55px;
+			padding: 10px;
+		}
+		h3 {
+			color: #bbb;
+			font-size: 36px;
+			font-weight: 400;
+		}
+		h4 {
+			color: #778;
+			font-size: 16px;
+			font-weight: 200;
+			margin-left: 36px;
+			margin-top: -4px;
+		}
+		
+		/* Icon list w/ background hover */
+		ul {
+			list-style: none;
+		}
+		li {
+			margin: 10px 5px;
+			border: solid 5px #000;
+			border-radius: 10px;
+			background-color: rgba(0, 0, 0, .2);
+			min-width: 100px;
+			max-height: 300px;
+			display: inline-block;
+			transition: all .5s ease;
+		}
+		li:hover {
+			background-color: rgba(127, 127, 127, .1);
+		}
+		li:hover .image {
+			-webkit-filter: grayscale(0%) blur(0);
+			filter: grayscale(0%) blur(0);
+		}
+		
+		/* Styles icon boxes w/ hover effects */
+		p {
+			font-size: 16px;
+			letter-spacing: 1px;
+			color: #fff;
+			text-align: center;
+			margin: -2px 10px 2px 10px;
+		}
+		.image {
+			display: block;
+			width: 100px;
+			height: 100px;
+			margin: 0 auto;
+			-webkit-filter: grayscale(100%) blur(1px);
+			filter: grayscale(100%) blur(1px);
+			transition: all .5s ease;
+		}
+		
+		/* Hides link */
+		a {
+			color: rgba(0, 0, 0, 0);
+		}
+	</style>
+	</head>
+
+	<body onload="document.getElementById('backgroundAudio').play(), iconMaker('Google Chrome,YouTube,Skype,App Store,Firefox,Facebook Messenger,Safari,Spotify,Instagram,Twitter,Soundcloud,Facebook,Reddit,Snapchat,Alarm Clock,Pinterest,Dropbox,Hearthstone,Steam,Netflix,Kik,Shazam,Chase Bank,Tinder,Ebay,Amazon,Angry Birds,Google Earth,Hulu,Xbox,Playstation,Starbucks,Tumblr,Wal-Mart,McDonalds,Monstercat');">
+			<div class="content">
+				<div class="titleBlock">
+					<h3>Welcome to Icon City!</h3>
+					<h4><i>Where the icons of your dreams can be found!</i></h4>
+				</div>
+				<ul class="listOfIcons"></ul>
+			</div>
+		<audio loop id="backgroundAudio">
+			<source src="Images/site2/iconCityMusic.mp3" type="audio/mp3">
+		</audio>
+		<script src="Scripts/tbroScript.js" type="Text/Javascript"></script>
+	</body>
+</html>
