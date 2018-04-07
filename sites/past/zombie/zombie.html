@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Zombie Survival</title>
+		<link rel="icon" href="favicon.png">
+		<style>
+			body, html, button, h1 {
+				padding: 0;
+				margin: 0;
+			}
+			html, :hover {
+				cursor: default;
+			}
+			html {
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			input[type="text"] {
+				font-size: 32px;
+			}
+			input[type="text"]:focus {
+				outline-color: red;
+			}
+			input[type="range"] {
+				width: 200px;
+				display: inline-block;
+				margin: 40px 0 0 42%;
+			}
+			#volText {
+				text-align: center;
+				margin-top: 0;
+			}
+			body {
+				overflow: hidden;
+				background-image: url("bg.png");
+			}
+			#flash {
+				position: absolute;
+				z-index: 10000;
+				font-size: 96px;
+				width: 110%;
+				height: 100%;
+				opacity: .2;
+				visibility: hidden;
+				text-align: center;
+				padding-top: 15%;
+			}
+			#content {
+				padding-top: 100px;
+				height: 80%;
+				text-align: center;
+			}
+			#redirect, #stats {
+				display: inline-block;
+				position: absolute;
+				background-color: white;
+				color: black;
+				padding: 20px;
+				border: 5px solid #000;
+				border-radius: 10px;
+				top: -25px;
+			}
+			#redirect {
+				float: left;
+				left: -10px;
+			}
+			#stats {
+				float: right;
+				right: -10px;
+			}
+			#redirect:hover {
+				background-color: #bbb;
+			}
+			h1 {
+				color: #888;
+				font-size: 48px;			
+			}
+			p {
+				color: #999;
+				font-size: 20px;
+			}
+			#disc {
+				position: absolute;
+				bottom: 0;
+				padding-left: 20px;
+				font-size: 12px;
+			}
+			button {
+				border: none;
+				padding: 5px;
+				border-radius: 10px;
+				background-color: #fff;
+				margin: 40px;
+				font-size: 24px;
+				transition: all .2s ease-in-out;
+			}
+			#movement, #middle, #stats, #choice {
+				visibility: hidden;
+			}
+			button:focus, input[type="range"]:focus {
+				outline: none;
+			}
+			button:active {
+				color: #600 !important;
+				transform: scale(.94) !important;
+				background-color: #999 !important;
+			}
+			button:hover {
+				color: #800;
+				transform: scale(.98);
+				background-color: #bbb;
+				box-shadow: 0 0 16px rgba(255, 255, 255, .2);
+				content: url("blood.png");
+			}
+		</style>
+	</head>
+	<body onload="document.querySelector('#menu').play(), document.querySelector('#vol').value = ((window.name*100).toFixed(0) || 0), document.querySelector('#volText').innerHTML = 'Volume: '+(window.name*100).toFixed(0), volume();">
+		<div id="flash">
+			<p id="alert"></p>
+		</div>
+		<p id="stats"></p>
+		<input id="vol" name="slider" type="range" min="0" max="100" oninput="volume();"><p id="volText"></p>
+		<div id="content">
+			<h1 id="title"></h1>
+			<p id="text">What is your name?</p><input id="name" type="text" placeholder="Enter a name" onkeypress="keypress(event);" autofocus autocomplete="off">
+			<div id="start"><button type="button" onclick="start();">Start</button></div>
+			<div id="middle"><button id="yesbut" type="button" onclick="middle(true);">Yes!</button><button id="noBut" type="button" onclick="middle(false);">I don't know...</button></div>
+			<div id="movement"><button type="button" onclick="game();">Up</button><button type="button" onclick="game();">Right</button><button type="button" onclick="game();">Down</button><button type="button" onclick="game();">Left</button></div>
+			<div id="choice"><button id="play" type="button" onclick="replay(true);">Play again</button><button id="exit" type="button" onclick="replay(false);">Exit</button></div>
+		</div>
+		<audio id="menu" src="zombiesmenu.mp3" loop></audio>
+		<audio id="game" src="zombiesgame.mp3" loop></audio>
+		<audio src="buttonHover.mp3"></audio>
+		<audio src="buttonClick.mp3"></audio>
+		<p id="disc">Music made by me exclusively for this website. Rights reserved.</p>
+	</body>
+	<script>
+		var userName = "", count = 0, life = 50, days = 0, repeat = true, loaded = false;
+		
+		// Hover sound on buttons
+		var buttons = document.getElementsByTagName("button");
+		for (var i = 0, length = buttons.length; i < length; i++) {
+			buttons[i].addEventListener("mouseenter", function() {
+				playSound("buttonHover.mp3");
+			});
+			buttons[i].addEventListener("click", function() {
+				playSound("buttonClick.mp3");
+			});
+		}
+		
+		// Checks to see if user hits enter on first text box, plays sound on keypress
+		function keypress(event) {
+			var key = event.which || event.key;
+			if (key == 13) {
+				start();
+			} else {
+				playSound('key.mp3');
+			}
+		}
+		
+		// Plays sent files
+		function playSound(file) {
+			var sound = document.createElement("audio");
+			sound.src = file;
+			sound.volume = document.querySelector("#vol").value / 200;
+			sound.play();
+		}
+		
+		// Gets value of volume slider for use
+		function volume() {
+			var volume = document.querySelector("#vol").value / 100;
+			document.querySelector("#menu").volume = volume;
+			document.querySelector("#game").volume = volume;
+			document.querySelector("#volText").innerHTML = "Volume: "+ document.querySelector("#vol").value;
+			window.name = volume;
+		}
+		
+		// Random number generator
+		function randNum(min, max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+		
+		// Damage taken
+		function blood(repeat) {
+			// Make BG color red for blood
+			document.querySelector("#flash").style.backgroundColor = "#900";
+			
+			// 'Count' variable for usability
+			var count = repeat;
+			
+			// Checks to see whether to run code
+			if (count > 0) {
+				setTimeout(function() {
+					// Play a random sound
+					playSound("pain/"+randNum(0, 10)+".mp3");
+					
+					// Show the flash
+					document.querySelector("#flash").style.visibility = "visible";
+					
+					setTimeout(function() {
+						// Hide the flash
+						document.querySelector("#flash").style.visibility = "hidden";
+						
+						// Decrement the counter
+						count--;
+						
+						// Call blood again with the decreased count
+						blood(count);
+						
+					// Duration of flash
+					}, 500);
+				// Time in between flashes
+				}, 250);
+			// If the loop is finished, play a sighing sound
+			} else {
+				gameTextReset();
+				setTimeout(function() {				
+					playSound("pain/sigh.mp3");
+				}, 1000);
+			}
+		}
+		// Regained health
+		function health(repeat) {
+			// Make BG color red for blood
+			document.querySelector("#flash").style.backgroundColor = "#090";
+			
+			// 'Count' variable for usability
+			var count = repeat;
+			
+			// Checks to see whether to run code
+			if (count > 0) {
+				setTimeout(function() {
+					// Play a random sound
+					playSound("relief/"+randNum(0, 5)+".mp3");
+					
+					// Show the flash
+					document.querySelector("#flash").style.visibility = "visible";
+					
+					setTimeout(function() {
+						// Hide the flash
+						document.querySelector("#flash").style.visibility = "hidden";
+						
+						// Decrement the counter
+						count--;
+						
+						// Call blood again with the decreased count
+						health(count);
+						
+					// Duration of flash
+					}, 500);
+				// Time in between flashes
+				}, 250);
+			// If the loop is finished, play a sighing sound
+			} else {
+				gameTextReset();
+				setTimeout(function() {				
+					playSound("relief/sigh.mp3");
+				}, 1000);
+			}
+		}
+		
+		// document.querySelector.innerHTML function
+		function text(id, text) {
+			document.querySelector(id).innerHTML = text;
+		}
+		
+		// Epic display menu
+		function start() {
+				if (userName == "") {
+					userName  = document.querySelector('#name').value;
+				}
+				if (userName) {
+					text("#text", "Hello there " + userName + ".");
+					document.querySelector('#start').parentNode.removeChild(document.querySelector('#start'));
+					document.querySelector("#name").blur();
+					document.querySelector('#name').parentNode.removeChild(document.querySelector('#name'));
+					setTimeout(function() {
+						text("#text", "Hello there " + userName + ".<br>Welcome to the zombie apocalypse,<br>where your skills and might will be tested thoroughly.");
+						setTimeout(function() {
+							text("#text", "Hello there " + userName + ".<br>Welcome to the zombie apocalypse,<br>where your skills and might will be tested thoroughly.<br><br>Are you ready to test your might?");
+							document.querySelector('#middle').style.visibility = "visible";
+						}, 4000);
+					}, 4000);
+				} else {
+					text("#text", "Please enter a valid name.");
+					count++;
+					if (count == 5) {
+						userName = "stranger";
+					}
+				}
+		}
+		
+		// Asks user if they want to proceed
+		function middle(choice) {
+			if (choice) {
+				text("#text", "Best of luck to you " + userName + ".<br>You must survive for fifty consecutive days to make it out of this hell hole.<br>You are our last hope.");
+				document.querySelector('#middle').parentNode.removeChild(document.querySelector('#middle'));
+				setTimeout(function() {
+					gameTextReset();
+				}, 4000);
+			} else if (!choice) {
+				document.querySelector('#middle').parentNode.removeChild(document.querySelector('#middle'));
+				text("#text", "Your loss kid.");
+			}
+		}
+		
+		// Used for displaying text in-game
+		function gameText(bigText, littleText) {
+			document.querySelector("#movement").style.visibility = "hidden";
+			document.querySelector("#title").innerHTML = bigText;
+			document.querySelector("#text").innerHTML =  littleText;
+		}
+		function gameTextReset() {
+			setTimeout(function() {
+					if (life <= 0) {
+						gameText("You died.", "Lasting "+days+" days.<br>Do you wish to play again "+userName+"?");
+						document.querySelector("#movement").style.visibility = "hidden";
+						document.querySelector("#choice").style.visibility = "visible";
+					} else if (days >= 50) {
+						gameText("You escaped, surviving all 50 days!", "Way to go "+userName+"!<br>Do you wish to play again?");
+						document.querySelector("#movement").style.visibility = "hidden";
+						document.querySelector("#choice").style.visibility = "visible";
+					} else if (life > 0 && days < 50) {
+						document.querySelector("#stats").innerHTML = "You have "+life+" health left and have been alive for "+days+"/50 days.";
+						document.querySelector("#title").innerHTML = "Day: "+days;
+						document.querySelector("#movement").style.visibility = "visible";
+						document.querySelector("#text").innerHTML = "Which way do you want to go "+userName+"?";
+					}
+					// If not loaded, start the game music and show the stats
+					if (!loaded) {
+						document.querySelector('#menu').pause();
+						document.querySelector('#game').play();
+						document.querySelector("#stats").style.visibility = "visible";
+						loaded = true;
+					}
+				}, 1500);
+		}
+		
+		// Function for game possibilites
+		function gameCode(bigText, littleText, lifeVal) {
+			gameText(bigText, littleText);
+			life += lifeVal;
+			if (lifeVal == 0) {
+				setTimeout(function() {
+					gameTextReset();
+				}, 1500);
+			} else if (lifeVal > 0) {
+				health(Math.abs(lifeVal));
+			} else if (lifeVal < 0) {
+				blood(Math.abs(lifeVal));
+			}
+		}
+		
+		// Used to get random game outcome
+		function game() {
+			days++;
+			switch (randNum(1, 6)) {
+				case 1:
+					gameCode("You were attacked!", "Lose 2 health.", -2);
+					break;
+				case 2:	
+					gameCode("Another group of survivors attacked you!", "Lose 4 health.", -4);
+					break;
+				case 3:
+					gameCode("You found some spare food!", "Gain 2 health.", 2);
+					break;
+				case 4:
+					gameCode("You found somewhere to rest.", "Gain 3 health.", 3);
+					break;
+				case 5:
+					gameText("You found a zombie!", "");
+					setTimeout(function() {
+						switch(randNum(1, 4)) {
+							case 1:
+								gameCode("You run away.", "Got away safely.", 0);
+								break;
+							case 2:
+								gameCode("You whack it with a baseball bat, killing it instantaneously.", "You manage to get away safely.", 0);
+								break;
+							case 3:
+								gameCode("You knock it down and run away, only taking a small scratch of damage.", "Lose 1 life.", -1);
+								break;
+							case 4:
+								gameCode("You shoot it right in its decapitating skull, killing it instantly.", "You run away fast before anymore zombies can show up.", 0);
+								break;
+							case 5:
+								gameCode("You snap its neck and proceed to eat some of its flesh out of hunger, forgetting it's skin is rotten.", "Lose 3 health.", -3);
+								break;
+						}
+					}, 2000);
+					break;
+				case 6:
+					gameCode("You found another survivor.<br>You focus less on the world and feel more happy.", "Gain 1 life.", 1);
+					break;
+			}
+		}
+	</script>
+</html>
