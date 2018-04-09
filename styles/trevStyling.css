@@ -9,6 +9,8 @@
     font-family: Ubuntu;
     src: url(Ubuntu/Ubuntu-Light.ttf);
 }
+
+/* logo animation */
 @keyframes animateLogo {
 	0%, 100% {transform: scale(1);}
 	50% {transform: scale(.9);}
@@ -197,6 +199,16 @@ h2, #work li, li>h3 {
 		width: 100%;
 	}
 }
+@media screen and (max-width: 420px) {
+	#content {
+		width: 86vw;
+		height: 70vh;
+		margin: 13vh 5vw;
+		padding: 2vh 2vw;
+	}
+}
+
+/* custom cursor */
 html {
 	cursor: url(../cursor.png), default;
 }
