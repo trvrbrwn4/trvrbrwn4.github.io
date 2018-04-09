@@ -198,8 +198,7 @@ h2, #work li, li>h3 {
 	#songPic {
 		width: 100%;
 	}
-}
-@media screen and (max-width: 420px) {
+	/* fixes sizing of entire page for annoying mobile browsers */
 	#content {
 		width: 86vw;
 		height: 70vh;
