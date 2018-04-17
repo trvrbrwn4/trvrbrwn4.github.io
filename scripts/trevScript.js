@@ -5,10 +5,10 @@ var crew, crewCount,
 	originalTitle,
 	isBlurred = false,
 
-	songTitle = ["Harder Better Faster Stronger", "Differences", "Payphone","Let Go", "Memory"],
-	songText = ["Daft Punk remix. 3:16 minutes. Progressive House. 40 hours of work.", "Solo release. 3:15 minutes. Progressive House. 28 hours of work.", "Maroon 5 remix. 4:34 minutes. Indie Dance. Over 80 hours of work.", "Deadmau5 & Grabbitz remix. 6:53 minutes. Trance. 36 hours of work.", "Solo release. 3:00 minutes. Chillstep. 6 hours of work."],
-	songLink = ["hbfs","differences","payphone","letgo","memory"],
-	songDate = ["April 28, 2015","October 4, 2015","December 21, 2015","February 16, 2017","February 5, 2018"];
+	songTitle = ["Memory", "Let Go", "Payphone","Differences", "Harder Better Faster Stronger"],
+	songText = ["Solo release. 3:00 minutes. Chillstep. 6 hours of work.", "Deadmau5 & Grabbitz remix. 6:53 minutes. Trance. 36 hours of work.", "Maroon 5 remix. 4:34 minutes. Indie Dance. Over 80 hours of work.", "Solo release. 3:15 minutes. Progressive House. 28 hours of work.", "Daft Punk remix. 3:16 minutes. Progressive House. 40 hours of work."],
+	songLink = ["memory","letgo","payphone","differences","hbfs"],
+	songDate = ["February 5, 2018", "February 16, 2017", "December 21, 2015", "October 4, 2015", "April 28, 2015"];
 
 function loadArt() {
 	for (var i = 0; i < 18; i++) {
@@ -57,12 +57,14 @@ function loadPage() {
 		}
 		isBlurred = false;
 	}
+
 }
 function playSound(src) {
 	var audioElement = document.createElement("audio");
 	audioElement.setAttribute("src", src);
 	audioElement.play();
 }
+
 
 function loadWork() {
 	crew = ["Frontline of customer relations", "Responsible for my position, sometimes even multiple ones", "Training fellow crew", "Taking, assembling, and serving various orders under a time constraint"];
