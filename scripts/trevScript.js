@@ -2,11 +2,21 @@ var crew, crewCount,
 	man, manCount,
 	asm, asmCount,
 
-	songTitle = ["Differences", "Payphone", "Memory","Harder Better Faster Stronger"],
-	shortSong = ["differences","payphoneRemix", "memory", "hbfs"],
-	songText = ["Solo release. 3:15 minutes long. 86 tracks. 28 hours of work.", "Remix of Maroon 5. 4:34 minutes long. 92 tracks. Over 80 hours of work. Most popular song.", "Solo release. 3:00 minutes long. 32 Tracks. 4 hours of work.", "Remix of Daft Punk. 3:16 minutes long. 44 tracks. Over 40 hours of work."],
-	songCount = (songTitle.length*10000);
+	originalTitle,
+	isBlurred = false,
 
+	songTitle = ["Harder Better Faster Stronger", "Differences", "Payphone","Let Go", "Memory"],
+	songText = ["Daft Punk remix. 3:16 minutes. Progressive House. 40 hours of work.", "Solo release. 3:15 minutes. Progressive House. 28 hours of work.", "Maroon 5 remix. 4:34 minutes. Indie Dance. Over 80 hours of work.", "Deadmau5 & Grabbitz remix. 6:53 minutes. Trance. 36 hours of work.", "Solo release. 3:00 minutes. Chillstep. 6 hours of work."],
+	songLink = ["hbfs","differences","payphone","letgo","memory"],
+	songDate = ["April 28, 2015","October 4, 2015","December 21, 2015","February 16, 2017","February 5, 2018"];
+
+function loadArt() {
+	for (var i = 0; i < 18; i++) {
+		var preload = new createjs.LoadQueue();
+		//preload.addEventListener("fileload", handleFileComplete);
+		preload.loadFile("../media/images/art/art"+i+".png");
+	}
+}
 function loadPage() {
 	var links = document.getElementsByTagName('a');
 	for (var i = 0, length = links.length; i < length; i++) {
@@ -14,6 +24,38 @@ function loadPage() {
 			playSound("sounds/iconHover.mp3");
 			playSound("../sounds/iconHover.mp3");
 		});
+	}
+
+	console.log("A sneaky little bugger. I like you. ;)")
+
+	// easter egg for on blur/focus effects
+	originalTitle = document.title;
+	window.onblur = function() {
+		isBlurred = true;
+		setTimeout(function() {
+			if (isBlurred) {
+				document.title = "Come back. :(";
+				setTimeout(function() {
+					if (isBlurred) {
+						document.title = "Come back, I miss you. :(";
+						setTimeout(function() {
+							if (isBlurred) {
+								document.title = "Fine be that way.";
+							}
+						}, 80000);
+					}
+				}, 80000);
+			}
+		}, 20000);
+	};
+	window.onfocus = function() {
+		if (isBlurred) {
+			document.title = "Welcome back! :)";
+			setTimeout(function() {
+				document.title = originalTitle;
+			}, 2000)
+		}
+		isBlurred = false;
 	}
 }
 function playSound(src) {
@@ -47,16 +89,27 @@ function changeAsm(count) {
 }
 
 function showArt(piece) {
-	document.getElementById("example").src = "../art/art"+piece+".png";
+	document.getElementsByClassName("example")[0].src = "../media/images/art/art"+piece+".png";
 }
 
 function loadSong() {
-	changeSong(0);	
+	$('.carousel').slick({
+		slidesToShow: 3,
+		arrows: false,
+		centerMode: true,
+		focusOnSelect: true,
+		autoplay: true,
+		autoplaySpeed: 8000
+	});
+	$('.carousel').on('afterChange', function(event, slick, currentSlide, nextSlide){
+		var currentSlide = $('.carousel').slick('slickCurrentSlide');
+		changeSong(currentSlide);
+	});
+	changeSong(0);
 }
-function changeSong(count) {
-	songCount+=count;
-	document.getElementById("songTitle").innerHTML = songTitle[(songCount%songTitle.length)];
-	document.getElementById("songText").innerHTML = songText[(songCount%songTitle.length)];
-	document.getElementById("songLink").href = "../sites/redirect/"+shortSong[(songCount%songTitle.length)]+".html";
-	document.getElementById("songPic").src = "../Music/"+shortSong[(songCount%songTitle.length)]+"Pic.png";
+function changeSong(index) {
+	document.getElementById("songTitle").innerHTML = songTitle[index];
+	document.getElementById("songText").innerHTML = songText[index];
+	document.getElementById("songDate").innerHTML = songDate[index];
+	document.getElementById("songLink").href = "../sites/redirect/music/"+songLink[index]+".html";
 }
