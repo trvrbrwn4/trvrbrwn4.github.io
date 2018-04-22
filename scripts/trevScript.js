@@ -1,3 +1,27 @@
+//		 hNs:                    .omN       
+//		 dMMMNy/`             `/hMMMM/      
+//		 dMMMMMMMh/`        :yMMMMMMMh      
+//		 mMMMMMMMMMMh+    sNMMMMMMMMMM`     
+//		 mMMMMMNmmdhhyy  syyhhhdddmmNN:     
+//										      
+//		  `yMMMMMMMMMMMMMMMMMMMMMMMMs`      
+//		    :mMMMMMMMMMMMMMMMMMMMMh.        
+//		     `sMMMMMMMMMMMMMMMMMm:          
+//		       -mMMMMMMMMMMMMMN+            
+//		         oMMMMMMMMMMMs`             
+//      		  -dMMMMMMMh-               
+//		            oMMMMm/                 
+//		             .dNo                   
+//		               W
+// Hello there.
+//										
+//           -Trevor
+
+
+
+
+
+
 var crew, crewCount,
 	man, manCount,
 	asm, asmCount,
@@ -107,6 +131,12 @@ function loadSong() {
 		var currentSlide = $('.carousel').slick('slickCurrentSlide');
 		changeSong(currentSlide);
 	});
+		var preload = new createjs.LoadQueue();
+		preload.loadFile("../media/images/music/diffArt.png");
+		preload.loadFile("../media/images/music/hbfsArt.png");
+		preload.loadFile("../media/images/music/letgoArt.png");
+		preload.loadFile("../media/images/music/memArt.png");
+		preload.loadFile("../media/images/music/payArt.png");
 	changeSong(0);
 }
 function changeSong(index) {
