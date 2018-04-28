@@ -2,15 +2,65 @@
 	margin: 0;
 	padding: 0;
 }
+@keyframes rotateLoader {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+@keyframes plusPulse {
+	0%, 100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(.8);
+	}
+}
+@keyframes bloodSplat {
+	0%, 100% {
+		transform: scale(.3);
+	}
+	50% {
+		transform: scale(1.2);
+	}
+}
+
 body {
 	padding: 20px;
 	font-size: calc(8px + 2vw);
 	text-align: center;
 	font-family: 'Source Sans Pro', sans-serif;
 }
+#volSlider {
+	width: 50%;
+}
 table {
 	width: 100%;
 	border-collapse: collapse;
+}
+.loader {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+}
+.loader div {
+	width: 200px;
+	height: 200px;
+	border: 20px solid #000;
+	border-radius: 50%;
+	border-color: #000 #800;
+	animation: rotateLoader 1s cubic-bezier(.4, .1, .2, 1) infinite;
 }
 #flash {
 	width: 100vw;
@@ -18,9 +68,59 @@ table {
 	position: absolute;
 	top: 0;
 	left: 0;
-	opacity: .4;
+	opacity: .2;
 	visibility: hidden;
 	z-index: 10;
+}
+.plus {
+	animation: plusPulse .4s infinite linear;
+}
+.blood {
+	animation: bloodSplat .4s linear;
+}
+.inventory {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	color: #fff;
+	z-index: 10;
+	overflow-y: scroll;
+}
+.inventory button {
+	position: absolute;
+	top: 40px;
+	right: 40px;
+	font-size: 1em;
+}
+#inventory {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-content: center;
+}
+#inventory li {
+	display: inline-block;
+	margin: 15px 0;
+}
+#inventory li:hover {
+	text-decoration: underline;
+	color: #9f9;
+	cursor: pointer;
+}
+button {
+	border: none;
+	outline: none;
+	background-color: #999;
+	font-size: 1em;
+	color: #000;
+	padding: 5px;
+	cursor: pointer;
+}
+button:hover {
+	background-color: #444;
 }
 ul {
 	list-style-type: none;
@@ -41,57 +141,34 @@ input[type="checkbox"] {
 	display: inline-block;
 	margin: 10px;
 	padding: 20px;
-	border: 4px solid black;
-	border-radius: 20px;
-	background-color: black;
+	border: 4px solid #000;
+	background-color: #000;
 	position: relative;
-	color: white;
-	transition: all .3s ease-in-out;
+	color: #fff;
+	transition: all .2s;
 }
 .gamepad li:hover {
-	color: DarkRed;
 	cursor: pointer;
-	border: 4px solid DarkRed;
-	transform: scale(.9);
+	color: black;
+}
+#explore:hover {
+	background-color: #7d3cb5;
+}
+#eat:hover {
+	background-color: #b21f35;
+}
+#drink:hover {
+	background-color: #ffcb35;
+}
+#medicine:hover {
+	background-color: #009e47;
+}
+#sleep:hover {
+	background-color: #06a9fc;
 }
 @media screen and (max-width: 800px) {
 	.gamepad li {
-		margin: 10px 20px;
+		display: block;
+		padding: 10px;
 	}
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-#hebo:hover {
-	cursor: help;
-	color: green;
-}
-/* Tooltip text */
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
- 
-    /* Position the tooltip text - see examples below! */
-    position: absolute;
-    z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
-.tooltip .tooltiptext {
-	font-size: .6em;
-    width: 16vw;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -8vw; /* Use half of the width (120/2 = 60), to center the tooltip */
 }

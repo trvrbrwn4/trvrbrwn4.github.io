@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<link rel="icon" href="favicon.png">
+		<link rel="icon" href="media/images/favcon.png">
 		<meta name="author" content="Trevor Brown"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
@@ -10,46 +10,57 @@
 		<title>Zombie Survival</title>
 	</head>
 	<body>
+		<div class="loader">
+			<div></div>
+		</div>
 		<div id="flash"></div>
+		<div class="inventory">
+			<button onclick="hideInventory();">Close</button>
+			<ul id="inventory"></ul>
+		</div>
 		<ul>
-			<li><input id="vol" name="slider" type="range" min="0" max="100" oninput="volume(this.value);"></li>
+			<li><input id="volSlider" name="slider" type="range" min="0" max="100"></li>
 			<li>Mute music? <input id="mute" type="checkbox" oninput="muteMusic(this.checked);"></li>
-			<li>Volume : <p id="volText"></p></li>
+			<li>Volume : <span id="volText"></span></li>
 		</ul>
 		<div class="startMenu">
-			<form action="javascript:startGame();">
+			<form action="javascript:startGame();" id="startMenu">
 				<input type="text" placeholder="Enter your name..." id="name" required="true" autocomplete="off" autofocus>
 				<p>Are you ready to face the apocolypse? <input type="checkbox" required="true"></p>
-				<input id="daySlider" type="range" min="10" max="50" oninput="changeDay(this.value);">
-				<p>Amount of days : <p id="dayText"></p></p>	
-				<input type="submit" value="Lets Go">
+				<input id="daySlider" type="range" min="10" max="50" step="5">
+				<p>Amount of days : <span id="dayText"></span></p>
+				<button type="submit" form="startMenu">Start Game</button>
 			</form>
 		</div>
 		<div class="game">
 			<table cellspacing="0">
 				<tr>
-					<td colspan="2" style="text-align: left;">
-						<h1 id="bigText">Welcome to the apocolypse.</h1>
+					<td colspan="3" style="text-align: left;">
+						<h1 id="bigText"></h1>
 					</td>
-					<td style="text-align: right;">
+					<td style="text-align: right;" rowspan="2">
 						<ul class="stats">
-							<li id="hebo"><div class="tooltip"><span class="tooltiptext">20 is the max health.</span><p id="health"></p> health left.</div></li>
-							<li><p id="day"></p> days left.</li>
+							<li id="healthBox">Health : <p id="health"></p></li>
+							<li id="hungerBox">Hunger : <p id="hunger"></p></li>
+							<li id="thirstBox">Thirst : <p id="thirst"></p></li>
+							<li id="drowsyBox">Drowsiness : <p id="drowsy"></p></li>
+							<li><p id="day"></p> days left</li>
 						</ul>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="text-align: left;">
-						<p id="litText">Your skills will be tested thoroughly.</p>
+					<td colspan="3" style="text-align: left;">
+						<p id="litText"></p>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">
+					<td colspan="4">
 						<ul class="gamepad">
-							<li>Up</li>
-							<li>Right</li>
-							<li>Down</li>
-							<li>Left</li>
+							<li id="explore">Explore</li>
+							<li id="eat">Eat</li>
+							<li id="drink">Drink</li>
+							<li id="medicine">Take Medicine</li>
+							<li id="sleep">Sleep</li>
 						</ul>
 					</td>
 				</tr>
@@ -59,7 +70,7 @@
 		<audio id="gameMusic" src="media/sounds/zombiesgame.mp3" loop></audio>
 		<audio src="buttonHover.mp3"></audio>
 		<script type="text/javascript" src="scripts/jquery-1.7.js"></script>
-		<script src="https://code.createjs.com/preloadjs-0.6.2.min.js"></script>
+		<script type="text/javascript" src="scripts/preloadjs.min.js"></script>
 		<script type="text/javascript" src="scripts/script.js"></script>
 	</body>
 </html>
