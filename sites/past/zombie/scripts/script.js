@@ -91,22 +91,6 @@ function showLoader() {
 
 	preload.loadManifest([
 		{
-			id:   '1',
-			src:  "media/images/heal.png"
-		},
-		{
-			id: '2',
-			src: 'http://static3.businessinsider.com/image/522746c56bb3f72e2a316155/photo-airbus-proves-its-huge-new-warplane-doesnt-need-a-paved-runway.jpg'
-		},
-		{
-			id:   '3',
-			src:  'https://www.chem.gla.ac.uk/staff/wynne/i/2005/TRVS/TRVS-group-photo-huge.jpg'
-		},
-		{
-			id:   '4',
-			src:  'http://upload.wikimedia.org/wikipedia/commons/c/cb/WA_-_Dry_Falls_-_Huge_Channel_v1.png'
-		},
-		{
 			id: '5',
 			src: 'media/images/blood/splat0.png'
 		},
