@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="description" content="Trevor Brown's amazing resume"/>
+		<meta name="keywords" content="resume, trevor brown, developer, programmer"/>
+		<meta name="author" content="Trevor Brown"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<link href="https://fonts.googleapis.com/css?family=Barlow&display=swap" rel="stylesheet">
+		<style>
+				* {
+					margin: 0;
+					padding: 0;
+				}
+				body {
+					padding: 20px;
+					background-color: #111111;
+				}
+				header {
+					text-align: center;
+					display: flex;
+					justify-content: space-evenly;
+					flex-direction: row;
+					padding: 5px;
+					background-color: #ffffff;
+					border-top-left-radius: 10px;
+					border-top-right-radius: 10px;
+				}
+				header > a, header > a:visited {
+					color: blue;
+					text-decoration: none;
+				}
+				header > a:hover {
+					text-decoration: underline;
+				}
+				section {
+					padding: 10px;
+					background-color: #999999;
+				}
+				footer {
+					padding: 20px;
+					background-color: #444444;
+					color: #666666;
+					border-bottom-left-radius: 10px;
+					border-bottom-right-radius: 10px;
+				}
+				.descriptorBox {
+					display: inline-block;
+					padding: 10px;
+					margin: 10px;
+					background-color: #444444;
+					border: 1px solid black;
+					border-radius: 10px;
+				}
+			</style>
+		<title>The LORM Writer</title>
+	</head>
+	<body>
+		<header>
+			<a href="">Home</a>
+			<a href="">LORM</a>
+			<a href="">About Us</a>
+		</header>
+		<section>
+			<h1>Letter Of Recommendation for <span class="receiverName"></span></h1>
+			<p>By: <span class="senderName"></span></p>
+			<hr>
+			<span class="letterDate"></span><br><br>
+
+			<span class="senderName"></span><br>
+			<span class="senderTitle"></span><br>
+			<span class="association"></span><br>
+			<span class="city"></span>, <span class="state"></span>, <span class="zip"></span><br><br>
+
+			Dear whoever it may concern,<br><br>
+
+			It is my pleasure and honor to recommend <span class="receiverFirstName"></span> to you. I have known <span class="receiverFirstName"></span> for <span class="timeKnown"></span>. In the time that I have known <span class="pronoun receiver past"></span>, <span class="receiverFirstName"></span> has consistantly been <span class="descriptiveWords"></span>. I am confident <span class="pronoun receiver" ></span> will not disappoint you.<br><br>
+
+			Feel free to reach out to me with any concerns or questions you may have, and I'll get back to you as soon as possible. Thanks.<br><br>
+
+			<span class="phone"></span><br>
+			<span class="email"></span><br><br>
+			
+			<span class="senderName"></span>
+		</section>
+		<footer>
+			<p>The Letter Of Reccomendation Machine (LORM) is not to be used for fraudulent letter creation. Please use responsibly.</p>
+		</footer>
+		<script>
+				// logic for main splitting of key value pairs, ends with array of [key][value] array pairs
+				var formResults = window.location.search;
+				formResults = formResults.split("?");
+				formResults = formResults[1];
+				formResults = formResults.split("&");
+				formResults[12] = formResults[12].split("%2C+").join(", ");
+				for (var i = 0, length = formResults.length; i < length; i++) {
+					formResults[i] = formResults[i].split("=");
+				}
+				formResults[3][1] = formResults[3][1].split("+").join(" ");
+				formResults[16][1] = formResults[16][1].replace("%40", "@");
+				console.log(formResults);
+
+			// takes a pronoun such as 'Mr.', 'Mrs.', or 'Ms.', and returns 'he', 'she', 'his', or 'her'
+			function switchPronoun(pronoun, ownership=false, pastTense=false) {
+				if (ownership) {
+					switch(pronoun) {
+						case "Mr.":
+							return "his";
+							break;
+						case "Mrs.":
+						case "Ms.":
+							return "her";
+							break;
+					}
+				} else if (pastTense) {
+					switch(pronoun) {
+						case "Mr.":
+							return "him";
+							break;
+						case "Mrs.":
+						case "Ms.":
+							return "her";
+							break;
+					}
+				} else {
+					switch(pronoun) {
+						case "Mr.":
+							return "he";
+							break;
+						case "Mrs.":
+						case "Ms.":
+							return "she";
+							break;
+					}
+				}
+			}
+			
+			
+			function textAdder(HTMLCollectionToGrab, functionToExecute) {
+				for (var i = 0, length = HTMLCollectionToGrab.length; i < length; i++) {
+					HTMLCollectionToGrab[i].innerHTML = functionToExecute(HTMLCollectionToGrab);
+				}
+			}
+
+
+			document.addEventListener("DOMContentLoaded", function() {
+				
+				// logic for filling in spots on letter of reccomendation
+				textAdder(document.getElementsByClassName("receiverName"), function() {
+					return formResults[9][1] + " " + formResults[10][1];
+				});
+
+				textAdder(document.getElementsByClassName("receiverFirstName"), function() {
+					return formResults[9][1];
+				});
+
+				textAdder(document.getElementsByClassName("senderName"), function() {
+					return formResults[1][1] + " " + formResults[2][1];
+				});
+
+				textAdder(document.getElementsByClassName("letterDate"), function() {
+					var letterDate = formResults[13][1].split("-"),
+						months = [
+							"January",
+							"February",
+							"March",
+							"April",
+							"May",
+							"June",
+							"July",
+							"August",
+							"September",
+							"October",
+							"November",
+							"December"
+						];
+						for (var i = 0, length = letterDate.length; i < length; i++) {
+							letterDate[i] = parseInt(letterDate[i]);
+						}
+						return months[letterDate[1] - 1] + " " + letterDate[2] + ", " + letterDate[0];
+				});
+
+				textAdder(document.getElementsByClassName("senderTitle"), function() {
+					return formResults[3][1];
+				});
+
+				textAdder(document.getElementsByClassName("association"), function() {
+					return formResults[4][1];
+				});
+
+				textAdder(document.getElementsByClassName("city"), function() {
+					return formResults[5][1];
+				});
+
+				textAdder(document.getElementsByClassName("state"), function() {
+					return formResults[6][1];
+				});
+
+				textAdder(document.getElementsByClassName("zip"), function() {
+					return formResults[7][1];
+				});
+
+				// time the sender has known them
+				{
+					var date = new Date(),
+						dateKnown = new Date(formResults[11][1]),
+						yearsKnown = date.getFullYear() - dateKnown.getFullYear(),
+						timeKnown;
+					
+						if (yearsKnown <= 1) {
+							timeKnown = "a little bit, around a year";
+						} else if (yearsKnown <= 5) {
+							timeKnown = "a short while, just under 5 years";
+						} else if (yearsKnown <= 10) {
+							timeKnown = "a good amount of time, about 10 years";
+						} else {
+							timeKnown = "a very long time, over 10 years";
+						}
+					document.getElementsByClassName("timeKnown")[0].innerHTML = timeKnown;
+				}
+
+				// logic for filling in pronouns for everyone
+				var temp = document.getElementsByClassName("pronoun");
+				for (var i = 0, length = 2; i < length; i++) {
+					var classesToApply = temp[i].className.split(" ");
+					if (classesToApply[1] == "receiver") {
+						if (classesToApply[2] == "past") { // past
+							temp[i].innerHTML = switchPronoun(formResults[8][1], false, true);
+						} else if (classesToApply[3] == "owner") { // past
+							temp[i].innerHTML = switchPronoun(formResults[8][1], true, false);
+						} else {
+							temp[i].innerHTML = switchPronoun(formResults[8][1], false, false);
+						}
+					} else if (classesToApply[1] == "sender") {
+						if (classesToApply[2] == "past") { // past
+							temp[i].innerHTML = switchPronoun(formResults[1][1], false, true);
+						} else if (classesToApply[3] == "owner") { // past
+							temp[i].innerHTML = switchPronoun(formResults[1][1], true, false);
+						} else {
+							temp[i].innerHTML = switchPronoun(formResults[1][1], false, false);
+						}
+					}
+				}
+
+				// logic for filling in descriptive words
+				textAdder(document.getElementsByClassName("descriptiveWords"), function() {
+					return formResults[12][1];
+				});
+
+				document.getElementsByClassName("phone")[0].innerHTML = formResults[15][1];
+				document.getElementsByClassName("email")[0].innerHTML = formResults[16][1];
+			});
+		</script>
+	</body>
+</html>
