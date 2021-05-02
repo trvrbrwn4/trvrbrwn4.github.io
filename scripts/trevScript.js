@@ -49,9 +49,19 @@ function loadPage() {
 			playSound("../sounds/iconHover.mp3");
 		});
 	}
+	// ABOUT
+	// the next section adds event listeners for expanding / collapsing button
+    var sections = document.querySelectorAll(".contentBlock");
+    sections.forEach(el => {
 
-	console.log("A sneaky little bugger. I like you. ;)")
+        el.children[0].addEventListener("click", function() {
+            displayAbout(el.children[0]);
+        });
+    });
 
+	console.log("A curious fella. I like you. ;)")
+
+	// TITLE EFFECTS
 	// easter egg for on blur/focus effects
 	originalTitle = document.title;
 	window.onblur = function() {
@@ -83,35 +93,68 @@ function loadPage() {
 	}
 
 }
+
+var currentDisplay = null;
+function displayAbout(element) {
+	if (!currentDisplay & currentDisplay != element) {
+		currentDisplay = element;
+	} else if (currentDisplay == element) {
+		currentDisplay = null;
+	} else {
+		changeBGColor(currentDisplay, "#000000");
+		currentDisplay.children[0].className = "expandButton";
+		currentDisplay = element;
+	}
+	if (element.children[0].className != "expandButton") {
+		element.children[0].className = "expandButton";
+		changeBGColor(element, "#000000");
+	} else {
+		element.children[0].className = "closeButton";
+		changeBGColor(element);
+	}
+	if (currentDisplay) {
+		document.getElementById("displayBoard").style.display = "flex";
+		display(element.children[0].id);
+	} else {
+		document.getElementById("displayBoard").style.display = "none";
+		display(null);
+	}
+}
+
+function changeBGColor(element, color) {
+	var colors = ["#fb0102", "#01ff00", "#0301fc"];
+	if (color == null) {
+		element.style.color = colors[randNum(0, colors.length - 1)];
+	} else {
+		element.style.color = color;
+	}
+}
+
+function randNum(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var displayBoard = document.querySelectorAll("#displayBoard");
+var aboutData = {future: {text: "I am studying my B.S. in Digital Audio at UVU while pursuing my music production and design dreams on the side. I hope to work in the audio field one day, sustained by my music project and other creative endeavors.", 
+							img: "../media/images/about/look ahead.jpeg" },
+				education: {text: "I am majoring in Digital Audio with a minor in Computer Science at UVU in Orem, Utah.", 
+				 			img: "../media/images/about/education.jpg" }, 
+				work: {text: "My first (and only) job has been at McDonald's. I started as crew in early 2016, was a manager by mid 2017, and became an assistant store manager in late 2017. I continue to serve thousands of customers daily while furthering my education.", 
+				img: "../media/images/about/work.jpg" }};
+function display(elid) {
+	if (elid) {
+		document.querySelector("#aboutText").innerHTML = aboutData[elid]["text"];
+		document.querySelector("#aboutImg").src = aboutData[elid]["img"];
+	} else {
+		document.querySelector("#aboutText").innerHTML = "";
+		document.querySelector("#aboutImg").src = "";
+	}
+}
+
 function playSound(src) {
 	var audioElement = document.createElement("audio");
 	audioElement.setAttribute("src", src);
 	audioElement.play();
-}
-
-
-function loadWork() {
-	crew = ["Frontline of customer relations", "Responsible for my position, sometimes even multiple ones", "Training fellow crew", "Taking, assembling, and serving various orders under a time constraint"];
-	crewCount = (crew.length*10000), crewBox = document.getElementById("crewScroll");
-	man = ["Positioning a group of crew", "Managing the workers to maintain speed, accuracy, cleanliness and friendliness", "Caring for the entire stores operation, rather than just one position", "Maintaining labor percentages", "Placing change orders"];
-	manCount = (man.length*10000), manBox = document.getElementById("manScroll");
-	asm = ["Covered the store manager December 16, 2017 to January 26, 2018", "Assisted with placing truck orders for the entire store", "Hiring and following up on new employees and training", "Focusing on improving sales", "Developing new policies and procedures, as well as following current ones", "Following up with customers to improve the quality of our store"];
-	asmCount = (asm.length*10000), asmBox = document.getElementById("asmScroll");
-	changeCrew(0);
-	changeMan(0);
-	changeAsm(0);
-}
-function changeCrew(count) {
-	crewCount+=count;
-	crewBox.innerHTML = (crewCount%crew.length)+": "+crew[(crewCount%crew.length)];
-}
-function changeMan(count) {
-	manCount+=count;
-	manBox.innerHTML = (manCount%man.length)+": "+man[(manCount%man.length)];
-}
-function changeAsm(count) {
-	asmCount+=count;
-	asmBox.innerHTML = (asmCount%asm.length)+": "+asm[(asmCount%asm.length)];
 }
 
 function showArt(piece) {
