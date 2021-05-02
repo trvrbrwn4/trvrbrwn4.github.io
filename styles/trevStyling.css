@@ -61,6 +61,7 @@ body {
 	font-weight: 300;
 	padding: 0 0 100px 0;
 	overflow-x: hidden;
+	text-align: center;
 }
 .header, .header a {
 	background-color: var(--headercolor);
