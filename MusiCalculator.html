@@ -1,0 +1,536 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="author" content="Trevor Brown"/>
+		<meta name="copyright" content="Copyright © Trevor Brown 2021. All rights reserved.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>>TAB [MusiCalculator]</title>
+        <link rel="icon" href="media/images/icon.png">
+		<link rel="stylesheet" type="text/css" href="styles/siteStyle.css">
+        <style>
+            .toolBox {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: auto;
+                margin: 32px 0;
+                border-top: 4px solid #fff;
+                border-bottom: 4px solid #fff;
+                font-size: 2em;
+                font-weight: 500;
+                padding: 32px;
+            }
+            .toolBox > div {
+                display: inline-block;
+                margin-bottom: 32px;
+            }
+            .toolBox input {
+                text-align: center;
+                font-size: 1em;
+                color: #777;
+                border: none;
+                width: 20%;
+                min-width: 100px;
+            }
+            .toolBox input:focus::placeholder {
+                color: transparent;
+            }
+            .toolBox input:focus {
+                caret-color: #636c72;
+            }
+            .toolBox ul {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                list-style-type: none;
+                cursor: default;
+                user-select: none;
+            }
+            .toolBox ul li {
+                font-size: .8em;
+                display: inline-block;
+                list-style-type: none;
+                cursor: pointer;
+
+                transition: all .3s ease;
+            }
+            #userBPM {
+                background-color: transparent;
+            }
+            #keySelector, #bpmDiv, #scaleSelector {
+                color: #555; 
+            }
+            #keySelector li:hover, #scaleSelector li:hover {
+                color: #777;
+                border-bottom: 2px solid #777;
+                transform: scale(1.05);
+            }
+            #keySelector li {
+                font-size: .8em;
+                margin: 0 2vw;
+            }
+            #scaleSelector li {
+                font-size: .7em;
+                margin: 0 1vw;
+            }
+            #menuBar {
+                width: 80%;
+                height: 4px;
+                background-color: #fff;
+            }
+            #scaleDegrees {
+                margin-top: -32px;
+            }
+            #scaleDegrees li {
+                cursor: default;
+                margin: 0 2vw;
+            }
+            #scaleDegrees span {
+                font-size: .8em;
+            }
+            #scaleDegrees .strong {
+                font-size: 2em;
+            }
+            #relativeNames {
+                font-size: 1.4em;
+                user-select: none;
+            }
+            #output {
+                clear: both;
+            }
+            .leftSide, .rightSide {
+                width: 44vw;
+                font-size: .8em;
+            }
+            #bpmDiv {
+                margin-bottom: 48px;
+            }
+            .rightSide ul {
+                margin-bottom: 16px;
+            }
+            .leftSide {
+                float: left;
+            }
+            .rightSide {
+                float: right;
+            }
+            .rightSide li {
+                color: #555;
+            }
+        </style>
+	</head>
+	<body onload="loader();">
+        <div class="toolBox rainbowBorder">
+            <h2>MusiCalc</h2>
+            <div></div>
+            <div><ul id="keySelector"></ul></div>
+            <div><ul id="scaleSelector"></ul></div>
+            <span id="menuBar"></span>
+            <div></div>
+            <div id="relativeNames"></div>
+            <div><ul id="scaleDegrees"></ul></div>
+            <div id="output"><div class="leftSide"><div id="bpmDiv"><input type="text" id="userBPM" placeholder="?" oninput="input();"> BPM</div></div><div class="rightSide"><ul></ul></div></div>
+        </div>
+        <div class="footer">
+            <ul class="socialMenu">
+                <a href="https://www.instagram.com/trvrbrwn4/" target="_blank"><li><img src="media/images/socials/instagram.png"></li></a>
+            </ul>
+            Copyright © 2022. All rights reserved.
+        </div>
+        <script src="scripts/wavesurfer.js" type="text/javascript"></script>
+		<script src="scripts/siteScript.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            //var selectedScale = localStorage.setItem("MusiUserScale", "");
+            var selectionColor = "1de840";
+            var unselectedColor = "555555";
+            
+            var userBpm = document.querySelector("#userBPM");
+            var bpmDiv = document.querySelector("#bpmDiv");
+            var scaleDegreeBox = document.getElementById("scaleDegrees");
+            var relativeNameBox = document.getElementById("relativeNames");
+            var freqBox = document.querySelector(".rightSide").firstChild;
+
+
+            var selectedBpm = localStorage.getItem("MusiUserBPM");
+            var selectedKey = localStorage.getItem("MusiUserKey");
+            var selectedScale = localStorage.getItem("MusiUserScale");
+            var selectedNote = localStorage.getItem("MusiUserNote");
+
+            var notes = "C C# D D# E F F# G G# A A# B";
+            var noteArray = notes.split(" ");
+
+            //           C       C#      D       D#      E       F       F#      G       G#      A     A#      B
+            var freqs = [16.351, 17.324, 18.354, 19.445, 20.601, 21.827, 23.124, 24.499, 25.956, 27.5, 29.135, 30.868]
+
+            var scales = "Ionian (Major) : Dorian : Phrygian : Lydian : Mixolydian : Aeolian (Minor) : Locrian";
+            var scaleArray = scales.split(" : ");
+            var modeSequences = {
+                "Ionian": "W W H W W W H",
+                "Dorian": "W H W W W H W",
+                "Phrygian": "H W W W H W W",
+                "Lydian": "W W W H W W H",
+                "Mixolydian": "W W H W W H W",
+                "Aeolian": "W H W W H W W",
+                "Locrian": "H W W H W W W"
+            };
+
+            window.onload = function() {
+
+                // creates key selector
+                noteArray.forEach(function(item, index) {
+                    var li = document.createElement("li");
+                    li.id = item;
+                    li.innerHTML = item;
+                    li.addEventListener("click", function() {
+                        // grab 'old' key (the currently selected key when clicked)
+                        var oldKeyName = localStorage.getItem("MusiUserKey");
+                                       
+                        if (oldKeyName) {
+                            if (oldKeyName == this.innerHTML) {
+                                setSelectionColorsNew(this, unselectedColor);
+                                localStorage.setItem("MusiUserKey", "");
+                            } else {
+                                var oldKey = document.getElementById(oldKeyName);
+                                setSelectionColorsNew(oldKey, unselectedColor);
+
+                                setSelectionColorsNew(this, selectionColor);
+                                localStorage.setItem("MusiUserKey", this.innerHTML);
+                            }
+                        } else {
+                            setSelectionColorsNew(this, selectionColor);
+                            localStorage.setItem("MusiUserKey", this.innerHTML);
+                        }
+                        calculateScale();
+                    });
+                    document.querySelector("#keySelector").appendChild(li);
+                });
+
+                // creates scale selector
+                scaleArray.forEach(function(item, index) {
+                    var li = document.createElement("li");
+                    li.id = item.split(" ")[0];
+                    li.innerHTML = item;
+                    li.addEventListener("click", function() {
+                        var oldScaleName = localStorage.getItem("MusiUserScale");
+
+                        if (oldScaleName != "") {
+                            if (!document.getElementById(oldScaleName)) {
+                                localStorage.setItem("MusiUserScale", "");
+                                oldScaleName = "";
+                            }
+                            
+                            if (oldScaleName) {
+                                if (oldScaleName == this.innerHTML.split(" ")[0]) {
+                                    setSelectionColorsNew(this, unselectedColor);
+                                    localStorage.setItem("MusiUserScale", "");
+                                } else {
+                                    var oldScale = document.getElementById(oldScaleName);
+                                    setSelectionColorsNew(oldScale, unselectedColor);
+
+                                    setSelectionColorsNew(this, selectionColor);
+                                    localStorage.setItem("MusiUserScale", this.innerHTML.split(" ")[0]);
+                                }
+                            }
+                        } else {
+                            setSelectionColorsNew(this, selectionColor);
+                            localStorage.setItem("MusiUserScale", this.innerHTML.split(" ")[0]);
+                        }
+                        calculateScale();
+                    });
+                    document.querySelector("#scaleSelector").appendChild(li);
+                });
+
+                // creates note selector
+                noteArray.forEach(function(item, index) {
+                    var li = document.createElement("li");
+                    li.id = item+" "+index;
+                    li.innerHTML = item;
+                    li.addEventListener("click", function() {
+                        var oldNoteName = localStorage.getItem("MusiUserNote");
+
+                        if (oldNoteName != "") {
+                            if (!document.getElementById(oldNoteName)) {
+                                localStorage.setItem("MusiUserNote", "");
+                                oldNoteName = "";
+                            }
+                            
+                            if (oldNoteName) {
+                                if (oldNoteName.split(" ")[0] == this.innerHTML) {
+                                    setSelectionColorsNew(this, unselectedColor);
+                                    localStorage.setItem("MusiUserNote", "");
+                                } else {
+                                    var oldNote = document.getElementById(oldNoteName);
+                                    setSelectionColorsNew(oldNote, unselectedColor);
+
+                                    setSelectionColorsNew(this, selectionColor);
+                                    localStorage.setItem("MusiUserNote", this.id);
+                                }
+                            }
+                        } else {
+                            setSelectionColorsNew(this, selectionColor);
+                            localStorage.setItem("MusiUserNote", this.id);
+                        }
+                        showNote(this.innerHTML);
+                    });
+                    document.querySelector(".rightSide").firstChild.appendChild(li);
+                });
+
+                if (selectedBpm) {
+                    userBpm.value = selectedBpm;
+                    bpmDiv.style.color = "#"+selectionColor;
+                    setSelectionColorsNew(userBpm, selectionColor);
+                    calculateTempoTimes(userBpm.value);
+                }
+                if (selectedKey) {
+                    var currentKey = document.getElementById(selectedKey);
+                    if (currentKey) {
+                        setSelectionColorsNew(currentKey, selectionColor);
+                    }
+                }
+                if (selectedScale) {
+                    var currentScale = document.getElementById(selectedScale);
+                    if (currentScale) {
+                        setSelectionColorsNew(currentScale, selectionColor);
+                    } 
+                }
+                if (selectedKey && selectedScale) {
+                    calculateScale();
+                }
+                if (selectedNote) {
+                    var currentNoteBox = document.getElementById(selectedNote);
+                    setSelectionColorsNew(currentNoteBox, selectionColor);
+                    console.log(selectedNote);
+                    showNote(selectedNote.split(" ")[0]);
+                }
+            };
+
+            // on bpm input box change, check if empty
+            function input() {
+                var userBpm = document.querySelector("#userBPM");
+
+                if (userBpm.value) {
+                    localStorage.setItem("MusiUserBPM", userBpm.value);
+                    setSelectionColorsNew(userBpm, selectionColor);
+                    bpmDiv.style.color = "#"+selectionColor;
+                } else {
+                    localStorage.setItem("MusiUserBPM", "");
+                    setSelectionColorsNew(userBpm, unselectedColor);
+                    bpmDiv.style.color = "#"+unselectedColor;
+                }
+                
+                calculateTempoTimes(userBpm.value);
+            }
+            function setSelectionColorsNew(div, hexString) {
+                div.style.color = "#"+hexString;
+                if (hexString != unselectedColor) {
+                    div.style.borderBottom = "4px solid #"+hexString;
+                } else {
+                    div.style.borderBottom = "none";
+                }
+            }
+
+            function calculateTempoTimes(bpm) {
+                var p = document.createElement("p");
+
+                // leftSide box
+                var outputBox = document.getElementById("output").children[0];
+
+                var barLength  = [60000 / bpm * 4];
+
+                // Calculates from top down. starts out at highest bar count, and counts down to 1 bar
+                for (let i = 6; i > 0; i--) {
+                    var barCount = Math.pow(2, i);
+                    var barString = barCount+" Bars";
+                    p.innerHTML += noteString(barString, barLength * barCount);
+                }
+                // 1 bar
+                p.innerHTML += noteString("1 Bar", barLength);
+                // continues down from 1 bar, calculating fractional note lengths
+                for (let i = 1; i <= 11; i++) {
+                    var denomCount = Math.pow(2, i);
+                    var denomString = "1/"+denomCount+" Note";
+                    p.innerHTML += noteString(denomString, barLength / denomCount);
+                }
+
+                // update output div text
+                if (outputBox.children.length != 1) {
+                    outputBox.removeChild(outputBox.children[1]);
+                    outputBox.appendChild(p);
+                } else {
+                    outputBox.appendChild(p);
+                }
+            }
+            // converts noteName and num to a string for output
+            function noteString(noteName, num) {
+                var newNote = noteName+" : "+roundNumber(num)+" ms ("+roundNumber(convertMsHz(num))+" hz)<br>";
+                return newNote;
+            }
+            function convertMsHz(valueOfOneType) {
+                var otherValueType = 1000 / valueOfOneType;
+                return otherValueType;
+            }
+            function roundNumber(num) {
+                return Number.parseFloat(num).toFixed(2);
+            }
+
+            function calculateScale() {
+                relativeNameBox.innerHTML = "";
+                scaleDegreeBox.innerHTML = "";
+
+                var keyCheck = localStorage.getItem("MusiUserKey");
+                var scaleCheck = localStorage.getItem("MusiUserScale");
+                var currentNoteIndex = noteArray.indexOf(keyCheck);
+
+                var builtScale = "";
+                if (keyCheck && scaleCheck) {
+                    reloadRelativeBox();
+                    var currentScaleSequence = modeSequences[scaleCheck.split(".")[0]];
+                    builtScale += noteArray[currentNoteIndex] + " ";
+                    currentScaleSequence.split(" ").forEach(function(item, index) {
+                        var itemCount;
+                        if (item == "W") {
+                            itemCount = 2;
+                        } else if (item == "H") {
+                            itemCount = 1;
+                        }
+                        getKeyIndex(currentNoteIndex, itemCount);
+                        currentNoteIndex = (currentNoteIndex + itemCount) % noteArray.length;
+                        if (index != 6) {
+                            if (index == 5) {
+                                builtScale += noteArray[currentNoteIndex];
+                            } else {
+                                builtScale += noteArray[currentNoteIndex] + " ";
+                            }
+                        }
+                    });
+                    //console.clear();
+
+                    builtScale.split(" ").forEach(function(item, index) {
+                        var li = document.createElement("li");
+                        li.innerHTML = "<span><br><span class='strong'>"+item+"</span><br><span>("+(index+1)+") "+getDegree(index, scaleCheck.split(".")[0])+"<span>";
+                        scaleDegreeBox.appendChild(li);
+                    });
+                } else {
+                    relativeNameBox.innerHTML = "";
+                }
+            }
+
+            function getKeyIndex(currentKeyIndex, incrementAmount) {
+                var nextKeyCheck = currentKeyIndex + incrementAmount;
+                var nextKeyIndex;
+                if (nextKeyCheck > 0) {
+                    nextKeyIndex = nextKeyCheck % noteArray.length;
+                } else {
+                    nextKeyIndex = nextKeyCheck + noteArray.length;
+                }
+
+                if (nextKeyIndex == 12) {
+                    nextKeyIndex = 0;
+                }
+                
+                return nextKeyIndex;
+            }
+            function getDegree(degree, scaleMode) {
+                var degreeNames = ["Tonic", "Supertonic", "Mediant", "Subdominant", "Dominant", "Sudmediant", "Leading Tone"];
+                if (scaleMode == "Aeolian") {
+                    degreeNames[6] = "Subtonic";
+                }
+                return degreeNames[degree];
+            }
+            
+            function reloadRelativeBox() {
+                // in order to calculate the relative keys box, grab current variabes
+                var keyCheck = localStorage.getItem("MusiUserKey");
+                var scaleCheck = localStorage.getItem("MusiUserScale");
+                var currentNoteIndex = noteArray.indexOf(keyCheck);
+
+                // set some stuff 
+                var majorOffset, degreeName = "";
+
+                switch (scaleCheck) {
+                    case "Ionian":
+                        majorOffset = 0;
+                        degreeName = "Ionian";
+                        break;
+                    case "Dorian":
+                        majorOffset = 10;
+                        degreeName = "Dorian";
+                        break;
+                    case "Phrygian":
+                        majorOffset = 8;
+                        degreeName = "Phrygian";
+                        break;
+                    case "Lydian":
+                        majorOffset = 7;
+                        degreeName = "Lydian";
+                        break;
+                    case "Mixolydian":
+                        majorOffset = 5;
+                        degreeName = "Mixolydian";
+                        break;
+                    case "Aeolian":
+                        majorOffset = 3;
+                        degreeName = "Aeolian";
+                        break;
+                    case "Locrian":
+                        majorOffset = 1;
+                        degreeName = "Locrian";
+                        break;
+                }
+
+                // build output piece by piece
+                var outputString = "";
+
+                // first line A...G Ionian...Locrian
+                outputString += "["+keyCheck+"] "+degreeName+"<span style='margin: 0 4vw;'>|</span>";
+
+                // calculates real* major key based on current key (only Ionian is major)
+                outputString += "["+noteArray[getKeyIndex(currentNoteIndex, majorOffset)]+"] Major<span style='margin: 0 4vw;'>|</span>";
+
+                // calculates minor from real major (-3 st)
+                outputString += "["+noteArray[getKeyIndex(getKeyIndex(currentNoteIndex, majorOffset), -3)]+"] Minor";
+                relativeNameBox.innerHTML = outputString;
+            }
+
+            function showNote(noteName) {
+                var p = document.createElement("p");
+                for (let i = -13; i < 7; i++) { // calculates up from the lowest octave
+                    var octaveOffset = noteArray.indexOf(noteName) + (12 * i) + 3;
+                    var noteHz = calcNoteHz(octaveOffset);
+                    p.innerHTML += ("Octave "+(i+5)+": "+roundNumber(noteHz)+" hz ("+roundNumber(convertMsHz(noteHz))+" ms) <br>");
+                }
+                var parentBox = document.querySelector(".rightSide");
+
+                if (parentBox.children.length != 1) {
+                    parentBox.removeChild(parentBox.children[1]);
+                    parentBox.appendChild(p);
+                } else {
+                    parentBox.appendChild(p);
+                }
+            }
+            function calcNoteHz(offsetFromA) {
+                var noteHz = 440 * Math.pow(Math.pow(2, 1 / 12), offsetFromA)
+                return noteHz;
+            }
+            
+            // reset local variables and site stuff
+            function resetData() {
+                var backupBpm = localStorage.getItem("MusiUserBPM");
+                var backupKey = localStorage.getItem("MusiUserKey");
+                var backupScale = localStorage.getItem("MusiUserScale");
+                
+                localStorage.setItem("MusiUserKey", "");
+                localStorage.setItem("MusiUserBPM", "");
+                userBpm.value = "";
+                localStorage.setItem("MusiUserScale", "");
+
+                setSelectionColorsNew(userBpm, "ffffff");
+                setSelectionColorsNew(bpmDiv, "ffffff");
+                setSelectionColorsNew(document.getElementById(backupKey), "ffffff");
+                setSelectionColorsNew(document.getElementById(backupScale), "ffffff");
+            }
+        </script>
+	</body>
+</html>
