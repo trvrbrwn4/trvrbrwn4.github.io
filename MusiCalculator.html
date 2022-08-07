@@ -9,7 +9,7 @@
         <meta property="og:title" content="MusiCalculator" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://trvrbrwn4.github.io/MusiCalculator.html" />
-        <meta property="og:image" content="media\images\meta preview\musicalc meta.png" />
+        <meta property="og:image" content="media/images/meta preview/musicalc meta.png" />
         <meta property="og:description" content="Calculate tempo and key info" />
         <meta name="theme-color" content="#00FF00">
 
@@ -81,7 +81,7 @@
             }
             #scaleSelector li {
                 font-size: .7em;
-                margin: 0 1vw;
+                margin: 0 2vw;
             }
             #menuBar {
                 width: 80%;
@@ -127,6 +127,67 @@
             .rightSide li {
                 color: #555;
             }
+            @media screen and ( (min-width: 800px) and (max-width: 1000px)) {
+                
+                .toolBox {
+                    font-size: 160%;
+                }
+                #output {
+                    font-size: 100%;
+                }
+                .leftSide {
+                    margin-bottom: 16px;
+                }
+                #bpmDiv {
+                    margin-bottom: 16px;
+                    
+                }
+            }
+            @media screen and ( (min-width: 600px) and (max-width: 800px)) {                
+                .toolBox {
+                    font-size: 160%;
+                }
+                #relativeNames {
+                    font-size: 120%;
+                }
+                #output {
+                    font-size: 100%;
+                }
+
+                .leftSide, .rightSide {
+                    width: 100%;
+                }
+                .leftSide {
+                    margin-bottom: 16px;
+                }
+                #bpmDiv {
+                    margin-bottom: 16px;
+                }
+            }
+            @media screen and ( (min-width: 400px) and (max-width: 600px)) {                    
+                .toolBox {
+                    font-size: 120%;
+                }
+                #scaleSelector li {
+                    margin: 0 1.2vw;
+                }
+                #relativeNames {
+                    font-size: 120%;
+                }
+                #output {
+                    font-size: 140%;
+                }
+
+                .leftSide, .rightSide {
+                    width: 100%;
+                }
+                .leftSide {
+                    margin-bottom: 16px;
+                }
+                #bpmDiv {
+                    margin-bottom: 16px;
+                }
+            }
         </style>
 	</head>
 	<body onload="loader();">
@@ -158,8 +219,6 @@
             var bpmDiv = document.querySelector("#bpmDiv");
             var scaleDegreeBox = document.getElementById("scaleDegrees");
             var relativeNameBox = document.getElementById("relativeNames");
-            var freqBox = document.querySelector(".rightSide").firstChild;
-
 
             var selectedBpm = localStorage.getItem("MusiUserBPM");
             var selectedKey = localStorage.getItem("MusiUserKey");
@@ -309,7 +368,6 @@
                 if (selectedNote) {
                     var currentNoteBox = document.getElementById(selectedNote);
                     setSelectionColorsNew(currentNoteBox, selectionColor);
-                    console.log(selectedNote);
                     showNote(selectedNote.split(" ")[0]);
                 }
             };
@@ -326,6 +384,7 @@
                     localStorage.setItem("MusiUserBPM", "");
                     setSelectionColorsNew(userBpm, unselectedColor);
                     bpmDiv.style.color = "#"+unselectedColor;
+                    
                 }
                 
                 calculateTempoTimes(userBpm.value);
@@ -363,13 +422,18 @@
                 }
 
                 // update output div text
-                if (outputBox.children.length != 1) {
-                    outputBox.removeChild(outputBox.children[1]);
-                    outputBox.appendChild(p);
+                if (bpm) {
+                    if (outputBox.children.length != 1) {
+                        outputBox.removeChild(outputBox.children[1]);
+                        outputBox.appendChild(p);
+                    } else {
+                        outputBox.appendChild(p);
+                    }
                 } else {
-                    outputBox.appendChild(p);
+                    outputBox.removeChild(outputBox.children[1]);
                 }
             }
+            
             // converts noteName and num to a string for output
             function noteString(noteName, num) {
                 var newNote = noteName+" : "+roundNumber(num)+" ms ("+roundNumber(convertMsHz(num))+" hz)<br>";
@@ -503,19 +567,24 @@
             }
 
             function showNote(noteName) {
-                var p = document.createElement("p");
+                var div = document.createElement("div");
                 for (let i = -13; i < 7; i++) { // calculates up from the lowest octave
                     var octaveOffset = noteArray.indexOf(noteName) + (12 * i) + 3;
                     var noteHz = calcNoteHz(octaveOffset);
-                    p.innerHTML += ("Octave "+(i+5)+": "+roundNumber(noteHz)+" hz ("+roundNumber(convertMsHz(noteHz))+" ms) <br>");
+                    div.innerHTML += ("Octave "+(i+5)+": "+roundNumber(noteHz)+" hz ("+roundNumber(convertMsHz(noteHz))+" ms) <br>");
                 }
                 var parentBox = document.querySelector(".rightSide");
 
-                if (parentBox.children.length != 1) {
-                    parentBox.removeChild(parentBox.children[1]);
-                    parentBox.appendChild(p);
+                // logic for showing/not showing key frequency info if a key is set/not set
+                if (!document.getElementById(noteName+" "+noteArray.indexOf(noteName)).style.color.includes(85)) {
+                    if (parentBox.children.length != 1) {
+                        parentBox.removeChild(parentBox.children[1]);
+                        parentBox.appendChild(div);
+                    } else {
+                        parentBox.appendChild(div);
+                    }
                 } else {
-                    parentBox.appendChild(p);
+                    parentBox.removeChild(parentBox.children[1]);
                 }
             }
             function calcNoteHz(offsetFromA) {
