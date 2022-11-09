@@ -40,6 +40,21 @@
                 font-size: 48px;
                 margin-bottom: 16px;
             }
+            .toolBox > h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #restart {
+                width: 40px;
+                height: 40px;
+                margin: 0 0 0 32px;
+                font-size: 24px;
+            }
+            #restart:hover {
+                background-color: #ffaaaa;
+                cursor: not-allowed;
+            }
             .toolBox {
                 display: flex;
                 flex-direction: column;
@@ -59,15 +74,16 @@
                 text-align: center;
                 color: #777;
                 border: none;
+                border-radius: 10px;
+                padding: 4px 8px;
                 width: 20%;
-                font-size: calc(12px + .5vw);
                 min-width: 100px;
             }
             .toolBox input:focus::placeholder {
                 color: transparent;
             }
             .toolBox input:focus {
-                caret-color: #636c72;
+                caret-color: #ffffff;
             }
             .toolBox ul {
                 display: flex;
@@ -90,17 +106,21 @@
             #keySelector, #bpmDiv, #scaleSelector {
                 color: #555; 
             }
-            #keySelector li:hover, #scaleSelector li:hover {
+            #keySelector li:hover:not(.activeSelection), #scaleSelector li:hover:not(.activeSelection) {
                 color: #888;
                 border-bottom: 2px solid #888;
                 transform: scale(1.05);
             }
-            #keySelector li { /* User Key Selector */
+            #keySelector li {
                 font-size: 24px;
-                margin: 0 2vw;
+                margin: 0 1vw;
             }
             #scaleSelector li {
-                margin: 0 2vw;
+                margin: 0 1vw;
+            }
+            #keySelector li, #scaleSelector li, .rightSide ul li {
+                padding: 2px 4px;
+                border-radius: 10px;
             }
             #menuBar {
                 width: 80%;
@@ -108,7 +128,7 @@
                 background-color: #fff;
             }
             #relativeNames {
-                user-select: none;
+                /* user-select: none; */
                 font-weight: 900;
             }
             #scaleDegrees {
@@ -118,10 +138,7 @@
                 cursor: default;
                 margin: 0 2vw;
             }
-            #bpmDiv {
-                margin-bottom: 48px;
-            }
-            #output {
+            .splitBox {
                 width: 98vw;
             }
             .leftSide, .rightSide {
@@ -131,6 +148,7 @@
             }
             .leftSide {
                 float: left;
+                font-weight: 400;
             }
             .rightSide {
                 float: right;
@@ -141,9 +159,14 @@
             .rightSide ul li {
                 color: #555;
             }
-            #output>div>p {
+            .splitBox>div>p {
                 margin: 4px 0 0 4px;
                 font-weight: 400;
+            }
+            .activeSelection, .toolbox input:not(:placeholder-shown) {
+                color: #1de840 !important;
+                border-bottom: 4px solid #1de840 !important;
+                background-color: #1b4222 !important;
             }
             .draggableItem {
                 transition: all .3s ease;
@@ -155,7 +178,7 @@
                 transform: scale(1.1);
             }
             .draggableItem::selection {
-                color: #dd00f3;
+                color: #e81d1d;
                 background-color: #333333;
             }
             .extra {
@@ -165,6 +188,14 @@
                 font-style: italic;
                 font-weight:200;
             }
+            .dragInfo  {
+                visibility: hidden;
+                position: absolute;
+            }
+            .scaleInfo {
+                visibility: hidden;
+                position: absolute;
+            }
             #pulseRate, #pitchDif {
                 font-weight: 800;
             }
@@ -172,96 +203,24 @@
                 color: #e3e81d;
             }
             #pitchDif{
+                color: #dd00f3;
+            }
+            .harmonics {
+                width: 60%;
+                max-width: 400px;
+                height: 240px;
+                overflow-y: scroll;
+                cursor: ns-resize;
+            }
+            #oddHarm span {
+                color: #e8b71d;
+            }
+            #evenHarm span {
                 color: #1ddde8;
             }
 
             /******************** MEDIA QUERIES ********************/
-            @media only screen and (min-width: 1200px) and (max-width: 4000px) { /* For Bigger Computers */
-                h1 { /* Page Title */
-                    font-size: 64px;
-                }
-                h2 { /* Other Titles */
-                    font-size: 48px;
-                }
-                #relativeNames { /* Calculated Relative Scales */
-                    font-size: 40px;
-                }
-                #scaleDegrees li { /* Calculated Scale Keys */
-                    font-size: 24px;
-                }
-                #output>div>p { /* Both Sets of Outputs (tempo, freq) */
-                    font-size: 24px;
-                }
-                .extra {
-                    font-size: 24px;
-                }
-                .extra > span {
-                    padding: 0 64px;
-                }
-                #pulseRate, #pitchDif {
-                    font-size: 28px;
-                }
-            }
-            @media only screen and (max-width: 1200px) { /* For Bigger Computers */
-                h1 { /* Page Title */
-                    font-size: 48px;
-                }
-                h2 { /* Other Titles */
-                    font-size: 40px;
-                }
-                #keySelector li { /* User Key Selector */
-                    font-size: 16px;
-                }
-                #scaleSelector li { /* User Scale Selector */
-                    font-size: 16px;
-                }
-                #scaleDegrees li { /* Calculated Scale Keys */
-                    font-size: 16px;
-                }
-                .rightSide ul li { /* User Frequency Selector */
-                    font-size: 16px;
-                }
-                .extra > span {
-                    padding: 0 32px;
-                }
-                #pulseRate, #pitchDif {
-                    font-size: 24px;
-                }
-            }
-            @media only screen and (max-width: 800px) { /* For Smaller Computers */
-                h1 { /* Page Title */
-                    font-size: 48px;
-                }
-                h2 { /* Other Titles */
-                    font-size: 40px;
-                }
-                #keySelector li { /* User Key Selector */
-                    font-size: 16px;
-                }
-                #scaleSelector li { /* User Scale Selector */
-                    font-size: 16px;
-                }
-                #relativeNames { /* Calculated Relative Scales */
-                    font-size: 20px;
-                }
-                #scaleDegrees li { /* Calculated Scale Keys */
-                    font-size: 12px;
-                }
-                .rightSide ul li { /* User Frequency Selector */
-                    font-size: 16px;
-                    margin: 0 .5vw;
-                }
-                #output>div>p { /* Both Sets of Outputs (tempo, freq) */
-                    font-size: 14px;
-                }
-                .extra > span {
-                    padding: 0 16px;
-                }
-                #pulseRate, #pitchDif {
-                    font-size: 20px;
-                }
-            }
-            @media only screen and (max-width: 600px) { /* For Tablets */
+            @media only screen and (min-width: 0px) and (max-width: 600px) { /* For Tablets */
                 h1{ /* Page Title */
                     font-size: 36px;
                 }
@@ -285,44 +244,150 @@
                 }
                 .rightSide ul li { /* User Frequency Selector */
                     font-size: 12px;
-                    margin: 0 .5vw;
+                    padding: 2px;
                 }
-                #output>div>p { /* Both Sets of Outputs (tempo, freq) */
+                .splitBox>div>p { /* Both Sets of Outputs (tempo, freq) */
                     font-size: 10px;
+                }
+                .leftSide {
+                    font-size: 12px;
                 }
                 .extra > span {
                     display: block;
+                    margin: 4px 0;
                 }
                 #pulseRate, #pitchDif {
                     font-size: 16px;
+                }
+            }
+            @media only screen and (min-width: 600px) and (max-width: 800px) { /* For Smaller Computers */
+                h1 { /* Page Title */
+                    font-size: 48px;
+                }
+                h2 { /* Other Titles */
+                    font-size: 40px;
+                }
+                #keySelector li { /* User Key Selector */
+                    font-size: 16px;
+                }
+                #scaleSelector li { /* User Scale Selector */
+                    font-size: 16px;
+                }
+                .toolBox input { /* User BPM input box */
+                    font-size: 16px;
+                }
+                #relativeNames { /* Calculated Relative Scales */
+                    font-size: 20px;
+                }
+                #scaleDegrees li { /* Calculated Scale Keys */
+                    font-size: 12px;
+                }
+                .rightSide ul li { /* User Frequency Selector */
+                    font-size: 16px;
+                }
+                .splitBox>div>p { /* Both Sets of Outputs (tempo, freq) */
+                    font-size: 14px;
+                }
+                .extra > span {
+                    padding: 0 4px;
+                }
+                #pulseRate, #pitchDif {
+                    font-size: 20px;
+                }
+            }
+            @media only screen and (min-width: 800px) and (max-width: 1200px) { /* For Computers */
+                h1 { /* Page Title */
+                    font-size: 48px;
+                }
+                h2 { /* Other Titles */
+                    font-size: 40px;
+                }
+                #keySelector li { /* User Key Selector */
+                    font-size: 16px;
+                }
+                #scaleSelector li { /* User Scale Selector */
+                    font-size: 16px;
+                }
+                .toolBox input { /* User BPM input box */
+                    font-size: 20px;
+                }
+                #scaleDegrees li { /* Calculated Scale Keys */
+                    font-size: 16px;
+                }
+                .leftSide {
+                    font-size: 16px;
+                }
+                .rightSide ul li { /* User Frequency Selector */
+                    font-size: 16px;
+                }
+                .extra > span {
+                    padding: 0 32px;
+                }
+                #pulseRate, #pitchDif {
+                    font-size: 24px;
+                }
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 4000px) { /* For Bigger Computers */
+                h1 { /* Page Title */
+                    font-size: 64px;
+                }
+                h2 { /* Other Titles */
+                    font-size: 48px;
+                }
+                .toolBox input { /* User BPM input box */
+                    font-size: 32px;
+                }
+                #relativeNames { /* Calculated Relative Scales */
+                    font-size: 40px;
+                }
+                #scaleDegrees li { /* Calculated Scale Keys */
+                    font-size: 24px;
+                }
+                .splitBox>div>p { /* Both Sets of Outputs (tempo, freq) */
+                    font-size: 20px;
+                }
+                .leftSide {
+                    font-size: 24px;
+                }
+                .extra {
+                    font-size: 24px;
+                }
+                .extra > span {
+                    padding: 0 64px;
+                }
+                #pulseRate, #pitchDif {
+                    font-size: 28px;
                 }
             }
         </style>
 	</head>
 	<body onload="loader();">
         <div class="toolBox rainbowBorder">
-            <h1><strong>MusiCalc</strong></h1>
-            <div class="info">Click on highlighted values to copy them to clipboard!</div>
+            <h1><strong>MusiCalc</strong><button id="restart" onclick="resetData();">↺</button></h1>
             <div><ul id="keySelector"></ul></div>
             <div><ul id="scaleSelector"></ul></div>
             <span id="menuBar"></span>
-            <div></div>
-            <div id="relativeNames"></div>
-            <div></div>
-            <div><ul id="scaleDegrees"></ul></div>
-            <div id="output"><div class="leftSide"><div id="bpmDiv"><input type="text" id="userBPM" placeholder="?" oninput="BpmInput();"> BPM</div></div><div class="rightSide"><ul></ul></div></div>
-            <div class="info">Click and drag selected items into the boxes below!</div>
+            <div class="scaleInfo"></div>
+            <div id="relativeNames" class="scaleInfo"></div>
+            <div class="scaleInfo"></div>
+            <div><ul id="scaleDegrees" class="scaleInfo"></ul></div>
+            <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
+            <div class="splitBox" id="tempoTimes"><div class="leftSide"><div id="bpmDiv"><input type="text" id="userBPM" placeholder="?" oninput="bpmInput();"> BPM</div></div><div class="rightSide"><ul></ul></div></div>
+            <div class="info dragInfo">Click and drag highlighted values into the textboxes below to copy the value!</div>
             <span id="menuBar"></span>
             <div></div>
-            <h2><strong>Detuned Oscillator(s) Pulse Rate Calculator</strong></h2>
-            <div class="info">Calculate the detuning of notes for phase cancellation basses</div>
+            <h2><strong>Reese Bass Detuning</strong></h2>
+            <div class="info">Calculate the amount to detune two notes by for a precise Hz of pulsing</div>
             <div class="extra">Hz of main note: <input type="text" class="dragReceiver" placeholder="?" oninput="reesePulseInput();" id="reeseNote"><span></span>Hz of desired pulsing: <input type="text" class="dragReceiver" placeholder="?" oninput="reesePulseInput();" id="reeseRate"></div>
             <div id="pulseRate"></div>
-            <div></div>
-            <h2><strong>Pitch BPM Difference Calculator</strong></h2>
-            <div class="info">Calculate the new bpm of a pitch altered loop</div>
-            <div class="extra">Original BPM: <input type="text" class="dragReceiver" placeholder="?" oninput="pitchBpmInput();" id="pitchBpm"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" placeholder="?" oninput="pitchBpmInput();" id="pitchPitch"></div>
+            <h2><strong>Pitched Loop BPM Finder</strong></h2>
+            <div class="info">Calculate the new bpm of a loop that has been pitched up or down</div>
+            <div class="extra">Original BPM: <input type="text" class="dragReceiver" placeholder="?" oninput="pitchbpmInput();" id="pitchBpm"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" placeholder="?" oninput="pitchbpmInput();" id="pitchPitch"></div>
             <div id="pitchDif"></div>
+            <h2><strong>Harmonic Calculator</strong></h2>
+            <div class="info">Calculate the odd & even harmonics of a given frequency!</div>
+            <div class="extra">Fundamental Frequency: <input type="text" class="dragReceiver" placeholder="?" id="harmonicFreq"></div>
+            <div class="splitBox harmonics"><div class="leftSide" id="oddHarm"></div><div class="rightSide" id="evenHarm"></div></div>
         </div>
         <div class="footer">
             <ul class="socialMenu">
@@ -348,14 +413,12 @@
             const selectedScale = localStorage.getItem("MusiUserScale");
             const selectedNote = localStorage.getItem("MusiUserNote");
 
-            var notes = "C C# D D# E F F# G G# A A# B";
-            const noteArray = notes.split(" ");
+            const noteArray = "C C# D D# E F F# G G# A A# B".split(" ");
 
             //           C       C#      D       D#      E       F       F#      G       G#      A     A#      B
-            var freqs = [16.351, 17.324, 18.354, 19.445, 20.601, 21.827, 23.124, 24.499, 25.956, 27.5, 29.135, 30.868]
+            const freqs = [16.351, 17.324, 18.354, 19.445, 20.601, 21.827, 23.124, 24.499, 25.956, 27.5, 29.135, 30.868]
 
-            var scales = "Ionian (Major) : Dorian : Phrygian : Lydian : Mixolydian : Aeolian (Minor) : Locrian";
-            const scaleArray = scales.split(" : ");
+            const scaleArray = "Ionian (Major) : Dorian : Phrygian : Lydian : Mixolydian : Aeolian (Minor) : Locrian".split(" : ");
             const modeSequences = {
                 "Ionian": "W W H W W W H",
                 "Dorian": "W H W W W H W",
@@ -380,17 +443,17 @@
                                        
                         if (oldKeyName) {
                             if (oldKeyName == this.innerHTML) {
-                                setSelectionColorsNew(this, unselectedColor);
+                                this.classList.remove("activeSelection");
                                 localStorage.setItem("MusiUserKey", "");
                             } else {
                                 var oldKey = document.getElementById(oldKeyName);
-                                setSelectionColorsNew(oldKey, unselectedColor);
+                                oldKey.classList.remove("activeSelection");
 
-                                setSelectionColorsNew(this, selectionColor);
+                                this.classList.add("activeSelection");
                                 localStorage.setItem("MusiUserKey", this.innerHTML);
                             }
                         } else {
-                            setSelectionColorsNew(this, selectionColor);
+                            this.classList.add("activeSelection");
                             localStorage.setItem("MusiUserKey", this.innerHTML);
                         }
                         calculateScale();
@@ -414,18 +477,18 @@
                             
                             if (oldScaleName) {
                                 if (oldScaleName == this.innerHTML.split(" ")[0]) {
-                                    setSelectionColorsNew(this, unselectedColor);
+                                    this.classList.remove("activeSelection");
                                     localStorage.setItem("MusiUserScale", "");
                                 } else {
                                     var oldScale = document.getElementById(oldScaleName);
-                                    setSelectionColorsNew(oldScale, unselectedColor);
+                                    oldScale.classList.remove("activeSelection");
 
-                                    setSelectionColorsNew(this, selectionColor);
+                                    this.classList.add("activeSelection");
                                     localStorage.setItem("MusiUserScale", this.innerHTML.split(" ")[0]);
                                 }
                             }
                         } else {
-                            setSelectionColorsNew(this, selectionColor);
+                            this.classList.add("activeSelection");
                             localStorage.setItem("MusiUserScale", this.innerHTML.split(" ")[0]);
                         }
                         calculateScale();
@@ -449,18 +512,18 @@
                             
                             if (oldNoteName) {
                                 if (oldNoteName.split(" ")[0] == this.innerHTML) {
-                                    setSelectionColorsNew(this, unselectedColor);
+                                    this.classList.remove("activeSelection");
                                     localStorage.setItem("MusiUserNote", "");
                                 } else {
                                     var oldNote = document.getElementById(oldNoteName);
-                                    setSelectionColorsNew(oldNote, unselectedColor);
+                                    oldNote.classList.remove("activeSelection");
 
-                                    setSelectionColorsNew(this, selectionColor);
+                                    this.classList.add("activeSelection");
                                     localStorage.setItem("MusiUserNote", this.id);
                                 }
                             }
                         } else {
-                            setSelectionColorsNew(this, selectionColor);
+                            this.classList.add("activeSelection");
                             localStorage.setItem("MusiUserNote", this.id);
                         }
                         showNoteFreq(this.innerHTML);
@@ -476,30 +539,29 @@
                         this.value = event.dataTransfer.getData("Text");
                         if (this.attributes.oninput.value.slice(0, this.attributes.oninput.value.length - 3) === reesePulseInput.name) {
                             reesePulseInput();
-                            
                         } else {
-                            pitchBpmInput();
+                            pitchbpmInput();
                         }
                     });
                 }
 
-                // appends available values/data from previous session
+                // if any selections are made, load the respective data
                 if (selectedBpm) {
                     userBpm.value = selectedBpm;
                     bpmDiv.style.color = "#"+selectionColor;
-                    setSelectionColorsNew(userBpm, selectionColor);
-                    calculateTempoTimes(userBpm.value);
+                    userBpm.classList.add("activeSelection");
+                    userBpm.oninput();
                 }
                 if (selectedKey) {
                     var currentKey = document.getElementById(selectedKey);
                     if (currentKey) {
-                        setSelectionColorsNew(currentKey, selectionColor);
+                        currentKey.classList.add("activeSelection");
                     }
                 }
                 if (selectedScale) {
                     var currentScale = document.getElementById(selectedScale);
                     if (currentScale) {
-                        setSelectionColorsNew(currentScale, selectionColor);
+                        currentScale.classList.add("activeSelection");
                     } 
                 }
                 if (selectedKey && selectedScale) {
@@ -508,90 +570,168 @@
                 if (selectedNote) {
                     var currentNoteBox = document.getElementById(selectedNote);
                     if (currentNoteBox) {
-                        setSelectionColorsNew(currentNoteBox, selectionColor);
+                        currentNoteBox.classList.add("activeSelection");
                         showNoteFreq(selectedNote.split(" ")[0]);
                     }
                 }
 
-                // call functions of the 'Extras' to fire
+                // call functions of the 'Extras' to fire. if data is there, the data will be appended
                 reesePulseInput();
-                pitchBpmInput();
+                pitchbpmInput();
+                harmoniCalc();
+
+                const delay = 500;
+                var timeout;
+                document.getElementById("harmonicFreq").addEventListener("keyup", function(e){
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function() {
+                        harmoniCalc();
+                    }, delay);
+                });
             };
 
-            // on bpm input box change, check if empty
-            function BpmInput() {
+            // for reset button
+            function resetData() {
+                if (confirm("Would you like to reset all data?")) {
+                    localStorage.setItem("MusiUserBPM", "");
+                    userBpm.value = "";
+                    bpmInput();
+
+                    var oldKeyName = localStorage.getItem("MusiUserKey");
+                    if (oldKeyName) {
+                        document.getElementById(oldKeyName).classList.remove("activeSelection");
+                        localStorage.setItem("MusiUserKey", "");
+                    }
+
+                    var oldScaleName = localStorage.getItem("MusiUserScale");
+                    if (oldScaleName) {
+                        document.getElementById(oldScaleName).classList.remove("activeSelection");
+                        localStorage.setItem("MusiUserScale", "");
+                        calculateScale();
+                    }
+
+                    var oldNoteName = localStorage.getItem("MusiUserNote");
+                    if (oldNoteName) {
+                        document.getElementById(oldNoteName).classList.remove("activeSelection");
+                        localStorage.setItem("MusiUserNote", "");
+
+                        showNoteFreq(this.innerHTML);
+                    }
+
+                    for (var i = 0; i < document.getElementsByClassName("dragReceiver").length; i++) {
+                        document.getElementsByClassName("dragReceiver")[i].value = "";
+                    }
+                    reesePulseInput();
+                    pitchbpmInput();
+                    harmoniCalc();
+                }
+            }
+
+            // for tempo times
+            function bpmInput() {
                 var userBpm = document.querySelector("#userBPM");
 
+                // if a value is entered
                 if (userBpm.value) {
-                    localStorage.setItem("MusiUserBPM", userBpm.value);
-                    setSelectionColorsNew(userBpm, selectionColor);
-                    bpmDiv.style.color = "#"+selectionColor;
+
+                    // if that value is above 0 (& a num)
+                    if (userBpm.value > 0) {
+                        localStorage.setItem("MusiUserBPM", userBpm.value);
+                        userBpm.classList.add("activeSelection");
+                        bpmDiv.style.color = "#"+selectionColor;
+
+                        // generate output
+                        calculateTempoTimes(userBpm.value);
+                        bpmDiv.style.marginBottom = "16px";
+                        showDragInfo();
+
+                    // not a num
+                    } else {
+                        localStorage.setItem("MusiUserBPM", "");
+                        userBpm.classList.remove("activeSelection");
+                        bpmDiv.style.color = "#"+unselectedColor;
+                        clearChildren(document.getElementById("tempoTimes").children[0], 1);
+                        bpmDiv.style.marginBottom = "0px";
+                        showDragInfo();
+                    }
+
+                // no value entered
                 } else {
                     localStorage.setItem("MusiUserBPM", "");
-                    setSelectionColorsNew(userBpm, unselectedColor);
+                    userBpm.classList.remove("activeSelection");
                     bpmDiv.style.color = "#"+unselectedColor;
-                    
+                    clearChildren(document.getElementById("tempoTimes").children[0], 1);
+                    bpmDiv.style.marginBottom = "0px";
+                    showDragInfo();
                 }
                 
-                calculateTempoTimes(userBpm.value);
             }
-            function setSelectionColorsNew(div, hexString) {
-                div.style.color = "#"+hexString;
-                if (hexString != unselectedColor) {
-                    div.style.borderBottom = "4px solid #"+hexString;
-                } else {
-                    div.style.borderBottom = "none";
+            
+            // for calculating tempo times
+            function calculateTempoTimes(bpm) {
+
+                // leftSide box
+                var outputBox = document.getElementById("tempoTimes").children[0];
+
+                // clear any children (except input box)
+                clearChildren(outputBox, 1);
+
+                { // tempo times output
+                    var barLength  = 60000 / bpm * 4; // length of 1 bar time. 60000 = ms in 1 minute
+                    const timeString = function(noteName, num) {return noteName+" : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>"};
+
+                    // Calculates from top down. starts out at highest bar count, and counts down to 1 bar
+                    for (let i = 6; i > 0; i--) {
+                        var barCount = Math.pow(2, i);
+                        var barString = barCount+" Bars";
+                        outputBox.appendChild(createElement("p", timeString(barString, barLength * barCount)));
+                    }
+
+                    // 1 bar
+                    outputBox.appendChild(createElement("p", timeString("1 Bar", barLength)));
+
+                    // continues down from 1 bar, calculating fractional note lengths
+                    for (let i = 1; i <= 11; i++) {
+                        var denomCount = Math.pow(2, i);
+                        var denomString = "1/"+denomCount+" Note";
+                        outputBox.appendChild(createElement("p", timeString(denomString, barLength / denomCount)));
+                    }
                 }
             }
+
+
+            // creates an HTML element, with innerHTML
             function createElement(typeName, innerText) {
                 var el = document.createElement(typeName);
                 el.innerHTML = innerText;
                 return el;
             }
             
-            function calculateTempoTimes(bpm) {
-
-                // leftSide box
-                var outputBox = document.getElementById("output").children[0];
-
-                // if input box is empty, clear output and return
-                if (document.getElementById("userBPM").value == "") {
-                    var loopLength = outputBox.children.length;
-                    for (let i = 1; i < loopLength; i++) {
-                        outputBox.removeChild(outputBox.lastChild);
+            // show/hide elements for tighter formatting
+            function boxController(className, styleType) {
+                if (styleType == "Show") {
+                    for (var i = 0; i < document.querySelectorAll(className).length; i++) {
+                        document.querySelectorAll(className)[i].style.visibility = "visible";
+                        document.querySelectorAll(className)[i].style.position = "relative";
                     }
-                    return;
-                }
-
-                // if there is present output, remove to refresh data
-                if (outputBox.children.length != 1) {
-                    var loopLength = outputBox.children.length;
-                    for (let i = 1; i < loopLength; i++) {
-                        outputBox.removeChild(outputBox.lastChild);
+                } else if (styleType == "Hide") {
+                    for (var i = 0; i < document.querySelectorAll(className).length; i++) {
+                        document.querySelectorAll(className)[i].style.visibility = "hidden";
+                        document.querySelectorAll(className)[i].style.position = "absolute";
                     }
-                }
-
-                var barLength  = 60000 / bpm * 4; // length of 1 bar time
-
-                // output
-
-                // Calculates from top down. starts out at highest bar count, and counts down to 1 bar
-                for (let i = 6; i > 0; i--) {
-                    var barCount = Math.pow(2, i);
-                    var barString = barCount+" Bars";
-                    newOutputLine(timeString(barString, barLength * barCount), outputBox);
-                }
-
-                // 1 bar
-                newOutputLine(timeString("1 Bar", barLength), outputBox);
-
-                // continues down from 1 bar, calculating fractional note lengths
-                for (let i = 1; i <= 11; i++) {
-                    var denomCount = Math.pow(2, i);
-                    var denomString = "1/"+denomCount+" Note";
-                    newOutputLine(timeString(denomString, barLength / denomCount), outputBox);
                 }
             }
+            function showDragInfo() {
+                
+                // if one of the output containers has data
+                if (localStorage.getItem("MusiUserNote") || localStorage.getItem("MusiUserBPM")) {
+                    boxController(".dragInfo", "Show");
+                } else {
+                    boxController(".dragInfo", "Hide");
+                }
+            }
+
+            // copy a value when clicked on
             function copyValue(el) {
                 const selection = window.getSelection();
                 const range = document.createRange();
@@ -600,24 +740,21 @@
                 selection.addRange(range);
                 document.execCommand("copy");
             }
-            function newOutputLine(lineText, outContainer) {
-                var newLine = createElement("p", lineText);
-                outContainer.appendChild(newLine);
-            }
-            // converts noteName and num to a string for output
-            function timeString(noteName, num) {
-                var output = noteName+" : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>";
-                return output;
-            }
+                        
+            // convert between ms & Hz
             function convertMsHz(valueOfOneType) {
                 var otherValueType = 1000 / valueOfOneType;
                 return otherValueType;
             }
+            
+            // round number to two decimals
             function roundNumber(num) {
                 return Number.parseFloat(num).toFixed(2);
             }
 
+            // for scale calculations
             function calculateScale() {
+
                 relativeNameBox.innerHTML = "";
                 scaleDegreeBox.innerHTML = "";
 
@@ -627,6 +764,7 @@
 
                 var builtScale = "";
                 if (keyCheck && scaleCheck) {
+                    boxController(".scaleInfo", "Show");
                     reloadRelativeBox();
                     var currentScaleSequence = modeSequences[scaleCheck.split(".")[0]];
                     builtScale += noteArray[currentNoteIndex] + " ";
@@ -647,15 +785,13 @@
                             }
                         }
                     });
-                    //console.clear();
 
                     fixScaleNames(builtScale).forEach(function(item, index) {
                         var originalNames = builtScale.split(" ");
-                        var li = document.createElement("li");
-                        li.innerHTML = item+"<br><span style='color: #555;'> "+originalNames[index]+"</span><br>("+(index+1)+") "+getDegree(index, scaleCheck.split(".")[0]);
-                        scaleDegreeBox.appendChild(li);
+                        scaleDegreeBox.appendChild(createElement("li", item+"<br><span style='color: #555;'> "+originalNames[index]+"</span><br>("+(index+1)+") "+getDegree(index, scaleCheck.split(".")[0])));
                     });
                 } else {
+                    boxController(".scaleInfo", "Hide");
                     relativeNameBox.innerHTML = "";
                 }
             }
@@ -720,7 +856,6 @@
                 }
                 return offsetOutput;
             }
-
             function getNextKeyFromOffset(currentKeyIndex, incrementAmount) {
                 var nextKeyCheck = currentKeyIndex + incrementAmount;
                 var nextKeyIndex;
@@ -788,46 +923,56 @@
                 var outputString = "";
 
                 // first line A...G Ionian...Locrian
-                outputString += "["+keyCheck+"] "+degreeName+"<span style='margin: 0 4vw;'>|</span>";
+                outputString += keyCheck+" "+degreeName+"<span style='margin: 0 4vw;'>|</span>";
 
                 // calculates real* major key based on current key (only Ionian is major)
-                outputString += "["+noteArray[getNextKeyFromOffset(currentNoteIndex, majorOffset)]+"] Major<span style='margin: 0 4vw;'>|</span>";
+                outputString += noteArray[getNextKeyFromOffset(currentNoteIndex, majorOffset)]+" Major<span style='margin: 0 4vw;'>|</span>";
 
                 // calculates minor from real major (-3 st)
-                outputString += "["+noteArray[getNextKeyFromOffset(getNextKeyFromOffset(currentNoteIndex, majorOffset), -3)]+"] Minor";
+                outputString += noteArray[getNextKeyFromOffset(getNextKeyFromOffset(currentNoteIndex, majorOffset), -3)]+" Minor";
                 relativeNameBox.innerHTML = outputString;
             }
 
-            function freqString(octave, num) {
-                var output = "Octave "+octave+": <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>";
-                return output;
+            // takes a parent container, and a num of children to keep-removes the rest starting at the lastChild
+            function clearChildren(parent, minChildren) {
+                if (parent.children.length > minChildren) {
+                    var loopLength = parent.children.length - (minChildren - 1);
+                    for (let i = 1; i < loopLength; i++) {
+                        parent.removeChild(parent.lastChild);
+                    }
+                }
             }
+            
+            // for note freqs
             function showNoteFreq(noteName) {
+
+                showDragInfo();
+                
                 var parentBox = document.querySelector(".rightSide");
 
+                // if no note is selected, clear the box of any output
                 if (!(localStorage.getItem("MusiUserNote"))) {
                     var loopLength = parentBox.children.length;
                     for (let i = 1; i < loopLength; i++) {
                         parentBox.removeChild(parentBox.lastChild);
                     }
                     return;
-                }
+                } else { // else show the frequencies of the selected note
+                    clearChildren(parentBox, 1);
+                    
+                    for (let i = -13; i < 7; i++) { // calculates up from the lowest octave
+                        var octaveOffset = noteArray.indexOf(noteName) + (12 * i) + 3;
+                        var noteHz = calcNoteFreq(octaveOffset);
 
-                if (parentBox.children.length != 1) {
-                    var loopLength = parentBox.children.length;
-                    for (let i = 1; i < loopLength; i++) {
-                        parentBox.removeChild(parentBox.lastChild);
+                        const freqString = function(octave, num) {return "Octave "+octave+": <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>"}
+                        parentBox.appendChild(createElement("p", freqString(i+5, noteHz)));
                     }
-                }
-
-                for (let i = -13; i < 7; i++) { // calculates up from the lowest octave
-                    var octaveOffset = noteArray.indexOf(noteName) + (12 * i) + 3;
-                    var noteHz = calcNoteFreq(octaveOffset);
-                    newOutputLine(freqString(i+5, noteHz), parentBox);
                 }
             }
             function calcNoteFreq(offsetFromA) {
-                var noteHz = 440 * Math.pow(Math.pow(2, 1 / 12), offsetFromA)
+
+                // uses st offset from A to calculate note freqs
+                var noteHz = 440 * Math.pow(Math.pow(2, 1 / 12), offsetFromA);
                 return noteHz;
             }
             
@@ -838,39 +983,74 @@
 
                 if (reeseNote && reeseRate) {
                     document.getElementById("pulseRate").innerHTML = "+ "+roundNumber(1200 * Math.log2((reeseNote+reeseRate)/reeseNote))+" cents, or +/- "+roundNumber((1200 * Math.log2((reeseNote+reeseRate)/reeseNote))/2)+" cents";
+                    boxController("#pulseRate", "Show");
                 } else {
                     document.getElementById("pulseRate").innerHTML = "";
+                    boxController("#pulseRate", "Hide");
                 }
             }
 
             // for pitch bpm calculator
-            function pitchBpmInput() {
+            function pitchbpmInput() {
                 var pitchBpm = Number(document.getElementById("pitchBpm").value);
                 var pitchPitch = Number(document.getElementById("pitchPitch").value);
 
                 if (pitchBpm && pitchPitch) {
-                    
                     document.getElementById("pitchDif").innerHTML = pitchBpm+" bpm loop "+(pitchPitch > 0 ? "raised " : "lowered ")+Math.abs(pitchPitch)+" st = "+roundNumber(pitchBpm * Math.pow(2, pitchPitch / 12))+" bpm";
+                    boxController("#pitchDif", "Show");
                 } else {
                     document.getElementById("pitchDif").innerHTML = "";
+                    boxController("#pitchDif", "Hide");
                 }
             }
 
-            // reset local variables and site stuff
-            function resetData() {
-                var backupBpm = localStorage.getItem("MusiUserBPM");
-                var backupKey = localStorage.getItem("MusiUserKey");
-                var backupScale = localStorage.getItem("MusiUserScale");
-                
-                localStorage.setItem("MusiUserKey", "");
-                localStorage.setItem("MusiUserBPM", "");
-                userBpm.value = "";
-                localStorage.setItem("MusiUserScale", "");
+            // for harmonic calculator
+            function harmoniCalc() {
+                var userHarmFreq = document.getElementById("harmonicFreq").value;
 
-                setSelectionColorsNew(userBpm, "ffffff");
-                setSelectionColorsNew(bpmDiv, "ffffff");
-                setSelectionColorsNew(document.getElementById(backupKey), "ffffff");
-                setSelectionColorsNew(document.getElementById(backupScale), "ffffff");
+                // if there is a entered value
+                if (userHarmFreq != "") {
+                    var leftside = document.getElementById("oddHarm");
+                    var rightside = document.getElementById("evenHarm");
+                    
+                    clearChildren(leftside, 0);
+                    clearChildren(rightside, 0);
+
+                    var freq = 0;
+                    var count = 2;
+
+                    // only loops as long as it needs to; calculates # of harmonics < 20000 Hz
+                    var loopAmount = Math.ceil(20000/userHarmFreq);
+                    for (var i=1; i <= loopAmount; i++) {
+                        var tempFreq = roundNumber(userHarmFreq * count);
+
+                        // updates freq to be the max freq it has seen
+                        if (tempFreq > freq) {freq = tempFreq}
+
+                        // if count is even, add to even side
+                        if (count % 2 == 0) {
+                            // on first insert, add the odd label & scroll down text
+                            if (count == 2) {
+                                leftside.append(createElement('p', 'Odd<br>↓<span style="margin: 0 28%;"></span>↓<br><br>'));
+                                rightside.append(createElement('p', 'Even<br>↓<span style="margin: 0 28%;"></span>↓<br>'));
+                            }
+
+                            rightside.append(createElement('p', `${count}: <span>${tempFreq} Hz</span>`));
+                            
+                        // else add to odd side
+                        } else {
+                            leftside.append(createElement('p', `${count}: <span>${tempFreq} Hz</span>`));
+                        }
+                        count++;
+                    }
+                    boxController(".harmonics", "Show");
+
+                // no entered value
+                } else {
+                    clearChildren(document.getElementById("oddHarm"), 0);
+                    clearChildren(document.getElementById("evenHarm"), 0);
+                    boxController(".harmonics", "Hide");
+                }
             }
         </script>
 	</body>
