@@ -48,12 +48,17 @@
             #restart {
                 width: 40px;
                 height: 40px;
+                border-radius: 10px;
+                background-color: #ffffff;
                 margin: 0 0 0 32px;
                 font-size: 24px;
+                font-weight: 600;
             }
             #restart:hover {
                 background-color: #ffaaaa;
                 cursor: not-allowed;
+                transform: scale(1.05);
+                transition: all .3s ease-out;
             }
             .toolBox {
                 display: flex;
@@ -61,10 +66,10 @@
                 justify-content: center;
                 align-items: center;
                 width: auto;
-                margin: 32px 0;
+                margin: 16px 0;
                 border-top: 4px solid #fff;
                 border-bottom: 4px solid #fff;
-                padding: 32px;
+                padding: 16px;
             }
             .toolBox > div {
                 display: inline-block;
@@ -130,9 +135,10 @@
             #relativeNames {
                 /* user-select: none; */
                 font-weight: 900;
+                margin-bottom: 0;
             }
             #scaleDegrees {
-                margin-top: -32px;
+                margin-top: -16px;
             }
             #scaleDegrees li {
                 cursor: default;
@@ -184,6 +190,9 @@
             .extra {
                 font-weight: 300;
             }
+            .extra input {
+                max-width: 80px;
+            }
             .info {
                 font-style: italic;
                 font-weight:200;
@@ -207,10 +216,13 @@
             }
             .harmonics {
                 width: 60%;
-                max-width: 400px;
+                max-width: 800px;
                 height: 240px;
                 overflow-y: scroll;
                 cursor: ns-resize;
+            }
+            .harmonics > p {
+                font-size: 24px;
             }
             #oddHarm span {
                 color: #e8b71d;
@@ -222,10 +234,13 @@
             /******************** MEDIA QUERIES ********************/
             @media only screen and (min-width: 0px) and (max-width: 600px) { /* For Tablets */
                 h1{ /* Page Title */
-                    font-size: 36px;
+                    font-size: 48px;
                 }
                 h2 { /* Other Titles */
-                    font-size: 24px;
+                    font-size: 28px;
+                }
+                .toolBox div {
+                    font-size: 18px;
                 }
                 #keySelector li { /* User Key Selector */
                     font-size: 12px;
@@ -252,12 +267,30 @@
                 .leftSide {
                     font-size: 12px;
                 }
+                .extra {
+                    
+                }
                 .extra > span {
                     display: block;
                     margin: 4px 0;
                 }
+                .extra input {
+                    font-size: 24px;
+                }
                 #pulseRate, #pitchDif {
                     font-size: 16px;
+                }
+                .harmonics {
+                    width: 100%;
+                    font-size: 48px;
+                }
+                #oddHarm, #evenHarm {
+                    width: 44%;
+                    margin: 0 1%;
+                    padding: none;
+                }
+                #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span {
+                    font-size: 20px;
                 }
             }
             @media only screen and (min-width: 600px) and (max-width: 800px) { /* For Smaller Computers */
@@ -274,7 +307,7 @@
                     font-size: 16px;
                 }
                 .toolBox input { /* User BPM input box */
-                    font-size: 16px;
+                    font-size: 20px;
                 }
                 #relativeNames { /* Calculated Relative Scales */
                     font-size: 20px;
@@ -291,7 +324,22 @@
                 .extra > span {
                     padding: 0 4px;
                 }
+                .extra input {
+                    font-size: 24px;
+                }
                 #pulseRate, #pitchDif {
+                    font-size: 20px;
+                }
+                .harmonics {
+                    width: 100%;
+                    font-size: 48px;
+                }
+                #oddHarm, #evenHarm {
+                    width: 44%;
+                    margin: 0 1%;
+                    padding: none;
+                }
+                #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span {
                     font-size: 20px;
                 }
             }
@@ -323,8 +371,14 @@
                 .extra > span {
                     padding: 0 32px;
                 }
+                .extra input {
+                    font-size: 28px;
+                }
                 #pulseRate, #pitchDif {
                     font-size: 24px;
+                }
+                #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span {
+                    font-size: 20px;
                 }
             }
             @media only screen and (min-width: 1200px) and (max-width: 4000px) { /* For Bigger Computers */
@@ -355,8 +409,17 @@
                 .extra > span {
                     padding: 0 64px;
                 }
+                .extra input {
+                    font-size: 32px;
+                }
                 #pulseRate, #pitchDif {
                     font-size: 28px;
+                }
+                .harmonics {
+                    height: 400px;
+                }
+                #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span {
+                    font-size: 24px;
                 }
             }
         </style>
@@ -428,6 +491,7 @@
                 "Aeolian": "W H W W H W W",
                 "Locrian": "H W W H W W W"
             };
+            var deleteNothing = 0;
 
             // on load, populate the selectors and append any stored data
             window.onload = function() {
@@ -593,14 +657,23 @@
             // for reset button
             function resetData() {
                 if (confirm("Would you like to reset all data?")) {
-                    localStorage.setItem("MusiUserBPM", "");
-                    userBpm.value = "";
-                    bpmInput();
+
+                    // tracks if data gets deleted
+                    var dataDeleted = false;
+
+                    var oldBpm = localStorage.getItem("MusiUserBPM");
+                    if (oldBpm) {
+                        localStorage.setItem("MusiUserBPM", "");
+                        userBpm.value = "";
+                        bpmInput();
+                        dataDeleted = true;
+                    }
 
                     var oldKeyName = localStorage.getItem("MusiUserKey");
                     if (oldKeyName) {
                         document.getElementById(oldKeyName).classList.remove("activeSelection");
                         localStorage.setItem("MusiUserKey", "");
+                        dataDeleted = true;
                     }
 
                     var oldScaleName = localStorage.getItem("MusiUserScale");
@@ -608,6 +681,7 @@
                         document.getElementById(oldScaleName).classList.remove("activeSelection");
                         localStorage.setItem("MusiUserScale", "");
                         calculateScale();
+                        dataDeleted = true;
                     }
 
                     var oldNoteName = localStorage.getItem("MusiUserNote");
@@ -616,14 +690,28 @@
                         localStorage.setItem("MusiUserNote", "");
 
                         showNoteFreq(this.innerHTML);
+                        dataDeleted = true;
                     }
 
                     for (var i = 0; i < document.getElementsByClassName("dragReceiver").length; i++) {
-                        document.getElementsByClassName("dragReceiver")[i].value = "";
+                        if (document.getElementsByClassName("dragReceiver")[i].value) {
+                            document.getElementsByClassName("dragReceiver")[i].value = "";
+                            dataDeleted = true;
+                        }
                     }
+
                     reesePulseInput();
                     pitchbpmInput();
                     harmoniCalc();
+
+                    if (!dataDeleted) {
+                        for (var i = 0; i < deleteNothing; i++) { 
+                            alert("You have deleted (nothing).");
+                        }
+                        deleteNothing++;
+                    } else {
+                        deleteNothing--;
+                    }
                 }
             }
 
