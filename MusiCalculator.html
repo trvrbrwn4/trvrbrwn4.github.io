@@ -53,10 +53,11 @@
                 margin: 0 0 0 32px;
                 font-size: 24px;
                 font-weight: 600;
+                color: #000000;
             }
             #restart:hover {
                 background-color: #ffaaaa;
-                cursor: not-allowed;
+                cursor: help;
                 transform: scale(1.05);
                 transition: all .3s ease-out;
             }
@@ -82,7 +83,7 @@
                 border-radius: 10px;
                 padding: 4px 8px;
                 width: 20%;
-                min-width: 100px;
+                min-width: 60px;
             }
             .toolBox input:focus::placeholder {
                 color: transparent;
@@ -133,7 +134,6 @@
                 background-color: #fff;
             }
             #relativeNames {
-                /* user-select: none; */
                 font-weight: 900;
                 margin-bottom: 0;
             }
@@ -242,6 +242,9 @@
                 .toolBox div {
                     font-size: 18px;
                 }
+                .toolBox input {
+                    font-size: 20px;
+                }
                 #keySelector li { /* User Key Selector */
                     font-size: 12px;
                     margin: 0 1vw;
@@ -263,6 +266,9 @@
                 }
                 .splitBox>div>p { /* Both Sets of Outputs (tempo, freq) */
                     font-size: 10px;
+                }
+                .outputShrink {
+                    display: none;
                 }
                 .leftSide {
                     font-size: 12px;
@@ -319,7 +325,10 @@
                     font-size: 16px;
                 }
                 .splitBox>div>p { /* Both Sets of Outputs (tempo, freq) */
-                    font-size: 14px;
+                    font-size: 16px;
+                }
+                .outputShrink {
+                    display: none;
                 }
                 .extra > span {
                     padding: 0 4px;
@@ -462,24 +471,10 @@
 		<script src="scripts/siteScript.js" type="text/javascript"></script>
         <script type="text/javascript">
 
-            // colors for easy use
-            const selectionColor = "1de840";
-            const unselectedColor = "555555";
-            
-            const userBpm = document.querySelector("#userBPM");
-            const bpmDiv = document.querySelector("#bpmDiv");
-            const scaleDegreeBox = document.getElementById("scaleDegrees");
-            const relativeNameBox = document.getElementById("relativeNames");
-
-            const selectedBpm = localStorage.getItem("MusiUserBPM");
-            const selectedKey = localStorage.getItem("MusiUserKey");
-            const selectedScale = localStorage.getItem("MusiUserScale");
-            const selectedNote = localStorage.getItem("MusiUserNote");
-
+            // data used for many parts of the program
+            const freqs = [16.351, 17.324, 18.354, 19.445, 20.601, 21.827, 23.124, 24.499, 25.956, 27.5, 29.135, 30.868];
+            //               C       C#      D       D#      E       F       F#      G       G#      A     A#      B
             const noteArray = "C C# D D# E F F# G G# A A# B".split(" ");
-
-            //           C       C#      D       D#      E       F       F#      G       G#      A     A#      B
-            const freqs = [16.351, 17.324, 18.354, 19.445, 20.601, 21.827, 23.124, 24.499, 25.956, 27.5, 29.135, 30.868]
 
             const scaleArray = "Ionian (Major) : Dorian : Phrygian : Lydian : Mixolydian : Aeolian (Minor) : Locrian".split(" : ");
             const modeSequences = {
@@ -491,34 +486,35 @@
                 "Aeolian": "W H W W H W W",
                 "Locrian": "H W W H W W W"
             };
-            var deleteNothing = 0;
+
+            // UX trackers (per refresh)
+            var timesReset = 0, popupHidden = false;
 
             // on load, populate the selectors and append any stored data
             window.onload = function() {
 
                 // creates key selector
                 noteArray.forEach(function(item, index) {
-                    var li = document.createElement("li");
+                    const li = createElement("li", item);
                     li.id = item;
-                    li.innerHTML = item;
                     li.addEventListener("click", function() {
                         // grab 'old' key (the currently selected key when clicked)
-                        var oldKeyName = localStorage.getItem("MusiUserKey");
+                        const oldKeyName = memory("MusiUserKey");
                                        
                         if (oldKeyName) {
                             if (oldKeyName == this.innerHTML) {
                                 this.classList.remove("activeSelection");
-                                localStorage.setItem("MusiUserKey", "");
+                                memory("MusiUserKey", "");
                             } else {
-                                var oldKey = document.getElementById(oldKeyName);
+                                const oldKey = document.getElementById(oldKeyName);
                                 oldKey.classList.remove("activeSelection");
 
                                 this.classList.add("activeSelection");
-                                localStorage.setItem("MusiUserKey", this.innerHTML);
+                                memory("MusiUserKey", this.innerHTML);
                             }
                         } else {
                             this.classList.add("activeSelection");
-                            localStorage.setItem("MusiUserKey", this.innerHTML);
+                            memory("MusiUserKey", this.innerHTML);
                         }
                         calculateScale();
                     });
@@ -527,33 +523,32 @@
 
                 // creates scale selector
                 scaleArray.forEach(function(item, index) {
-                    var li = document.createElement("li");
+                    const li = createElement("li", item);
                     li.id = item.split(" ")[0];
-                    li.innerHTML = item;
                     li.addEventListener("click", function() {
-                        var oldScaleName = localStorage.getItem("MusiUserScale");
+                        const oldScaleName = memory("MusiUserScale");
 
                         if (oldScaleName != "") {
                             if (!document.getElementById(oldScaleName)) {
-                                localStorage.setItem("MusiUserScale", "");
+                                memory("MusiUserScale", "");
                                 oldScaleName = "";
                             }
                             
                             if (oldScaleName) {
                                 if (oldScaleName == this.innerHTML.split(" ")[0]) {
                                     this.classList.remove("activeSelection");
-                                    localStorage.setItem("MusiUserScale", "");
+                                    memory("MusiUserScale", "");
                                 } else {
-                                    var oldScale = document.getElementById(oldScaleName);
+                                    const oldScale = document.getElementById(oldScaleName);
                                     oldScale.classList.remove("activeSelection");
 
                                     this.classList.add("activeSelection");
-                                    localStorage.setItem("MusiUserScale", this.innerHTML.split(" ")[0]);
+                                    memory("MusiUserScale", this.innerHTML.split(" ")[0]);
                                 }
                             }
                         } else {
                             this.classList.add("activeSelection");
-                            localStorage.setItem("MusiUserScale", this.innerHTML.split(" ")[0]);
+                            memory("MusiUserScale", this.innerHTML.split(" ")[0]);
                         }
                         calculateScale();
                     });
@@ -562,33 +557,32 @@
 
                 // creates note selector
                 noteArray.forEach(function(item, index) {
-                    var li = document.createElement("li");
+                    const li = createElement("li", item);
                     li.id = item+" "+index;
-                    li.innerHTML = item;
                     li.addEventListener("click", function() {
-                        var oldNoteName = localStorage.getItem("MusiUserNote");
+                        const oldNoteName = memory("MusiUserNote");
 
                         if (oldNoteName != "") {
                             if (!document.getElementById(oldNoteName)) {
-                                localStorage.setItem("MusiUserNote", "");
+                                memory("MusiUserNote", "");
                                 oldNoteName = "";
                             }
                             
                             if (oldNoteName) {
                                 if (oldNoteName.split(" ")[0] == this.innerHTML) {
                                     this.classList.remove("activeSelection");
-                                    localStorage.setItem("MusiUserNote", "");
+                                    memory("MusiUserNote", "");
                                 } else {
-                                    var oldNote = document.getElementById(oldNoteName);
+                                    const oldNote = document.getElementById(oldNoteName);
                                     oldNote.classList.remove("activeSelection");
 
                                     this.classList.add("activeSelection");
-                                    localStorage.setItem("MusiUserNote", this.id);
+                                    memory("MusiUserNote", this.id);
                                 }
                             }
                         } else {
                             this.classList.add("activeSelection");
-                            localStorage.setItem("MusiUserNote", this.id);
+                            memory("MusiUserNote", this.id);
                         }
                         showNoteFreq(this.innerHTML);
                     });
@@ -601,36 +595,42 @@
                         event.preventDefault();
                         this.value = "";
                         this.value = event.dataTransfer.getData("Text");
-                        if (this.attributes.oninput.value.slice(0, this.attributes.oninput.value.length - 3) === reesePulseInput.name) {
-                            reesePulseInput();
-                        } else {
-                            pitchbpmInput();
+
+                        // this checks what drag box was just dropped on, and calls the respective function
+                        const extratype = this.id.slice(0, 5);
+                        switch (extratype) {
+                            case "reese": reesePulseInput();break;
+                            case "pitch": pitchbpmInput();break;
+                            case "harmo": harmoniCalc();break;
                         }
                     });
                 }
 
                 // if any selections are made, load the respective data
-                if (selectedBpm) {
-                    userBpm.value = selectedBpm;
-                    bpmDiv.style.color = "#"+selectionColor;
-                    userBpm.classList.add("activeSelection");
-                    userBpm.oninput();
-                }
+                const selectedKey = memory("MusiUserKey");
                 if (selectedKey) {
                     var currentKey = document.getElementById(selectedKey);
                     if (currentKey) {
                         currentKey.classList.add("activeSelection");
                     }
+                    calculateScale();
                 }
+                const selectedScale = memory("MusiUserScale");
                 if (selectedScale) {
                     var currentScale = document.getElementById(selectedScale);
                     if (currentScale) {
                         currentScale.classList.add("activeSelection");
-                    } 
-                }
-                if (selectedKey && selectedScale) {
+                    }
                     calculateScale();
                 }
+                const selectedBpm = memory("MusiUserBPM");
+                if (selectedBpm) {
+                    document.querySelector("#userBPM").value = selectedBpm;
+                    document.querySelector("#bpmDiv").style.color = "#1de840";
+                    document.querySelector("#userBPM").classList.add("activeSelection");
+                    document.querySelector("#userBPM").oninput();
+                }
+                const selectedNote = memory("MusiUserNote");
                 if (selectedNote) {
                     var currentNoteBox = document.getElementById(selectedNote);
                     if (currentNoteBox) {
@@ -656,38 +656,39 @@
 
             // for reset button
             function resetData() {
-                if (confirm("Would you like to reset all data?")) {
 
+                // does the resetting
+                const resetter = function() {
                     // tracks if data gets deleted
                     var dataDeleted = false;
 
-                    var oldBpm = localStorage.getItem("MusiUserBPM");
+                    const oldBpm = memory("MusiUserBPM");
                     if (oldBpm) {
-                        localStorage.setItem("MusiUserBPM", "");
-                        userBpm.value = "";
+                        memory("MusiUserBPM", "");
+                        document.querySelector("#userBPM").value = "";
                         bpmInput();
                         dataDeleted = true;
                     }
 
-                    var oldKeyName = localStorage.getItem("MusiUserKey");
+                    const oldKeyName = memory("MusiUserKey");
                     if (oldKeyName) {
                         document.getElementById(oldKeyName).classList.remove("activeSelection");
-                        localStorage.setItem("MusiUserKey", "");
+                        memory("MusiUserKey", "");
                         dataDeleted = true;
                     }
 
-                    var oldScaleName = localStorage.getItem("MusiUserScale");
+                    const oldScaleName = memory("MusiUserScale");
                     if (oldScaleName) {
                         document.getElementById(oldScaleName).classList.remove("activeSelection");
-                        localStorage.setItem("MusiUserScale", "");
+                        memory("MusiUserScale", "");
                         calculateScale();
                         dataDeleted = true;
                     }
 
-                    var oldNoteName = localStorage.getItem("MusiUserNote");
+                    const oldNoteName = memory("MusiUserNote");
                     if (oldNoteName) {
                         document.getElementById(oldNoteName).classList.remove("activeSelection");
-                        localStorage.setItem("MusiUserNote", "");
+                        memory("MusiUserNote", "");
 
                         showNoteFreq(this.innerHTML);
                         dataDeleted = true;
@@ -705,51 +706,73 @@
                     harmoniCalc();
 
                     if (!dataDeleted) {
-                        for (var i = 0; i < deleteNothing; i++) { 
+                        for (var i = 0; i < timesReset; i++) { 
                             alert("You have deleted (nothing).");
                         }
-                        deleteNothing++;
+                        timesReset++;
                     } else {
-                        deleteNothing--;
+                        timesReset--;
+                    }
+                };
+                
+                if (popupHidden) {
+                    resetter();
+                } else {
+                    var userInput = prompt("Would you like to reset all data? (or enter 'STOP' to stop this confirmation)");
+                    if (userInput == "") {
+                        resetter();
+                    } else if (userInput == "STOP") {
+                        popupHidden = true;
                     }
                 }
+                
             }
 
-            // for tempo times
+            // memory management for localStorage items
+            function memory(variableName, valueToSet = null) {
+                if (valueToSet === null) {
+                    return localStorage.getItem(variableName);
+                } else {
+                    localStorage.setItem(variableName, valueToSet);
+                }
+            }
+            
+            // for tempo times input checking
             function bpmInput() {
-                var userBpm = document.querySelector("#userBPM");
+                const userBpm = document.querySelector("#userBPM");
+                const bpmLabel = document.querySelector("#bpmDiv");
 
                 // if a value is entered
                 if (userBpm.value) {
 
                     // if that value is above 0 (& a num)
                     if (userBpm.value > 0) {
-                        localStorage.setItem("MusiUserBPM", userBpm.value);
+                        memory("MusiUserBPM", userBpm.value);
                         userBpm.classList.add("activeSelection");
-                        bpmDiv.style.color = "#"+selectionColor;
+                        bpmLabel.style.color = "#1de840";
 
                         // generate output
                         calculateTempoTimes(userBpm.value);
-                        bpmDiv.style.marginBottom = "16px";
+                        bpmLabel.style.marginBottom = "16px";
                         showDragInfo();
 
                     // not a num
                     } else {
-                        localStorage.setItem("MusiUserBPM", "");
+                        memory("MusiUserBPM", "");
                         userBpm.classList.remove("activeSelection");
-                        bpmDiv.style.color = "#"+unselectedColor;
+                        bpmLabel.style.color = "#555555";
                         clearChildren(document.getElementById("tempoTimes").children[0], 1);
-                        bpmDiv.style.marginBottom = "0px";
+                        bpmLabel.style.marginBottom = "0px";
                         showDragInfo();
                     }
 
                 // no value entered
                 } else {
-                    localStorage.setItem("MusiUserBPM", "");
+                    memory("MusiUserBPM", "");
                     userBpm.classList.remove("activeSelection");
-                    bpmDiv.style.color = "#"+unselectedColor;
+                    bpmLabel.style.color = "#555555";
                     clearChildren(document.getElementById("tempoTimes").children[0], 1);
-                    bpmDiv.style.marginBottom = "0px";
+                    bpmLabel.style.marginBottom = "0px";
                     showDragInfo();
                 }
                 
@@ -759,34 +782,68 @@
             function calculateTempoTimes(bpm) {
 
                 // leftSide box
-                var outputBox = document.getElementById("tempoTimes").children[0];
+                const outputBox = document.getElementById("tempoTimes").children[0];
 
                 // clear any children (except input box)
                 clearChildren(outputBox, 1);
 
                 { // tempo times output
-                    var barLength  = 60000 / bpm * 4; // length of 1 bar time. 60000 = ms in 1 minute
-                    const timeString = function(noteName, num) {return noteName+" : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>"};
+                    const barLength  = 60000 / bpm * 4; // length of 1 bar time. 60000 = ms in 1 minute
+
+                    // function for output
+                    const timeString = function(noteName, num) {return "["+noteName[0]+"<span class='outputShrink'> "+noteName[1]+"</span>] : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>"};
 
                     // Calculates from top down. starts out at highest bar count, and counts down to 1 bar
                     for (let i = 6; i > 0; i--) {
                         var barCount = Math.pow(2, i);
-                        var barString = barCount+" Bars";
-                        outputBox.appendChild(createElement("p", timeString(barString, barLength * barCount)));
+                        const barString = barCount+"Bars";
+                        outputBox.appendChild(createElement("p", timeString([barCount, "Bars"], barLength * barCount)));
                     }
 
                     // 1 bar
-                    outputBox.appendChild(createElement("p", timeString("1 Bar", barLength)));
+                    outputBox.appendChild(createElement("p", timeString(["1", "Bar"], barLength)));
 
                     // continues down from 1 bar, calculating fractional note lengths
                     for (let i = 1; i <= 11; i++) {
                         var denomCount = Math.pow(2, i);
-                        var denomString = "1/"+denomCount+" Note";
-                        outputBox.appendChild(createElement("p", timeString(denomString, barLength / denomCount)));
+                        const denomString = "1/"+denomCount+"Note";
+                        outputBox.appendChild(createElement("p", timeString(["1/"+denomCount, " Note"], barLength / denomCount)));
                     }
                 }
             }
 
+            // for note freq input checking
+            function showNoteFreq(noteName) {
+
+                showDragInfo();
+
+                var parentBox = document.querySelector(".rightSide");
+
+                // if no note is selected, clear the box of any output
+                if (!(memory("MusiUserNote"))) {
+                    var loopLength = parentBox.children.length;
+                    for (let i = 1; i < loopLength; i++) {
+                        parentBox.removeChild(parentBox.lastChild);
+                    }
+                    return;
+                } else { // else show the frequencies of the selected note
+                    clearChildren(parentBox, 1);
+                    
+                    for (let i = -13; i < 7; i++) { // calculates up from the lowest octave
+                        var octaveOffset = noteArray.indexOf(noteName) + (12 * i) + 3;
+                        var noteHz = calcNoteFreq(octaveOffset);
+
+                        const freqString = function(octave, num) {return "[<span class='outputShrink'>Octave </span>"+octave+"] : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>"}
+                        parentBox.appendChild(createElement("p", freqString(i+5, noteHz)));
+                    }
+                }
+            }
+            function calcNoteFreq(offsetFromA) {
+
+                // uses st offset from A to calculate note freqs
+                var noteHz = 440 * Math.pow(Math.pow(2, 1 / 12), offsetFromA);
+                return noteHz;
+            }
 
             // creates an HTML element, with innerHTML
             function createElement(typeName, innerText) {
@@ -794,9 +851,19 @@
                 el.innerHTML = innerText;
                 return el;
             }
+
+            // takes a parent container, and a num of children to keep then removes the rest starting at the lastChild
+            function clearChildren(parent, minChildren) {
+                if (parent.children.length > minChildren) {
+                    var loopLength = parent.children.length - (minChildren - 1);
+                    for (let i = 1; i < loopLength; i++) {
+                        parent.removeChild(parent.lastChild);
+                    }
+                }
+            }
             
             // show/hide elements for tighter formatting
-            function boxController(className, styleType) {
+            function viewController(className, styleType) {
                 if (styleType == "Show") {
                     for (var i = 0; i < document.querySelectorAll(className).length; i++) {
                         document.querySelectorAll(className)[i].style.visibility = "visible";
@@ -812,10 +879,10 @@
             function showDragInfo() {
                 
                 // if one of the output containers has data
-                if (localStorage.getItem("MusiUserNote") || localStorage.getItem("MusiUserBPM")) {
-                    boxController(".dragInfo", "Show");
+                if (memory("MusiUserNote") || memory("MusiUserBPM")) {
+                    viewController(".dragInfo", "Show");
                 } else {
-                    boxController(".dragInfo", "Hide");
+                    viewController(".dragInfo", "Hide");
                 }
             }
 
@@ -843,16 +910,16 @@
             // for scale calculations
             function calculateScale() {
 
-                relativeNameBox.innerHTML = "";
-                scaleDegreeBox.innerHTML = "";
+                document.getElementById("relativeNames").innerHTML = "";
+                document.getElementById("scaleDegrees").innerHTML = "";
 
-                var keyCheck = localStorage.getItem("MusiUserKey");
-                var scaleCheck = localStorage.getItem("MusiUserScale");
+                var keyCheck = memory("MusiUserKey");
+                var scaleCheck = memory("MusiUserScale");
                 var currentNoteIndex = noteArray.indexOf(keyCheck);
 
                 var builtScale = "";
                 if (keyCheck && scaleCheck) {
-                    boxController(".scaleInfo", "Show");
+                    viewController(".scaleInfo", "Show");
                     reloadRelativeBox();
                     var currentScaleSequence = modeSequences[scaleCheck.split(".")[0]];
                     builtScale += noteArray[currentNoteIndex] + " ";
@@ -876,11 +943,11 @@
 
                     fixScaleNames(builtScale).forEach(function(item, index) {
                         var originalNames = builtScale.split(" ");
-                        scaleDegreeBox.appendChild(createElement("li", item+"<br><span style='color: #555;'> "+originalNames[index]+"</span><br>("+(index+1)+") "+getDegree(index, scaleCheck.split(".")[0])));
+                        document.getElementById("scaleDegrees").appendChild(createElement("li", item+"<br><span style='color: #555;'> "+originalNames[index]+"</span><br>("+(index+1)+") "+getDegree(index, scaleCheck.split(".")[0])));
                     });
                 } else {
-                    boxController(".scaleInfo", "Hide");
-                    relativeNameBox.innerHTML = "";
+                    viewController(".scaleInfo", "Hide");
+                    document.getElementById("relativeNames").innerHTML = "";
                 }
             }
             function fixScaleNames(scaleOrder) {
@@ -969,9 +1036,9 @@
             
             function reloadRelativeBox() {
                 // in order to calculate the relative keys box, grab current variabes
-                var keyCheck = localStorage.getItem("MusiUserKey");
-                var scaleCheck = localStorage.getItem("MusiUserScale");
-                var currentNoteIndex = noteArray.indexOf(keyCheck);
+                const keyCheck = memory("MusiUserKey");
+                const scaleCheck = memory("MusiUserScale");
+                const currentNoteIndex = noteArray.indexOf(keyCheck);
 
                 // set some stuff 
                 var majorOffset, degreeName = "";
@@ -1018,126 +1085,76 @@
 
                 // calculates minor from real major (-3 st)
                 outputString += noteArray[getNextKeyFromOffset(getNextKeyFromOffset(currentNoteIndex, majorOffset), -3)]+" Minor";
-                relativeNameBox.innerHTML = outputString;
-            }
-
-            // takes a parent container, and a num of children to keep-removes the rest starting at the lastChild
-            function clearChildren(parent, minChildren) {
-                if (parent.children.length > minChildren) {
-                    var loopLength = parent.children.length - (minChildren - 1);
-                    for (let i = 1; i < loopLength; i++) {
-                        parent.removeChild(parent.lastChild);
-                    }
-                }
-            }
-            
-            // for note freqs
-            function showNoteFreq(noteName) {
-
-                showDragInfo();
-                
-                var parentBox = document.querySelector(".rightSide");
-
-                // if no note is selected, clear the box of any output
-                if (!(localStorage.getItem("MusiUserNote"))) {
-                    var loopLength = parentBox.children.length;
-                    for (let i = 1; i < loopLength; i++) {
-                        parentBox.removeChild(parentBox.lastChild);
-                    }
-                    return;
-                } else { // else show the frequencies of the selected note
-                    clearChildren(parentBox, 1);
-                    
-                    for (let i = -13; i < 7; i++) { // calculates up from the lowest octave
-                        var octaveOffset = noteArray.indexOf(noteName) + (12 * i) + 3;
-                        var noteHz = calcNoteFreq(octaveOffset);
-
-                        const freqString = function(octave, num) {return "Octave "+octave+": <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>"}
-                        parentBox.appendChild(createElement("p", freqString(i+5, noteHz)));
-                    }
-                }
-            }
-            function calcNoteFreq(offsetFromA) {
-
-                // uses st offset from A to calculate note freqs
-                var noteHz = 440 * Math.pow(Math.pow(2, 1 / 12), offsetFromA);
-                return noteHz;
+                document.getElementById("relativeNames").innerHTML = outputString;
             }
             
             // for pulse rate calculator
             function reesePulseInput() {
-                var reeseNote = Number(document.getElementById("reeseNote").value);
-                var reeseRate = Number(document.getElementById("reeseRate").value);
+                const reeseNote = Number(document.getElementById("reeseNote").value);
+                const reeseRate = Number(document.getElementById("reeseRate").value);
 
                 if (reeseNote && reeseRate) {
                     document.getElementById("pulseRate").innerHTML = "+ "+roundNumber(1200 * Math.log2((reeseNote+reeseRate)/reeseNote))+" cents, or +/- "+roundNumber((1200 * Math.log2((reeseNote+reeseRate)/reeseNote))/2)+" cents";
-                    boxController("#pulseRate", "Show");
+                    viewController("#pulseRate", "Show");
                 } else {
                     document.getElementById("pulseRate").innerHTML = "";
-                    boxController("#pulseRate", "Hide");
+                    viewController("#pulseRate", "Hide");
                 }
             }
 
             // for pitch bpm calculator
             function pitchbpmInput() {
-                var pitchBpm = Number(document.getElementById("pitchBpm").value);
-                var pitchPitch = Number(document.getElementById("pitchPitch").value);
+                const pitchBpm = Number(document.getElementById("pitchBpm").value);
+                const pitchPitch = Number(document.getElementById("pitchPitch").value);
 
                 if (pitchBpm && pitchPitch) {
                     document.getElementById("pitchDif").innerHTML = pitchBpm+" bpm loop "+(pitchPitch > 0 ? "raised " : "lowered ")+Math.abs(pitchPitch)+" st = "+roundNumber(pitchBpm * Math.pow(2, pitchPitch / 12))+" bpm";
-                    boxController("#pitchDif", "Show");
+                    viewController("#pitchDif", "Show");
                 } else {
                     document.getElementById("pitchDif").innerHTML = "";
-                    boxController("#pitchDif", "Hide");
+                    viewController("#pitchDif", "Hide");
                 }
             }
 
             // for harmonic calculator
             function harmoniCalc() {
-                var userHarmFreq = document.getElementById("harmonicFreq").value;
+                const userHarmFreq = document.getElementById("harmonicFreq").value;
 
                 // if there is a entered value
                 if (userHarmFreq != "") {
-                    var leftside = document.getElementById("oddHarm");
-                    var rightside = document.getElementById("evenHarm");
+                    const leftside = document.getElementById("oddHarm");
+                    const rightside = document.getElementById("evenHarm");
                     
                     clearChildren(leftside, 0);
                     clearChildren(rightside, 0);
 
-                    var freq = 0;
-                    var count = 2;
-
                     // only loops as long as it needs to; calculates # of harmonics < 20000 Hz
-                    var loopAmount = Math.ceil(20000/userHarmFreq);
-                    for (var i=1; i <= loopAmount; i++) {
-                        var tempFreq = roundNumber(userHarmFreq * count);
-
-                        // updates freq to be the max freq it has seen
-                        if (tempFreq > freq) {freq = tempFreq}
+                    const loopAmount = Math.ceil(20000/userHarmFreq);
+                    for (var i=2; i <= loopAmount; i++) {
+                        var tempFreq = roundNumber(userHarmFreq * i);
 
                         // if count is even, add to even side
-                        if (count % 2 == 0) {
+                        if (i % 2 == 0) {
                             // on first insert, add the odd label & scroll down text
-                            if (count == 2) {
+                            if (i == 2) {
                                 leftside.append(createElement('p', 'Odd<br>↓<span style="margin: 0 28%;"></span>↓<br><br>'));
                                 rightside.append(createElement('p', 'Even<br>↓<span style="margin: 0 28%;"></span>↓<br>'));
                             }
 
-                            rightside.append(createElement('p', `${count}: <span>${tempFreq} Hz</span>`));
+                            rightside.append(createElement('p', `${i}: <span>${tempFreq} Hz</span>`));
                             
                         // else add to odd side
                         } else {
-                            leftside.append(createElement('p', `${count}: <span>${tempFreq} Hz</span>`));
+                            leftside.append(createElement('p', `${i}: <span>${tempFreq} Hz</span>`));
                         }
-                        count++;
                     }
-                    boxController(".harmonics", "Show");
+                    viewController(".harmonics", "Show");
 
                 // no entered value
                 } else {
                     clearChildren(document.getElementById("oddHarm"), 0);
                     clearChildren(document.getElementById("evenHarm"), 0);
-                    boxController(".harmonics", "Hide");
+                    viewController(".harmonics", "Hide");
                 }
             }
         </script>
