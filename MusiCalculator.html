@@ -637,6 +637,7 @@
                 }
                 const selectedBpm = memory("MusiUserTempo");
                 if (selectedBpm) {
+                    document.querySelector("#userTempo").innerHTML = selectedBpm;
                     document.querySelector("#userTempo").oninput();
                 }
                 const selectedNote = memory("MusiUserNote");
