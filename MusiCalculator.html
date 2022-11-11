@@ -125,7 +125,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 16px;
             }
             #keySelector, #bpmDiv, #scaleSelector {
                 color: #555; 
@@ -444,6 +443,8 @@
 	<body onload="loader();">
         <div class="toolBox rainbowBorder">
             <h1><strong>MusiCalc</strong><button id="restart" onclick="resetData();">↺</button></h1>
+
+
             <div><ul id="keySelector"></ul></div>
             <div><ul id="scaleSelector"></ul></div>
             <div class="scaleInfo"></div>
@@ -451,8 +452,10 @@
             <div class="scaleInfo"></div>
             <div><ul id="scaleDegrees" class="scaleInfo"></ul></div>
             <span class="menuBar"></span>
-            <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
+
+
             <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" oninput="bpmInput();"> BPM</div><ul id="noteSelector" class="rightSide"></ul></div>
+            <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
             <div class="splitBox meterFreqs"><div class="leftSide" id="meter"></div><div class="rightSide" id="freqs"></div></div>
             <div class="info dragInfo">Click and drag highlighted values into the textboxes below to copy the value!</div>
             <span class="menuBar"></span>
