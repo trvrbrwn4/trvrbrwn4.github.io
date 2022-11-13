@@ -503,6 +503,10 @@
             // on load, populate the selectors and append any stored data
             window.onload = function() {
 
+                // PAGE INITIALIZATION FEATURES
+                // ----------------------------
+                // append buttons and eventListeners to objects on the page
+
                 // creates key selector
                 noteArray.forEach(function(item, index) {
                     const li = createElement("li", item);
@@ -617,42 +621,7 @@
                     });
                 }
 
-                // if any selections are made, load the respective data
-                const selectedKey = memory("MusiUserKey");
-                if (selectedKey) {
-                    const currentKey = document.getElementById(selectedKey);
-                    if (currentKey) {
-                        currentKey.classList.add("activeSelection");
-                    }
-                    calculateScale();
-                }
-                const selectedScale = memory("MusiUserScale");
-                if (selectedScale) {
-                    const currentScale = document.getElementById(selectedScale);
-                    if (currentScale) {
-                        currentScale.classList.add("activeSelection");
-                    }
-                    calculateScale();
-                }
-                const selectedBpm = memory("MusiUserTempo");
-                if (selectedBpm) {
-                    document.querySelector("#userTempo").value = selectedBpm;
-                    document.querySelector("#userTempo").oninput();
-                }
-                const selectedNote = memory("MusiUserNote");
-                if (selectedNote) {
-                    const currentNote = document.getElementById(selectedNote);
-                    if (currentNote) {
-                        currentNote.classList.add("activeSelection");
-                        showMeterFreqs();
-                    }
-                }
-
-                // call functions of the 'Extras' to fire. if data is there, the data will be appended
-                reesePulseInput();
-                pitchbpmInput();
-                harmoniCalc();
-
+                // input delay on the harmonicalc
                 const delay = 500;
                 var timeout;
                 document.getElementById("harmonicFreq").addEventListener("keyup", function(e){
@@ -661,6 +630,68 @@
                         harmoniCalc();
                     }, delay);
                 });
+
+                // PAGE DATA PERSISTENCE
+                // ----------------------------
+                // if any selections are made, load the respective data and call the corresponding function
+
+                const selectedKey = memory("MusiUserKey");
+                if (selectedKey) {
+                    const currentKey = document.getElementById(selectedKey);
+                    if (currentKey) {
+                        currentKey.classList.add("activeSelection");
+                    }
+                }
+                const selectedScale = memory("MusiUserScale");
+                if (selectedScale) {
+                    const currentScale = document.getElementById(selectedScale);
+                    if (currentScale) {
+                        currentScale.classList.add("activeSelection");
+                    }
+                }
+                if (selectedKey || selectedScale) {
+                    calculateScale();
+                }
+
+                const selectedBpm = memory("MusiUserTempo");
+                if (selectedBpm) {
+                    document.getElementById("userTempo").value = selectedBpm;
+                    document.getElementById("userTempo").oninput();
+                }
+                const selectedNote = memory("MusiUserNote");
+                if (selectedNote) {
+                    const currentNote = document.getElementById(selectedNote);
+                    if (currentNote) {
+                        currentNote.classList.add("activeSelection");
+                    }
+                }
+                showMeterFreqs();
+
+                const reeseNote = memory("MusiReeseNote");
+                if (reeseNote) {
+                    document.getElementById("reeseNote").value = reeseNote;
+                }
+                const reeseRate = memory("MusiReeseRate");
+                if (reeseRate) {
+                    document.getElementById("reeseRate").value = reeseRate;
+                }
+                reesePulseInput();
+
+                const pitchBpm = memory("MusiPitchBpm");
+                if (pitchBpm) {
+                    document.getElementById("pitchBpm").value = pitchBpm;
+                }
+                const pitchPitch = memory("MusiPitchPitch");
+                if (pitchPitch) {
+                    document.getElementById("pitchPitch").value = pitchPitch;
+                }
+                pitchbpmInput();
+
+                const userHarmFreq = memory("MusiHarmFreq");
+                if (userHarmFreq) {
+                    document.getElementById("harmonicFreq").value = userHarmFreq;
+                }
+                harmoniCalc();
             };
 
             // for reset button
@@ -1045,7 +1076,6 @@
                 }
                 return degreeNames[degree];
             }
-            
             function reloadRelativeBox() {
                 // in order to calculate the relative keys box, grab current variabes
                 const keyCheck = memory("MusiUserKey");
@@ -1105,7 +1135,19 @@
                 const reeseNote = Number(document.getElementById("reeseNote").value);
                 const reeseRate = Number(document.getElementById("reeseRate").value);
 
-                if (reeseNote && reeseRate) {
+                if (reeseNote > 0) {
+                    memory("MusiReeseNote", reeseNote);
+                } else {
+                    memory("MusiReeseNote", "");
+                }
+
+                if (reeseRate > 0) {
+                    memory("MusiReeseRate", reeseRate);
+                } else {
+                    memory("MusiReeseRate", "");
+                }
+
+                if (memory("MusiReeseNote") && memory("MusiReeseRate")) {
                     document.getElementById("pulseRate").innerHTML = "+ "+roundNumber(1200 * Math.log2((reeseNote+reeseRate)/reeseNote))+" cents, or +/- "+roundNumber((1200 * Math.log2((reeseNote+reeseRate)/reeseNote))/2)+" cents";
                     viewController("#pulseRate", "Show");
                 } else {
@@ -1119,7 +1161,19 @@
                 const pitchBpm = Number(document.getElementById("pitchBpm").value);
                 const pitchPitch = Number(document.getElementById("pitchPitch").value);
 
-                if (pitchBpm && pitchPitch) {
+                if (pitchBpm > 0) {
+                    memory("MusiPitchBpm", pitchBpm);
+                } else {
+                    memory("MusiPitchBpm", "");
+                }
+
+                if (Number.isInteger(pitchPitch)) {
+                    memory("MusiPitchPitch", pitchPitch);
+                } else {
+                    memory("MusiPitchPitch", "");
+                }
+
+                if (memory("MusiPitchBpm") && memory("MusiPitchPitch")) {
                     document.getElementById("pitchDif").innerHTML = pitchBpm+" bpm loop "+(pitchPitch > 0 ? "raised " : "lowered ")+Math.abs(pitchPitch)+" st = "+roundNumber(pitchBpm * Math.pow(2, pitchPitch / 12))+" bpm";
                     viewController("#pitchDif", "Show");
                 } else {
@@ -1134,8 +1188,9 @@
 
                 // if there is a entered value
                 if (userHarmFreq) {
-
                     if (userHarmFreq > 0) {
+
+                        memory("MusiHarmFreq", userHarmFreq);
                         const leftside = document.getElementById("oddHarm");
                         const rightside = document.getElementById("evenHarm");
                         
@@ -1164,6 +1219,7 @@
                         }
                         viewController(".harmonics", "Show");
                     } else {
+                        memory("MusiHarmFreq", "");
                         clearChildren(document.getElementById("oddHarm"), 0);
                         clearChildren(document.getElementById("evenHarm"), 0);
                         viewController(".harmonics", "Hide");
@@ -1171,6 +1227,7 @@
 
                 // no entered value
                 } else {
+                    memory("MusiHarmFreq", "");
                     clearChildren(document.getElementById("oddHarm"), 0);
                     clearChildren(document.getElementById("evenHarm"), 0);
                     viewController(".harmonics", "Hide");
