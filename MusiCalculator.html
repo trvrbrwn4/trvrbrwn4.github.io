@@ -225,11 +225,14 @@
                 color: #dd00f3;
             }
             .harmonics {
-                width: 60%;
+                width: 58%;
+                padding: 1%;
                 max-width: 800px;
                 height: 240px;
                 overflow-y: scroll;
                 cursor: ns-resize;
+                border: 2px solid white;
+                border-radius: 20px;
             }
             .harmonics > p {
                 font-size: 24px;
@@ -292,6 +295,7 @@
                 }
                 .harmonics { /* Container box for harmonic boxes */
                     width: 100%;
+                    padding: 0;
                     font-size: 48px;
                 }
                 #oddHarm, #evenHarm { /* odd/even harmonic boxes */
@@ -300,7 +304,7 @@
                     padding: none;
                 }
                 #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span { /* odd/even  harmonic output */
-                    font-size: 20px;
+                    font-size: 16px;
                 }
             }
             @media only screen and (min-width: 600px) and (max-width: 800px) { /* For Smaller Computers */
@@ -345,6 +349,7 @@
                 }
                 .harmonics { /* Container box for harmonic boxes */
                     width: 100%;
+                    padding: 0;
                     font-size: 48px;
                 }
                 #oddHarm, #evenHarm { /* odd/even harmonic boxes */
@@ -1186,6 +1191,41 @@
             function harmoniCalc() {
                 const userHarmFreq = document.getElementById("harmonicFreq").value;
 
+                // converts 1, 2, 3... into 1st, 2nd, 3rd...
+                const ordinalNumber = function(number) {
+                    var suffix = "";
+
+                    // first we check for a few special cases
+                    const specialCases = [11, 12, 13];
+                    if (specialCases.includes(number)) {
+                        suffix = "th"; 
+                    } else {
+                        // else we apply the general rule
+                        switch (String(number)[String(number).length - 1]) {
+                            case "0":
+                            case "4":
+                            case "5":
+                            case "6":
+                            case "7":
+                            case "8":
+                            case "9":
+                                suffix =  "th";
+                                break;
+                            case "1":
+                                suffix =  "st";
+                                break;
+                            case "2":
+                                suffix =  "nd";
+                                break;
+                            case "3":
+                                suffix =  "rd";
+                                break;
+                        }
+                    }
+                    
+                    return number+suffix;
+                };
+
                 // if there is a entered value
                 if (userHarmFreq) {
                     if (userHarmFreq > 0) {
@@ -1210,11 +1250,11 @@
                                     rightside.append(createElement('p', 'Even<br>↓<span style="margin: 0 28%;"></span>↓<br>'));
                                 }
 
-                                rightside.append(createElement('p', `${i}: <span>${tempFreq} Hz</span>`));
+                                rightside.append(createElement('p', `${ordinalNumber(i)}: <span>${tempFreq} Hz</span>`));
                                 
                             // else add to odd side
                             } else {
-                                leftside.append(createElement('p', `${i}: <span>${tempFreq} Hz</span>`));
+                                leftside.append(createElement('p', `${ordinalNumber(i)}: <span>${tempFreq} Hz</span>`));
                             }
                         }
                         viewController(".harmonics", "Show");
