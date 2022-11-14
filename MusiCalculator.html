@@ -88,9 +88,7 @@
             .toolBox input:focus::placeholder {
                 color: transparent;
             }
-            .toolBox input:focus {
-                caret-color: #ffffff;
-            }
+            
             .toolBox ul {
                 display: flex;
                 flex-direction: row;
@@ -109,11 +107,8 @@
             #userTempo {
                 background-color: transparent;
             }
-            #tempoTimes {
-                display: flex;
-                align-items: center;
-                justify-content: space-around;
-                margin-bottom: 0;
+            #userTempo input:focus {
+                caret-color: #ffffff;
             }
             #bpmDiv {
                 font-weight: 400;
@@ -125,6 +120,12 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+            }
+            #tempoTimes {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                margin-bottom: 0;
             }
             #keySelector, #bpmDiv, #scaleSelector {
                 color: #555; 
@@ -202,6 +203,9 @@
             }
             .extra {
                 font-weight: 300;
+            }
+            .extra input:focus {
+                caret-color: #000000;
             }
             .info {
                 font-style: italic;
@@ -469,11 +473,11 @@
             <span class="menuBar"></span>
             <h2><strong>Reese Bass Detuning</strong></h2>
             <div class="info">Calculate the amount to detune two notes by for a precise Hz of pulsing</div>
-            <div class="extra">Hz of main note: <input type="text" class="dragReceiver" placeholder="?" oninput="reesePulseInput();" id="reeseNote"><span></span>Hz of desired pulsing: <input type="text" class="dragReceiver" placeholder="?" oninput="reesePulseInput();" id="reeseRate"></div>
+            <div class="extra">Hz of main note: <input type="text" class="dragReceiver" id="reeseNote" placeholder="?" oninput="reesePulseInput();"><span></span>Hz of desired pulsing: <input type="text" class="dragReceiver" id="reeseRate" placeholder="?" oninput="reesePulseInput();"></div>
             <div id="pulseRate"></div>
             <h2><strong>Pitched Loop BPM Finder</strong></h2>
             <div class="info">Calculate the new bpm of a loop that has been pitched up or down</div>
-            <div class="extra">Original BPM: <input type="text" class="dragReceiver" placeholder="?" oninput="pitchbpmInput();" id="pitchBpm"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" placeholder="?" oninput="pitchbpmInput();" id="pitchPitch"></div>
+            <div class="extra">Original BPM: <input type="text" class="dragReceiver" id="pitchBpm" placeholder="?" oninput="pitchbpmInput();"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" id="pitchPitch" placeholder="?" oninput="pitchbpmInput();"></div>
             <div id="pitchDif"></div>
             <h2><strong>Harmonic Calculator</strong></h2>
             <div class="info">Calculate the odd & even harmonics of a given frequency!</div>
@@ -486,6 +490,7 @@
             </ul>
             Copyright © 2022. All rights reserved.
         </div>
+        <script id="DragDropTouch" src="https://bernardo-castilho.github.io/DragDropTouch/DragDropTouch.js"></script>
 		<script src="scripts/siteScript.js" type="text/javascript"></script>
         <script type="text/javascript">
 
@@ -612,7 +617,7 @@
                     document.querySelector("#noteSelector").appendChild(li);
                 });
 
-                // adds drop functionality to the extra textboxes
+                // adds drop functionality to the extra textboxes (computer)
                 for (var i = 0; i < document.getElementsByClassName("dragReceiver").length; i++) {
                     document.getElementsByClassName("dragReceiver")[i].addEventListener("drop", function(event) {
                         event.preventDefault();
@@ -845,7 +850,7 @@
                             const barLength  = 60000 / tempo * 4; // length of 1 bar time. 60000 = ms in 1 minute
 
                             // function for output
-                            const timeString = function(noteName, num) {return "["+noteName[0]+"<span class='outputShrink'> "+noteName[1]+"</span>] : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>"};
+                            const timeString = function(noteName, num) {return "["+noteName[0]+"<span class='outputShrink'> "+noteName[1]+"</span>] : <span class='draggableItem' onclick='copyValue(this);' draggable='true'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>"};
 
                             // Calculates from top down. starts out at highest bar count, and counts down to 1 bar
                             for (let i = 6; i > 0; i--) {
@@ -895,7 +900,7 @@
                             var octaveOffset = noteArray.indexOf(freq.split(" ")[0]) + 3 + (12 * i);
                             var noteHz = calcNoteFreq(octaveOffset);
 
-                            const freqString = function(octave, num) {return "[<span class='outputShrink'>Octave </span>"+octave+"] : <span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>"}
+                            const freqString = function(octave, num) {return "[<span class='outputShrink'>Octave </span>"+octave+"] : <span class='draggableItem' onclick='copyValue(this);' draggable='true'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>"}
                             freqOutputBox.appendChild(createElement("p", freqString(i+5, noteHz)));
                         } 
                     } else {
