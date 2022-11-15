@@ -19,6 +19,7 @@
         <style>
             body {
                 overflow-x: hidden;
+                touch-action: manipulation;
             }
             #scaleSelector li { /* User Scale Selector */
                 font-size: 24px;
@@ -45,7 +46,25 @@
                 align-items: center;
                 justify-content: center;
             }
-            #restart {
+            #tapTempoControls {
+                margin-bottom: 8px;
+            }
+            #tapTempo {
+                width: 80px;
+                height: 40px;
+                border-radius: 10px;
+                background-color: #ffffff;
+                margin: 0 0 0 32px;
+                font-size: 24px;
+                font-weight: 600;
+                color: #000000;
+            }
+            #tapTempo:hover {
+                transition: all .3s ease;
+                cursor: pointer;
+                background-color: #aaffaa;
+            }
+            .restart {
                 width: 40px;
                 height: 40px;
                 border-radius: 10px;
@@ -55,7 +74,7 @@
                 font-weight: 600;
                 color: #000000;
             }
-            #restart:hover {
+            .restart:hover {
                 background-color: #ffaaaa;
                 cursor: help;
                 transform: scale(1.05);
@@ -277,6 +296,10 @@
                 #bpmDiv { /* bpm text */
                     font-size: 20px;
                 }
+                #tapTempoControls {
+                    display: block;
+                    margin-top: 8px;
+                }
                 #noteSelector li { /* User Frequency Selector */
                     font-size: 12px;
                     padding: 2px;
@@ -335,6 +358,10 @@
                 }
                 #bpmDiv { /* bpm text */
                     font-size: 20px;
+                }
+                #tapTempoControls {
+                    display: block;
+                    margin-top: 8px;
                 }
                 #noteSelector li { /* User Frequency Selector */
                     font-size: 16px;
@@ -454,7 +481,7 @@
 	</head>
 	<body onload="loader();">
         <div class="toolBox rainbowBorder">
-            <h1><strong>MusiCalc</strong><button id="restart" onclick="resetData();">↺</button></h1>
+            <h1><strong>MusiCalc</strong><button class="restart" onclick="resetData();">↺</button></h1>
 
 
             <div><ul id="keySelector"></ul></div>
@@ -466,7 +493,7 @@
             <span class="menuBar"></span>
 
 
-            <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" oninput="bpmInput();"> BPM</div><ul id="noteSelector" class="rightSide"></ul></div>
+            <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" oninput="bpmInput();"> BPM <span id="tapTempoControls"><button id="tapTempo" onclick="tapTempo();">Tap</button><button class="restart" onclick="resetTempo();">↺</button></span></div><ul id="noteSelector" class="rightSide"></ul></div>
             <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
             <div class="splitBox meterFreqs"><div class="leftSide" id="meter"></div><div class="rightSide" id="freqs"></div></div>
             <div class="info dragInfo">Click and drag highlighted values into the textboxes below to copy the value!</div>
@@ -789,10 +816,54 @@
                 }
             }
             
+            // for tap tempo logic and output
+            var recordedTaps = [];
+            function tapTempo(){
+                const averageTaps = function() {
+                    var tapDifferences = [];
+                    for (var j = 0; j < recordedTaps.length - 1; j++) {
+                        tapDifferences.push(recordedTaps[j + 1] - recordedTaps[j]);
+                    }
+                    var differencesTotal = 0;
+                    for (var j = 0; j < tapDifferences.length; j++) {
+                        differencesTotal += tapDifferences[j];
+                    }
+                    return 60000 / (differencesTotal / tapDifferences.length);
+                };
+
+                const currentTime = new Date().getTime();
+
+                // if you only want to keep a certain amount of taps for the average
+                if (recordedTaps.length >= 20) {recordedTaps.shift();}
+
+                recordedTaps.push(currentTime);
+                const lastTapTime = recordedTaps[recordedTaps.length - 2];
+                const timeSinceLastTap = currentTime - lastTapTime;
+
+                // if timeSinceLastTap is over a certain threshold, reset. Set to 1 BPM currently
+                if ((Math.min((60000 / timeSinceLastTap), averageTaps()) / Math.max((60000 / timeSinceLastTap), averageTaps())) < .75) {
+                    resetTempo();
+                    recordedTaps.push(currentTime);
+                }
+
+                if (recordedTaps.length > 1) {
+                    memory("MusiUserTempo", Math.floor(averageTaps()));
+                    document.getElementById("userTempo").value = Math.floor(averageTaps());
+                    showMeterFreqs();
+                }
+            }
+            function resetTempo() {
+                recordedTaps = [];
+                runningAvg = [];
+                memory("MusiUserTempo", "");
+                document.querySelector("#userTempo").value = "";
+                bpmInput();
+            }
+
             // for tempo times input checking
             function bpmInput() {
-                const userTempo = document.querySelector("#userTempo");
-                const bpmLabel = document.querySelector("#bpmDiv");
+                const userTempo = document.getElementById("userTempo");
+                const bpmLabel = document.getElementById("bpmDiv");
 
                 // if a value is entered
                 if (userTempo.value) {
@@ -959,7 +1030,7 @@
             }
             
             // round number to two decimals
-            function roundNumber(num) {
+            function roundNumber(num, roundedPlaces) {
                 return Number.parseFloat(num).toFixed(2);
             }
 
