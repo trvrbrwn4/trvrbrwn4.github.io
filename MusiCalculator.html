@@ -492,7 +492,6 @@
             <div><ul id="scaleDegrees" class="scaleInfo"></ul></div>
             <span class="menuBar"></span>
 
-
             <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" oninput="bpmInput();"> BPM <span id="tapTempoControls"><button id="tapTempo" onclick="tapTempo();">Tap</button><button class="restart" onclick="resetTempo();">↺</button></span></div><ul id="noteSelector" class="rightSide"></ul></div>
             <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
             <div class="splitBox meterFreqs"><div class="leftSide" id="meter"></div><div class="rightSide" id="freqs"></div></div>
@@ -1251,7 +1250,7 @@
                     memory("MusiPitchBpm", "");
                 }
 
-                if (Number.isInteger(pitchPitch)) {
+                if (pitchPitch != "" & Number.isInteger(pitchPitch)) {
                     memory("MusiPitchPitch", pitchPitch);
                 } else {
                     memory("MusiPitchPitch", "");
