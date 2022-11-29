@@ -722,6 +722,12 @@
                     document.getElementById("beReeseRate").value = memory("MusiBEReeseRate");
                 }
                 beDetuneFinder();
+                if (memory("MusiBEBeatingOne")) {
+                    document.getElementById("beBeatingOne").value = memory("MusiBEBeatingOne");
+                }
+                if (memory("MusiBEBeatingTwo")) {
+                    document.getElementById("beBeatingTwo").value = memory("MusiBEBeatingTwo");
+                }
                 beBeatingFinder();
 
                 if (memory("MusiPitchBpm")) {
@@ -1237,7 +1243,7 @@
                 }
 
                 if (memory("MusiBEReeseNote") && memory("MusiBEReeseRate")) {
-                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber(1200 * Math.log2((beReeseNote+beReeseRate)/beReeseNote))+" cents, or +/- "+roundNumber(1200 * Math.log2((beReeseNote+(beReeseRate/2))/beReeseNote))+" cents";
+                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber(1200 * Math.log2((beReeseNote + beReeseRate) / beReeseNote))+" cents, or +/- "+roundNumber(1200 * Math.log2((beReeseNote + (beReeseRate / 2)) / beReeseNote))+" cents";
                     viewController("#beDetuneAmount", "Show");
                 } else {
                     document.getElementById("beDetuneAmount").innerHTML = "";
