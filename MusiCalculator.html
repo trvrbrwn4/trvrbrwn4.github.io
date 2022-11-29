@@ -146,7 +146,7 @@
                 justify-content: space-around;
                 margin-bottom: 0;
             }
-            #keySelector, #bpmDiv, #scaleSelector {
+            #keySelector, #bpmDiv, #scaleSelector, #noteSelector {
                 color: #555; 
             }
             #keySelector li:hover:not(.activeSelection), #scaleSelector li:hover:not(.activeSelection) {
@@ -238,10 +238,10 @@
                 visibility: hidden;
                 position: absolute;
             }
-            #pulseRate, #pitchDif {
+            #beDetuneAmount, #beBeatingAmount, #pitchDif {
                 font-weight: 800;
             }
-            #pulseRate {
+            #beDetuneAmount, #beBeatingAmount {
                 color: #e3e81d;
             }
             #pitchDif{
@@ -317,7 +317,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 24px;
                 }
-                #pulseRate, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
                     font-size: 16px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -378,7 +378,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 24px;
                 }
-                #pulseRate, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
                     font-size: 20px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -429,7 +429,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 28px;
                 }
-                #pulseRate, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
                     font-size: 24px;
                 }
                 #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span { /* odd/even  harmonic output */
@@ -467,7 +467,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 32px;
                 }
-                #pulseRate, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
                     font-size: 28px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -497,14 +497,22 @@
             <div class="splitBox meterFreqs"><div class="leftSide" id="meter"></div><div class="rightSide" id="freqs"></div></div>
             <div class="info dragInfo">Click and drag highlighted values into the textboxes below to copy the value!</div>
             <span class="menuBar"></span>
-            <h2><strong>Reese Bass Detuning</strong></h2>
-            <div class="info">Calculate the amount to detune two notes by for a precise Hz of pulsing</div>
-            <div class="extra">Hz of main note: <input type="text" class="dragReceiver" id="reeseNote" placeholder="?" oninput="reesePulseInput();"><span></span>Hz of desired pulsing: <input type="text" class="dragReceiver" id="reeseRate" placeholder="?" oninput="reesePulseInput();"></div>
-            <div id="pulseRate"></div>
+
+            <h2><strong>Beating Effect: Detune Finder</strong></h2>
+            <div class="info">Calculate the amount of cents to detune two notes by for a precise hz of 'beating'</div>
+            <div class="extra">hz of base note: <input type="text" class="dragReceiver" id="beReeseNote" placeholder="?" oninput="beDetuneFinder();"><span></span>hz of desired beating: <input type="text" class="dragReceiver" id="beReeseRate" placeholder="?" oninput="beDetuneFinder();"></div>
+            <div id="beDetuneAmount"></div>
+
+            <h2><strong>Beating Effect: Beat hz Finder</strong></h2>
+            <div class="info">Calculate the hz of 'beating' between two notes</div>
+            <div class="extra">hz of first note: <input type="text" class="dragReceiver" id="beBeatingOne" placeholder="?" oninput="beBeatingFinder();"><span></span>hz of second note: <input type="text" class="dragReceiver" id="beBeatingTwo" placeholder="?" oninput="beBeatingFinder();"></div>
+            <div id="beBeatingAmount"></div>
+
             <h2><strong>Pitched Loop BPM Finder</strong></h2>
             <div class="info">Calculate the new bpm of a loop that has been pitched up or down</div>
             <div class="extra">Original BPM: <input type="text" class="dragReceiver" id="pitchBpm" placeholder="?" oninput="pitchbpmInput();"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" id="pitchPitch" placeholder="?" oninput="pitchbpmInput();"></div>
             <div id="pitchDif"></div>
+            
             <h2><strong>Harmonic Calculator</strong></h2>
             <div class="info">Calculate the odd & even harmonics of a given frequency!</div>
             <div class="extra">Fundamental Frequency: <input type="text" class="dragReceiver" placeholder="?" id="harmonicFreq"></div>
@@ -653,7 +661,8 @@
                         // this checks what drag box was just dropped on, and calls the respective function
                         const extratype = this.id.slice(0, 5);
                         switch (extratype) {
-                            case "reese": reesePulseInput();break;
+                            case "beRee": beDetuneFinder();break;
+                            case "beBea": beBeatingFinder();break;
                             case "pitch": pitchbpmInput();break;
                             case "harmo": harmoniCalc();break;
                         }
@@ -706,29 +715,25 @@
                 }
                 showMeterFreqs();
 
-                const reeseNote = memory("MusiReeseNote");
-                if (reeseNote) {
-                    document.getElementById("reeseNote").value = reeseNote;
+                if (memory("MusiBEReeseNote")) {
+                    document.getElementById("beReeseNote").value = memory("MusiBEReeseNote");
                 }
-                const reeseRate = memory("MusiReeseRate");
-                if (reeseRate) {
-                    document.getElementById("reeseRate").value = reeseRate;
+                if (memory("MusiBEReeseRate")) {
+                    document.getElementById("beReeseRate").value = memory("MusiBEReeseRate");
                 }
-                reesePulseInput();
+                beDetuneFinder();
+                beBeatingFinder();
 
-                const pitchBpm = memory("MusiPitchBpm");
-                if (pitchBpm) {
-                    document.getElementById("pitchBpm").value = pitchBpm;
+                if (memory("MusiPitchBpm")) {
+                    document.getElementById("pitchBpm").value = memory("MusiPitchBpm");
                 }
-                const pitchPitch = memory("MusiPitchPitch");
-                if (pitchPitch) {
-                    document.getElementById("pitchPitch").value = pitchPitch;
+                if (memory("MusiPitchPitch")) {
+                    document.getElementById("pitchPitch").value = memory("MusiPitchPitch");
                 }
                 pitchbpmInput();
 
-                const userHarmFreq = memory("MusiHarmFreq");
-                if (userHarmFreq) {
-                    document.getElementById("harmonicFreq").value = userHarmFreq;
+                if (memory("MusiHarmFreq")) {
+                    document.getElementById("harmonicFreq").value = memory("MusiHarmFreq");
                 }
                 harmoniCalc();
             };
@@ -780,7 +785,8 @@
                         }
                     }
 
-                    reesePulseInput();
+                    beDetuneFinder();
+                    beBeatingFinder();
                     pitchbpmInput();
                     harmoniCalc();
 
@@ -1213,29 +1219,55 @@
                 document.getElementById("relativeNames").innerHTML = outputString;
             }
             
-            // for pulse rate calculator
-            function reesePulseInput() {
-                const reeseNote = Number(document.getElementById("reeseNote").value);
-                const reeseRate = Number(document.getElementById("reeseRate").value);
+            // for ebating effect
+            function beDetuneFinder() {
+                const beReeseNote = Number(document.getElementById("beReeseNote").value);
+                const beReeseRate = Number(document.getElementById("beReeseRate").value);
 
-                if (reeseNote > 0) {
-                    memory("MusiReeseNote", reeseNote);
+                if (beReeseNote > 0) {
+                    memory("MusiBEReeseNote", beReeseNote);
                 } else {
-                    memory("MusiReeseNote", "");
+                    memory("MusiBEReeseNote", "");
                 }
 
-                if (reeseRate > 0) {
-                    memory("MusiReeseRate", reeseRate);
+                if (beReeseRate > 0) {
+                    memory("MusiBEReeseRate", beReeseRate);
                 } else {
-                    memory("MusiReeseRate", "");
+                    memory("MusiBEReeseRate", "");
                 }
 
-                if (memory("MusiReeseNote") && memory("MusiReeseRate")) {
-                    document.getElementById("pulseRate").innerHTML = "+ "+roundNumber(1200 * Math.log2((reeseNote+reeseRate)/reeseNote))+" cents, or +/- "+roundNumber((1200 * Math.log2((reeseNote+reeseRate)/reeseNote))/2)+" cents";
-                    viewController("#pulseRate", "Show");
+                if (memory("MusiBEReeseNote") && memory("MusiBEReeseRate")) {
+                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber(1200 * Math.log2((beReeseNote+beReeseRate)/beReeseNote))+" cents, or +/- "+roundNumber(1200 * Math.log2((beReeseNote+(beReeseRate/2))/beReeseNote))+" cents";
+                    viewController("#beDetuneAmount", "Show");
                 } else {
-                    document.getElementById("pulseRate").innerHTML = "";
-                    viewController("#pulseRate", "Hide");
+                    document.getElementById("beDetuneAmount").innerHTML = "";
+                    viewController("#beDetuneAmount", "Hide");
+                }
+            }
+
+            function beBeatingFinder() {
+                const beBeatingOne = Number(document.getElementById("beBeatingOne").value);
+                const beBeatingTwo = Number(document.getElementById("beBeatingTwo").value);
+
+                if (beBeatingOne > 0) {
+                    memory("MusiBEBeatingOne", beBeatingOne);
+                } else {
+                    memory("MusiBEBeatingOne", "");
+                }
+
+                if (beBeatingTwo > 0) {
+                    memory("MusiBEBeatingTwo", beBeatingTwo);
+                } else {
+                    memory("MusiBEBeatingTwo", "");
+                }
+
+                if (memory("MusiBEBeatingOne") && memory("MusiBEBeatingTwo")) {
+
+                    document.getElementById("beBeatingAmount").innerHTML = "Beating is "+roundNumber(Math.max(beBeatingOne, beBeatingTwo) - Math.min(beBeatingOne, beBeatingTwo)) + " hz";
+                    viewController("#beBeatingAmount", "Show");
+                } else {
+                    document.getElementById("beBeatingAmount").innerHTML = "";
+                    viewController("#beBeatingAmount", "Hide");
                 }
             }
 
