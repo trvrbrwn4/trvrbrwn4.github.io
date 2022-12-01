@@ -503,7 +503,7 @@
             <div class="extra">hz of base note: <input type="text" class="dragReceiver" id="beReeseNote" placeholder="?" oninput="beDetuneFinder();"><span></span>hz of desired beating: <input type="text" class="dragReceiver" id="beReeseRate" placeholder="?" oninput="beDetuneFinder();"></div>
             <div id="beDetuneAmount"></div>
 
-            <h2><strong>Beating Effect: Beat hz Finder</strong></h2>
+            <h2><strong><a href="https://www.guitartutoronline.com/beginners/tuning/the-beating-effect">Beating Effect</a>: Beat hz Finder</strong></h2>
             <div class="info">Calculate the hz of 'beating' between two notes</div>
             <div class="extra">hz of first note: <input type="text" class="dragReceiver" id="beBeatingOne" placeholder="?" oninput="beBeatingFinder();"><span></span>hz of second note: <input type="text" class="dragReceiver" id="beBeatingTwo" placeholder="?" oninput="beBeatingFinder();"></div>
             <div id="beBeatingAmount"></div>
@@ -1270,7 +1270,7 @@
                 }
 
                 if (memory("MusiBEReeseNote") && memory("MusiBEReeseRate")) {
-                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber(1200 * Math.log2((beReeseNote + beReeseRate) / beReeseNote), 2)+" cents, or +/- "+roundNumber(1200 * Math.log2((beReeseNote + (beReeseRate / 2), 2) / beReeseNote))+" cents";
+                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber((1200 * Math.log2((beReeseNote + beReeseRate) / beReeseNote)), 2)+" cents, or +/- "+roundNumber((1200 * Math.log2((beReeseNote + (beReeseRate / 2)) / beReeseNote)), 2)+" cents";
                     viewController("#beDetuneAmount", "Show");
                 } else {
                     document.getElementById("beDetuneAmount").innerHTML = "";
