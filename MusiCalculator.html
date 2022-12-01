@@ -956,7 +956,7 @@
                             const barLength  = 60000 / tempo * 4; // length of 1 bar time. 60000 = ms in 1 minute
 
                             // function for output
-                            const timeString = function(noteName, num) {return "["+noteName[0]+"<span class='outputShrink'> "+noteName[1]+"</span>] : <span class='draggableItem' onclick='copyValue(this);' draggable='true'>"+roundNumber(num)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> hz)<br>"};
+                            const timeString = function(noteName, num) {return "["+noteName[0]+"<span class='outputShrink'> "+noteName[1]+"</span>] : <span class='draggableItem' onclick='copyValue(this);' draggable='true'>"+roundNumber(num, 2)+"</span> ms (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num), 2)+"</span> hz)<br>"};
 
                             // Calculates from top down. starts out at highest bar count, and counts down to 1 bar
                             for (let i = 6; i > 0; i--) {
@@ -1006,7 +1006,7 @@
                             var octaveOffset = noteArray.indexOf(freq.split(" ")[0]) + 3 + (12 * i);
                             var noteHz = calcNoteFreq(octaveOffset);
 
-                            const freqString = function(octave, num) {return "[<span class='outputShrink'>Octave </span>"+octave+"] : <span class='draggableItem' onclick='copyValue(this);' draggable='true'>"+roundNumber(num)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num))+"</span> ms) <br>"}
+                            const freqString = function(octave, num) {return "[<span class='outputShrink'>Octave </span>"+octave+"] : <span class='draggableItem' onclick='copyValue(this);' draggable='true'>"+roundNumber(num, 2)+"</span> hz (<span class='draggableItem' onclick='copyValue(this);'>"+roundNumber(convertMsHz(num), 2)+"</span> ms) <br>"}
                             freqOutputBox.appendChild(createElement("p", freqString(i+5, noteHz)));
                         } 
                     } else {
@@ -1066,7 +1066,7 @@
             
             // round number to two decimals
             function roundNumber(num, roundedPlaces) {
-                return Number.parseFloat(num).toFixed(2);
+                return Number.parseFloat(num).toFixed(roundedPlaces);
             }
 
             // for scale calculations
@@ -1270,7 +1270,7 @@
                 }
 
                 if (memory("MusiBEReeseNote") && memory("MusiBEReeseRate")) {
-                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber(1200 * Math.log2((beReeseNote + beReeseRate) / beReeseNote))+" cents, or +/- "+roundNumber(1200 * Math.log2((beReeseNote + (beReeseRate / 2)) / beReeseNote))+" cents";
+                    document.getElementById("beDetuneAmount").innerHTML = "Detune by + "+roundNumber(1200 * Math.log2((beReeseNote + beReeseRate) / beReeseNote), 2)+" cents, or +/- "+roundNumber(1200 * Math.log2((beReeseNote + (beReeseRate / 2), 2) / beReeseNote))+" cents";
                     viewController("#beDetuneAmount", "Show");
                 } else {
                     document.getElementById("beDetuneAmount").innerHTML = "";
@@ -1296,7 +1296,7 @@
 
                 if (memory("MusiBEBeatingOne") && memory("MusiBEBeatingTwo")) {
 
-                    document.getElementById("beBeatingAmount").innerHTML = "Beating is "+roundNumber(Math.max(beBeatingOne, beBeatingTwo) - Math.min(beBeatingOne, beBeatingTwo)) + " hz";
+                    document.getElementById("beBeatingAmount").innerHTML = "Beating is "+roundNumber(Math.max(beBeatingOne, beBeatingTwo) - Math.min(beBeatingOne, beBeatingTwo), 2) + " hz";
                     viewController("#beBeatingAmount", "Show");
                 } else {
                     document.getElementById("beBeatingAmount").innerHTML = "";
@@ -1322,7 +1322,7 @@
                 }
 
                 if (memory("MusiPitchBpm") && memory("MusiPitchPitch")) {
-                    document.getElementById("pitchDif").innerHTML = pitchBpm+" bpm loop "+(pitchPitch > 0 ? "raised " : "lowered ")+Math.abs(pitchPitch)+" st = "+roundNumber(pitchBpm * Math.pow(2, pitchPitch / 12))+" bpm";
+                    document.getElementById("pitchDif").innerHTML = pitchBpm+" bpm loop "+(pitchPitch > 0 ? "raised " : "lowered ")+Math.abs(pitchPitch)+" st = "+roundNumber(pitchBpm * Math.pow(2, pitchPitch / 12), 2)+" bpm";
                     viewController("#pitchDif", "Show");
                 } else {
                     document.getElementById("pitchDif").innerHTML = "";
@@ -1383,7 +1383,7 @@
                         // only loops as long as it needs to; calculates # of harmonics < 20000 Hz
                         const loopAmount = Math.ceil(20000/userHarmFreq);
                         for (var i=2; i <= loopAmount; i++) {
-                            var tempFreq = roundNumber(userHarmFreq * i);
+                            var tempFreq = roundNumber(userHarmFreq * i, 2);
 
                             // if count is even, add to even side
                             if (i % 2 == 0) {
