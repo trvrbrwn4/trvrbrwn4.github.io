@@ -554,97 +554,116 @@
                 // ----------------------------
                 // append buttons and eventListeners to objects on the page
 
-                // creates key selector
+                // function for managing activeSelection class and corresponding memory values
+                const selectorHelper = function(toRemove, toAdd, valueKey, value="") {
+                    if (toRemove) {
+                        toRemove.classList.remove("activeSelection");
+                    }
+                    if (toAdd) {
+                        toAdd.classList.add("activeSelection");
+                    }
+                    if (valueKey && value) {
+                        memory(valueKey, value);
+                    } else {
+                        memory(valueKey, "");
+                    }
+
+                };
+
+                // key selector
                 noteArray.forEach(function(item, index) {
+
+                    // each key li has innerHTML: "C", "C#", "D", etc.
                     const li = createElement("li", item);
+
+                    // each key li gets an id of: "C", "C#", "D", etc.
                     li.id = item;
+
                     li.addEventListener("click", function() {
                         // grab 'old' key (the currently selected key when clicked)
                         const oldKeyName = memory("MusiUserKey");
-                                       
-                        if (oldKeyName) {
-                            if (oldKeyName == this.innerHTML) {
-                                this.classList.remove("activeSelection");
-                                memory("MusiUserKey", "");
-                            } else {
-                                const oldKey = document.getElementById(oldKeyName);
-                                oldKey.classList.remove("activeSelection");
 
-                                this.classList.add("activeSelection");
-                                memory("MusiUserKey", this.innerHTML);
+                        if (oldKeyName) { 
+                            if (oldKeyName == this.innerHTML) {
+
+                                // if the old key is the same as the new key, remove
+                                selectorHelper(this, null, "MusiUserKey");
+                            } else {
+
+                                // if the old key is different than the new key, remove old and add new
+                                selectorHelper(document.getElementById(oldKeyName), this, "MusiUserKey", this.innerHTML);
                             }
                         } else {
-                            this.classList.add("activeSelection");
-                            memory("MusiUserKey", this.innerHTML);
+
+                            // if there is no old key, add new 
+                            selectorHelper(null, this, "MusiUserKey", this.innerHTML);
                         }
+
                         calculateScale();
                     });
-                    document.querySelector("#keySelector").appendChild(li);
-                });
+                        document.querySelector("#keySelector").appendChild(li);
+                    });
 
-                // creates scale selector
+                // scale selector
                 scaleArray.forEach(function(item, index) {
+
+                    // each scale li has innerHTML: "Ionian", "Dorian", "Phrygian", etc.
                     const li = createElement("li", item);
+
+                    // each scale li gets id of: "Ionian", "Dorian", "Phrygian", etc.
                     li.id = item.split(" ")[0];
+
                     li.addEventListener("click", function() {
+                        // grab 'old' scale (the currently selected scale when clicked)
                         const oldScaleName = memory("MusiUserScale");
 
-                        if (oldScaleName != "") {
-                            if (!document.getElementById(oldScaleName)) {
-                                memory("MusiUserScale", "");
-                                oldScaleName = "";
-                            }
-                            
-                            if (oldScaleName) {
-                                if (oldScaleName == this.innerHTML.split(" ")[0]) {
-                                    this.classList.remove("activeSelection");
-                                    memory("MusiUserScale", "");
-                                } else {
-                                    const oldScale = document.getElementById(oldScaleName);
-                                    oldScale.classList.remove("activeSelection");
+                        if (oldScaleName) {
+                            if (oldScaleName == this.innerHTML.split(" ")[0]) {
 
-                                    this.classList.add("activeSelection");
-                                    memory("MusiUserScale", this.innerHTML.split(" ")[0]);
-                                }
+                                // if the old scale name is the same as the current selection, remove
+                                selectorHelper(this, null, "MusiUserScale");
+                            } else {
+
+                                // if the old scale name is different than the current selection, remove old and add new
+                                selectorHelper(document.getElementById(oldScaleName), this, "MusiUserScale", this.innerHTML.split(" ")[0]);
                             }
                         } else {
-                            this.classList.add("activeSelection");
-                            memory("MusiUserScale", this.innerHTML.split(" ")[0]);
+
+                            // if there is no old scale name, add new
+                            selectorHelper(null, this, "MusiUserScale", this.innerHTML.split(" ")[0]);
                         }
                         calculateScale();
                     });
                     document.querySelector("#scaleSelector").appendChild(li);
                 });
 
-                // creates note selector
+                // note selector
                 noteArray.forEach(function(item, index) {
+
+                    // each li has innerHTML: "C", "C#", "D", etc.
                     const li = createElement("li", item);
+
+                    // each note li gets id of: 'C 0', 'C# 1', 'D 2', etc.
                     li.id = item+" "+index;
+
                     li.addEventListener("click", function() {
+                        // grab 'old' note (the currently selected note when clicked)
                         const oldNoteName = memory("MusiUserNote");
 
-                        if (oldNoteName != "") {
+                        if (oldNoteName) {
+                            if (oldNoteName.split(" ")[0] == this.innerHTML) {
 
-                            // fix for dev purposes (I changed )
-                            if (!document.getElementById(oldNoteName)) {
-                                memory("MusiUserNote", "");
-                            }
-                            
-                            if (oldNoteName) {
-                                if (oldNoteName.split(" ")[0] == this.innerHTML) {
-                                    this.classList.remove("activeSelection");
-                                    memory("MusiUserNote", "");
-                                } else {
-                                    const oldNote = document.getElementById(oldNoteName);
-                                    oldNote.classList.remove("activeSelection");
+                                // if the old note name is the same as the current selection, remove
+                                selectorHelper(this, null, "MusiUserNote");
+                            } else {
 
-                                    this.classList.add("activeSelection");
-                                    memory("MusiUserNote", this.id);
-                                }
+                                // if the old note name is different than the current selection, remove old and add new
+                                selectorHelper(document.getElementById(oldNoteName), this, "MusiUserNote", this.id);
                             }
                         } else {
-                            this.classList.add("activeSelection");
-                            memory("MusiUserNote", this.id);
+
+                            // if there is no old note name, add new
+                            selectorHelper(null, this, "MusiUserNote", this.id);
                         }
                         showMeterFreqs();
                     });
@@ -672,6 +691,8 @@
                 // input delay on the harmonicalc
                 const delay = 500;
                 var timeout;
+
+                // after the user stops typing for delay amount, harmoniCalc will run
                 document.getElementById("harmonicFreq").addEventListener("keyup", function(e){
                     clearTimeout(timeout);
                     timeout = setTimeout(function() {
@@ -830,6 +851,8 @@
             // for tap tempo logic and output
             var recordedTaps = [];
             function tapTempo(){
+
+                // calculates the average of the recorded taps, and converts to corresponding tempo
                 const averageTaps = function() {
                     var tapDifferences = [];
                     for (var j = 0; j < recordedTaps.length - 1; j++) {
@@ -851,22 +874,23 @@
                 const lastTapTime = recordedTaps[recordedTaps.length - 2];
                 const timeSinceLastTap = currentTime - lastTapTime;
 
-                // if timeSinceLastTap is over a certain threshold, reset. Set to 1 BPM currently
+                // if 75% > timeSinceLastTap > 125% of average, reset value.
                 if ((Math.min((60000 / timeSinceLastTap), averageTaps()) / Math.max((60000 / timeSinceLastTap), averageTaps())) < .75) {
                     resetTempo();
                     recordedTaps.push(currentTime);
                 }
-
+                
+                // if there are 2 or more taps, display the average
                 if (recordedTaps.length > 1) {
                     memory("MusiUserTempo", Math.floor(averageTaps()));
                     document.getElementById("userTempo").value = Math.floor(averageTaps());
                     showMeterFreqs();
                 }
             }
+            // for resetting the tap tempo
             function resetTempo() {
                 recordedTaps = [];
-                runningAvg = [];
-                memory("MusiUserTempo", "");
+                 memory("MusiUserTempo", "");
                 document.querySelector("#userTempo").value = "";
                 bpmInput();
             }
@@ -1034,7 +1058,7 @@
                 document.execCommand("copy");
             }
                         
-            // convert between ms & Hz
+            // convert between ms & hz
             function convertMsHz(valueOfOneType) {
                 var otherValueType = 1000 / valueOfOneType;
                 return otherValueType;
@@ -1056,6 +1080,8 @@
                 var currentNoteIndex = noteArray.indexOf(keyCheck);
 
                 var builtScale = "";
+
+                // if a key and scale are selected
                 if (keyCheck && scaleCheck) {
                     viewController(".scaleInfo", "Show");
                     reloadRelativeBox();
@@ -1171,6 +1197,7 @@
                 }
                 return degreeNames[degree];
             }
+            // 
             function reloadRelativeBox() {
                 // in order to calculate the relative keys box, grab current variabes
                 const keyCheck = memory("MusiUserKey");
