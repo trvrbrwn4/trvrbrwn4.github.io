@@ -146,10 +146,10 @@
                 justify-content: space-around;
                 margin-bottom: 0;
             }
-            #keySelector, #bpmDiv, #scaleSelector, #noteSelector {
+            #keySelector, #bpmDiv, #scaleSelector, #noteSelector, .convertButton {
                 color: #555; 
             }
-            #keySelector li:hover:not(.activeSelection), #scaleSelector li:hover:not(.activeSelection) {
+            #keySelector li:hover:not(.activeSelection), #scaleSelector li:hover:not(.activeSelection), #noteSelector li:hover:not(.activeSelection), .convertButton:hover:not(.activeSelection) {
                 color: #888;
                 border-bottom: 2px solid #888;
                 transform: scale(1.05);
@@ -161,7 +161,7 @@
             #scaleSelector li {
                 margin: 0 1vw;
             }
-            #keySelector li, #scaleSelector li, #noteSelector li {
+            #keySelector li, #scaleSelector li, #noteSelector li, .convertButton {
                 padding: 2px 4px;
                 border-radius: 10px;
             }
@@ -238,7 +238,7 @@
                 visibility: hidden;
                 position: absolute;
             }
-            #beDetuneAmount, #beBeatingAmount, #pitchDif {
+            #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult {
                 font-weight: 800;
             }
             #beDetuneAmount, #beBeatingAmount {
@@ -246,6 +246,20 @@
             }
             #pitchDif{
                 color: #dd00f3;
+            }
+            .convertButton {
+                cursor: pointer;
+            }
+            a {
+                color: #aaaaff;
+                text-decoration: underline;
+            }
+            a:hover {
+                transition: all .2s ease;
+                color: #4444ff;
+            }
+            #conversionResult {
+                color: #e6831d;
             }
             .harmonics {
                 width: 58%;
@@ -317,7 +331,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 24px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
                     font-size: 16px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -378,7 +392,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 24px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
                     font-size: 20px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -429,7 +443,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 28px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
                     font-size: 24px;
                 }
                 #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span { /* odd/even  harmonic output */
@@ -467,7 +481,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 32px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
                     font-size: 28px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -492,18 +506,18 @@
             <div><ul id="scaleDegrees" class="scaleInfo"></ul></div>
             <span class="menuBar"></span>
 
-            <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" oninput="bpmInput();"> BPM <span id="tapTempoControls"><button id="tapTempo" onclick="tapTempo();">Tap</button><button class="restart" onclick="resetTempo();">↺</button></span></div><ul id="noteSelector" class="rightSide"></ul></div>
+            <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" onkeydown="bpmInput(event, 'keydown');" oninput="bpmInput(null, 'input');" data-lpignore="true"> BPM <span id="tapTempoControls"><button id="tapTempo" onclick="tapTempo();">Tap</button><button class="restart" onclick="resetTempo();">↺</button></span></div><ul id="noteSelector" class="rightSide"></ul></div>
             <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
             <div class="splitBox meterFreqs"><div class="leftSide" id="meter"></div><div class="rightSide" id="freqs"></div></div>
             <div class="info dragInfo">Click and drag highlighted values into the textboxes below to copy the value!</div>
             <span class="menuBar"></span>
 
-            <h2><strong>Beating Effect: Detune Finder</strong></h2>
+            <h2><strong><a href="https://www.guitartutoronline.com/beginners/tuning/the-beating-effect" target=”_blank”>Beating Effect</a>: Detune Finder</strong></h2>
             <div class="info">Calculate the amount of cents to detune two notes by for a precise hz of 'beating'</div>
             <div class="extra">hz of base note: <input type="text" class="dragReceiver" id="beReeseNote" placeholder="?" oninput="beDetuneFinder();"><span></span>hz of desired beating: <input type="text" class="dragReceiver" id="beReeseRate" placeholder="?" oninput="beDetuneFinder();"></div>
             <div id="beDetuneAmount"></div>
 
-            <h2><strong><a href="https://www.guitartutoronline.com/beginners/tuning/the-beating-effect">Beating Effect</a>: Beat hz Finder</strong></h2>
+            <h2><strong><a href="https://www.guitartutoronline.com/beginners/tuning/the-beating-effect" target=”_blank”>Beating Effect</a>: Beat hz Finder</strong></h2>
             <div class="info">Calculate the hz of 'beating' between two notes</div>
             <div class="extra">hz of first note: <input type="text" class="dragReceiver" id="beBeatingOne" placeholder="?" oninput="beBeatingFinder();"><span></span>hz of second note: <input type="text" class="dragReceiver" id="beBeatingTwo" placeholder="?" oninput="beBeatingFinder();"></div>
             <div id="beBeatingAmount"></div>
@@ -513,6 +527,10 @@
             <div class="extra">Original BPM: <input type="text" class="dragReceiver" id="pitchBpm" placeholder="?" oninput="pitchbpmInput();"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" id="pitchPitch" placeholder="?" oninput="pitchbpmInput();"></div>
             <div id="pitchDif"></div>
             
+            <h2><strong>Convert <span class="convertButton" id="ms" onclick="convertValue('', this);">ms</span> / <span class="convertButton" id="hz" onclick="convertValue('', this);">hz</span></strong></h2>
+            <div class="extra">type / value: <input type="text" class="dragReceiver" id="convertValue" placeholder="?" oninput="convertValue(this.value, '');"></div>
+            <div id="conversionResult"></div>
+
             <h2><strong>Harmonic Calculator</strong></h2>
             <div class="info">Calculate the odd & even harmonics of a given frequency!</div>
             <div class="extra">Fundamental Frequency: <input type="text" class="dragReceiver" placeholder="?" id="harmonicFreq"></div>
@@ -553,22 +571,6 @@
                 // PAGE INITIALIZATION FEATURES
                 // ----------------------------
                 // append buttons and eventListeners to objects on the page
-
-                // function for managing activeSelection class and corresponding memory values
-                const selectorHelper = function(toRemove, toAdd, valueKey, value="") {
-                    if (toRemove) {
-                        toRemove.classList.remove("activeSelection");
-                    }
-                    if (toAdd) {
-                        toAdd.classList.add("activeSelection");
-                    }
-                    if (valueKey && value) {
-                        memory(valueKey, value);
-                    } else {
-                        memory(valueKey, "");
-                    }
-
-                };
 
                 // key selector
                 noteArray.forEach(function(item, index) {
@@ -736,6 +738,14 @@
                 }
                 showMeterFreqs();
 
+                if (memory("MusiConversionValue")) {
+                    document.getElementById("conversionResult").value = memory("MusiConversionValue");
+                }
+                if (memory("MusiConversionType")) {
+                    document.getElementById(memory("MusiConversionType")).classList.add("activeSelection");
+                }
+                convertValue();
+
                 if (memory("MusiBEReeseNote")) {
                     document.getElementById("beReeseNote").value = memory("MusiBEReeseNote");
                 }
@@ -743,6 +753,7 @@
                     document.getElementById("beReeseRate").value = memory("MusiBEReeseRate");
                 }
                 beDetuneFinder();
+
                 if (memory("MusiBEBeatingOne")) {
                     document.getElementById("beBeatingOne").value = memory("MusiBEBeatingOne");
                 }
@@ -764,6 +775,21 @@
                 }
                 harmoniCalc();
             };
+
+            // function for managing activeSelection class and corresponding memory values
+            function selectorHelper(toRemove, toAdd, valueKey, value="") {
+                    if (toRemove) {
+                        toRemove.classList.remove("activeSelection");
+                    }
+                    if (toAdd) {
+                        toAdd.classList.add("activeSelection");
+                    }
+                    if (valueKey && value) {
+                        memory(valueKey, value);
+                    } else {
+                        memory(valueKey, "");
+                    }
+                }
 
             // for reset button
             function resetData() {
@@ -804,6 +830,20 @@
                         showMeterFreqs();
                         dataDeleted = true;
                     }
+
+                    const oldConversionValue = memory("MusiConversionValue");
+                    if (oldConversionValue) {
+                        document.getElementById("convertValue").value = "";
+                        memory("MusiConversionValue", "");
+                        dataDeleted = true;
+                    }
+                    const oldConversionType = memory("MusiConversionType");
+                    if (oldConversionType) {
+                        document.getElementById(oldConversionType).classList.remove("activeSelection");
+                        memory("MusiConversionType", "");
+                        dataDeleted = true;
+                    }
+                    convertValue();
 
                     for (var i = 0; i < document.getElementsByClassName("dragReceiver").length; i++) {
                         if (document.getElementsByClassName("dragReceiver")[i].value) {
@@ -896,22 +936,42 @@
             }
 
             // for tempo times input checking
-            function bpmInput() {
+            function bpmInput(event = null, caller) {
                 const userTempo = document.getElementById("userTempo");
-                const bpmLabel = document.getElementById("bpmDiv");
+                var currentUserTempo = userTempo.value;
+                
+                console.clear();
+                console.log(event);
+                console.log();
+                console.log(caller);
+                console.log();
+                console.log(currentUserTempo);
 
-                // if a value is entered
-                if (userTempo.value) {
-                    // and if that value is above 0 (& a num)
-                    if (userTempo.value > 0) {
-                        memory("MusiUserTempo", userTempo.value);
-                    } else {
-                        memory("MusiUserTempo", "");
+                // if the user hits the up/down arrow, increment/decrement
+                if (event) {
+
+                    // if bpm
+                    if (!Number(currentUserTempo) && currentUserTempo != "0") {
+                        return;
                     }
+                    if (event.keyCode == 38) {
+                        event.preventDefault();
+
+                        // if user types up arrow
+                        document.getElementById("userTempo").value = Number(currentUserTempo) + 1;
+                    } else if (event.keyCode == 40) {
+                        event.preventDefault();
+
+                        // if user types down arrow
+                        document.getElementById("userTempo").value = Number(currentUserTempo) - 1;
+                    }
+                }
+
+                if (document.getElementById("userTempo").value > 0) {
+                    memory("MusiUserTempo", document.getElementById("userTempo").value);
                 } else {
                     memory("MusiUserTempo", "");
                 }
-                
                 showMeterFreqs();
             }
 
@@ -1251,8 +1311,51 @@
                 outputString += noteArray[getNextKeyFromOffset(getNextKeyFromOffset(currentNoteIndex, majorOffset), -3)]+" Minor";
                 document.getElementById("relativeNames").innerHTML = outputString;
             }
+
+            function convertValue(value = null, typeBox = null) {
+
+                if (value) {
+                    if (value > 0) {
+                        memory("MusiConversionValue", value);
+                    } else {
+                        memory("MusiConversionValue", "");
+                    }
+                }
+
+                if (typeBox) {
+                    // grab 'old' type (the currently selected type when clicked)
+                    const oldTypeName = memory("MusiConversionType");
+
+                    if (oldTypeName) {
+                        if (oldTypeName == typeBox.innerHTML) {
+
+                            // if the old type is the same as the new type, remove
+                            selectorHelper(typeBox, null, "MusiConversionType");
+                        } else {
+                                
+                            // if the old type is different than the new type, replace old and add new
+                            selectorHelper(document.getElementById(oldTypeName), typeBox, "MusiConversionType", typeBox.innerHTML);
+                        }
+                    } else {
+
+                        // if there is no old type, add new 
+                        selectorHelper(null, typeBox, "MusiConversionType", typeBox.innerHTML);
+                    }
+                }
+
+                // if value and type are not null, convert and display result
+                if (memory("MusiConversionValue") && memory("MusiConversionType")) {
+                    const oppositeType = (memory("MusiConversionType") == "ms") ? "hz" : "ms";
+                    document.getElementById("conversionResult").innerHTML = memory("MusiConversionValue")+" "+memory("MusiConversionType")+" = "+roundNumber(convertMsHz(memory("MusiConversionValue")), 2)+" "+oppositeType;
+                    viewController("#conversionResult", "Show");
+                } else {
+                    console.log("Hiding");
+                    document.getElementById("conversionResult").innerHTML = "";
+                    viewController("#conversionResult", "Hide");
+                }
+            }
             
-            // for ebating effect
+            // for beating effect
             function beDetuneFinder() {
                 const beReeseNote = Number(document.getElementById("beReeseNote").value);
                 const beReeseRate = Number(document.getElementById("beReeseRate").value);
@@ -1295,7 +1398,6 @@
                 }
 
                 if (memory("MusiBEBeatingOne") && memory("MusiBEBeatingTwo")) {
-
                     document.getElementById("beBeatingAmount").innerHTML = "Beating is "+roundNumber(Math.max(beBeatingOne, beBeatingTwo) - Math.min(beBeatingOne, beBeatingTwo), 2) + " hz";
                     viewController("#beBeatingAmount", "Show");
                 } else {
