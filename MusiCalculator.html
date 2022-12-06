@@ -685,6 +685,7 @@
                             case "beRee": beDetuneFinder();break;
                             case "beBea": beBeatingFinder();break;
                             case "pitch": pitchbpmInput();break;
+                            case "conve":convertValue(document.getElementById("convertValue").value);break;
                             case "harmo": harmoniCalc();break;
                         }
                     });
@@ -939,18 +940,11 @@
             function bpmInput(event = null, caller) {
                 const userTempo = document.getElementById("userTempo");
                 var currentUserTempo = userTempo.value;
-                
-                console.clear();
-                console.log(event);
-                console.log();
-                console.log(caller);
-                console.log();
-                console.log(currentUserTempo);
 
                 // if the user hits the up/down arrow, increment/decrement
                 if (event) {
 
-                    // if bpm
+                    // if bpm 
                     if (!Number(currentUserTempo) && currentUserTempo != "0") {
                         return;
                     }
