@@ -6,14 +6,15 @@
 		<meta name="copyright" content="Copyright © Trevor Brown 2021. All rights reserved.">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-        <meta property="og:title" content="MusiCalculator" />
+        <meta property="og:title" content="MusiCalc" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://trvrbrwn4.github.io/MusiCalculator.html" />
         <meta property="og:image" content="media/images/meta preview/musicalc meta.png" />
-        <meta property="og:description" content="Calculate tempo and key info" />
-        <meta name="theme-color" content="#00FF00">
+        <meta property="og:description" content="A calculation tool for many things in music/audio" />
+        <meta name="keywords" content="music, calculator, scale finder, note frequencies, reese bass, convert ms and hz, note harmonic calculator" />
+        <meta name="theme-color" content="#000000">
 
-		<title>>TAB [MusiCalculator]</title>
+		<title>>TAB [MusiCalc]</title>
         <link rel="icon" href="media/images/icon.png">
 		<link rel="stylesheet" type="text/css" href="styles/siteStyle.css">
         <style>
@@ -497,7 +498,6 @@
         <div class="toolBox rainbowBorder">
             <h1><strong>MusiCalc</strong><button class="restart" onclick="resetData();">↺</button></h1>
 
-
             <div><ul id="keySelector"></ul></div>
             <div><ul id="scaleSelector"></ul></div>
             <div class="scaleInfo"></div>
@@ -506,7 +506,7 @@
             <div><ul id="scaleDegrees" class="scaleInfo"></ul></div>
             <span class="menuBar"></span>
 
-            <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" onkeydown="bpmInput(event, 'keydown');" oninput="bpmInput(null, 'input');" data-lpignore="true"> BPM <span id="tapTempoControls"><button id="tapTempo" onclick="tapTempo();">Tap</button><button class="restart" onclick="resetTempo();">↺</button></span></div><ul id="noteSelector" class="rightSide"></ul></div>
+            <div class="splitBox" id="tempoTimes"><div id="bpmDiv" class="leftSide"><input type="text" id="userTempo" placeholder="?" onkeydown="bpmInput(event);" oninput="bpmInput(null);"> BPM <span id="tapTempoControls"><button id="tapTempo" onclick="tapTempo();">Tap</button><button class="restart" onclick="resetTempo();">↺</button></span></div><ul id="noteSelector" class="rightSide"></ul></div>
             <div class="info dragInfo">Click on values to highlight them and copy to clipboard!</div>
             <div class="splitBox meterFreqs"><div class="leftSide" id="meter"></div><div class="rightSide" id="freqs"></div></div>
             <div class="info dragInfo">Click and drag highlighted values into the textboxes below to copy the value!</div>
@@ -689,13 +689,13 @@
                             case "harmo": harmoniCalc();break;
                         }
                     });
+                    document.getElementsByClassName("dragReceiver")[i].setAttribute("data-lpignore", "true");
+                    document.getElementsByClassName("dragReceiver")[i].setAttribute("autocomplete", "off");
                 }
 
-                // input delay on the harmonicalc
+                // after the user stops typing for delay amount, harmoniCalc will run
                 const delay = 500;
                 var timeout;
-
-                // after the user stops typing for delay amount, harmoniCalc will run
                 document.getElementById("harmonicFreq").addEventListener("keyup", function(e){
                     clearTimeout(timeout);
                     timeout = setTimeout(function() {
@@ -762,6 +762,11 @@
                     document.getElementById("beBeatingTwo").value = memory("MusiBEBeatingTwo");
                 }
                 beBeatingFinder();
+
+                if (memory("MusiConversionValue")) {
+                    document.getElementById("convertValue").value = memory("MusiConversionValue");
+                }
+                convertValue();
 
                 if (memory("MusiPitchBpm")) {
                     document.getElementById("pitchBpm").value = memory("MusiPitchBpm");
@@ -937,26 +942,23 @@
             }
 
             // for tempo times input checking
-            function bpmInput(event = null, caller) {
+            function bpmInput(event = null) {
                 const userTempo = document.getElementById("userTempo");
                 var currentUserTempo = userTempo.value;
 
                 // if the user hits the up/down arrow, increment/decrement
                 if (event) {
 
-                    // if bpm 
+                    // if input is not a number, and not 0, return
                     if (!Number(currentUserTempo) && currentUserTempo != "0") {
                         return;
                     }
-                    if (event.keyCode == 38) {
+                    // else if an arrow key is pressed, increment/decrement
+                    if (event.keyCode == 38) { // up arrow
                         event.preventDefault();
-
-                        // if user types up arrow
                         document.getElementById("userTempo").value = Number(currentUserTempo) + 1;
-                    } else if (event.keyCode == 40) {
+                    } else if (event.keyCode == 40) { // down arrow
                         event.preventDefault();
-
-                        // if user types down arrow
                         document.getElementById("userTempo").value = Number(currentUserTempo) - 1;
                     }
                 }
@@ -1251,7 +1253,6 @@
                 }
                 return degreeNames[degree];
             }
-            // 
             function reloadRelativeBox() {
                 // in order to calculate the relative keys box, grab current variabes
                 const keyCheck = memory("MusiUserKey");
@@ -1306,9 +1307,10 @@
                 document.getElementById("relativeNames").innerHTML = outputString;
             }
 
+            // for converting ms/hz (UI)
             function convertValue(value = null, typeBox = null) {
 
-                if (value) {
+                if (value || value == "") {
                     if (value > 0) {
                         memory("MusiConversionValue", value);
                     } else {
@@ -1343,7 +1345,6 @@
                     document.getElementById("conversionResult").innerHTML = memory("MusiConversionValue")+" "+memory("MusiConversionType")+" = "+roundNumber(convertMsHz(memory("MusiConversionValue")), 2)+" "+oppositeType;
                     viewController("#conversionResult", "Show");
                 } else {
-                    console.log("Hiding");
                     document.getElementById("conversionResult").innerHTML = "";
                     viewController("#conversionResult", "Hide");
                 }
@@ -1374,7 +1375,6 @@
                     viewController("#beDetuneAmount", "Hide");
                 }
             }
-
             function beBeatingFinder() {
                 const beBeatingOne = Number(document.getElementById("beBeatingOne").value);
                 const beBeatingTwo = Number(document.getElementById("beBeatingTwo").value);
