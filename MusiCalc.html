@@ -1304,14 +1304,10 @@
 
             // for converting ms/hz (UI)
             function convertValue(typeBox = null) {
-                const valueToConvert = document.getElementById("convertValue").value;
+                const valueToConvert = Number(document.getElementById("convertValue").value);
 
-                if (valueToConvert) {
-                    if (valueToConvert > 0) {
-                        memory("MusiConversionValue", valueToConvert);
-                    } else {
-                        memory("MusiConversionValue", "");
-                    }
+                if (valueToConvert > 0) {
+                    memory("MusiConversionValue", valueToConvert);
                 } else {
                     memory("MusiConversionValue", "");
                 }
