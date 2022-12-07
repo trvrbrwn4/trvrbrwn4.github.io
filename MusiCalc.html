@@ -527,8 +527,8 @@
             <div class="extra">Original BPM: <input type="text" class="dragReceiver" id="pitchBpm" placeholder="?" oninput="pitchbpmInput();"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" id="pitchPitch" placeholder="?" oninput="pitchbpmInput();"></div>
             <div id="pitchDif"></div>
             
-            <h2><strong>Convert <span class="convertButton" id="ms" onclick="convertValue('', this);">ms</span> / <span class="convertButton" id="hz" onclick="convertValue('', this);">hz</span></strong></h2>
-            <div class="extra">type / value: <input type="text" class="dragReceiver" id="convertValue" placeholder="?" oninput="convertValue(this.value, '');"></div>
+            <h2><strong>Convert <span class="convertButton" id="ms" onclick="convertValue(this);">ms</span> / <span class="convertButton" id="hz" onclick="convertValue(this);">hz</span></strong></h2>
+            <div class="extra">type / value: <input type="text" class="dragReceiver" id="convertValue" placeholder="?" oninput="convertValue();"></div>
             <div id="conversionResult"></div>
 
             <h2><strong>Harmonic Calculator</strong></h2>
@@ -1303,14 +1303,17 @@
             }
 
             // for converting ms/hz (UI)
-            function convertValue(value = null, typeBox = null) {
+            function convertValue(typeBox = null) {
+                const valueToConvert = document.getElementById("convertValue").value;
 
-                if (value) {
-                    if (value > 0) {
-                        memory("MusiConversionValue", value);
+                if (valueToConvert) {
+                    if (valueToConvert > 0) {
+                        memory("MusiConversionValue", valueToConvert);
                     } else {
                         memory("MusiConversionValue", "");
                     }
+                } else {
+                    memory("MusiConversionValue", "");
                 }
                 
                 if (typeBox) {
@@ -1333,10 +1336,6 @@
                         selectorHelper(null, typeBox, "MusiConversionType", typeBox.innerHTML);
                     }
                 }
-
-                console.log("converting value. Using data:");
-                console.log(memory("MusiConversionValue"));
-                console.log(memory("MusiConversionType"));
 
                 // if value and type are not null, convert and display result
                 if (memory("MusiConversionValue") && memory("MusiConversionType")) {
