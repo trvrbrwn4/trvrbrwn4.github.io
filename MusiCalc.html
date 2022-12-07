@@ -739,14 +739,6 @@
                 }
                 showMeterFreqs();
 
-                if (memory("MusiConversionValue")) {
-                    document.getElementById("conversionResult").value = memory("MusiConversionValue");
-                }
-                if (memory("MusiConversionType")) {
-                    document.getElementById(memory("MusiConversionType")).classList.add("activeSelection");
-                }
-                convertValue();
-
                 if (memory("MusiBEReeseNote")) {
                     document.getElementById("beReeseNote").value = memory("MusiBEReeseNote");
                 }
@@ -764,7 +756,10 @@
                 beBeatingFinder();
 
                 if (memory("MusiConversionValue")) {
-                    document.getElementById("convertValue").value = memory("MusiConversionValue");
+                    document.getElementById("conversionResult").value = memory("MusiConversionValue");
+                }
+                if (memory("MusiConversionType")) {
+                    document.getElementById(memory("MusiConversionType")).classList.add("activeSelection");
                 }
                 convertValue();
 
@@ -1310,14 +1305,14 @@
             // for converting ms/hz (UI)
             function convertValue(value = null, typeBox = null) {
 
-                if (value || value == "") {
+                if (value) {
                     if (value > 0) {
                         memory("MusiConversionValue", value);
                     } else {
                         memory("MusiConversionValue", "");
                     }
                 }
-
+                
                 if (typeBox) {
                     // grab 'old' type (the currently selected type when clicked)
                     const oldTypeName = memory("MusiConversionType");
@@ -1338,6 +1333,10 @@
                         selectorHelper(null, typeBox, "MusiConversionType", typeBox.innerHTML);
                     }
                 }
+
+                console.log("converting value. Using data:");
+                console.log(memory("MusiConversionValue"));
+                console.log(memory("MusiConversionType"));
 
                 // if value and type are not null, convert and display result
                 if (memory("MusiConversionValue") && memory("MusiConversionType")) {
