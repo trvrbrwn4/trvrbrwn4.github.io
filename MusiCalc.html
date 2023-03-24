@@ -105,6 +105,11 @@
                 width: 20%;
                 min-width: 60px;
             }
+            .toolBox select {
+                text-align: center;
+                width: 20%;
+                font-size: 20px;
+            }
             .toolBox input:focus::placeholder {
                 color: transparent;
             }
@@ -244,7 +249,7 @@
                 visibility: hidden;
                 position: absolute;
             }
-            #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult {
+            #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult, #BPMTimeBPM {
                 font-weight: 800;
             }
             #beDetuneAmount, #beBeatingAmount {
@@ -280,11 +285,18 @@
             .harmonics > p {
                 font-size: 24px;
             }
+            .harmonics > div > p:not(:first-child) {
+                color: #888;
+            }
             #oddHarm span {
                 color: #e8b71d;
             }
             #evenHarm span {
                 color: #1ddde8;
+            }
+            /* style the BPMTimeBPM */
+            #BPMTimeBPM {
+                color: #1de840;
             }
 
             /******************** MEDIA QUERIES ********************/
@@ -313,6 +325,9 @@
                 .toolBox input { /* User BPM input box */
                     font-size: 20px;
                 }
+                .toolBox select {
+                    font-size: 12px;
+                }
                 #bpmDiv { /* bpm text */
                     font-size: 20px;
                 }
@@ -337,7 +352,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 24px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult, #BPMTimeBPM { /* outputs from reese/pitch extras */
                     font-size: 16px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -398,7 +413,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 24px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult, #BPMTimeBPM { /* outputs from reese/pitch extras */
                     font-size: 20px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -449,7 +464,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 28px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult, #BPMTimeBPM { /* outputs from reese/pitch extras */
                     font-size: 24px;
                 }
                 #oddHarm p, #oddHarm span, #evenHarm p, #evenHarm span { /* odd/even  harmonic output */
@@ -487,7 +502,7 @@
                 .extra input { /* all inputs in extras */
                     font-size: 32px;
                 }
-                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult { /* outputs from reese/pitch extras */
+                #beDetuneAmount, #beBeatingAmount, #pitchDif, #conversionResult, #BPMTimeBPM { /* outputs from reese/pitch extras */
                     font-size: 28px;
                 }
                 .harmonics { /* Container box for harmonic boxes */
@@ -529,16 +544,36 @@
 
             <h2><strong>Pitched Loop BPM Finder</strong></h2>
             <div class="info">Calculate the new bpm of a loop that has been pitched up or down</div>
-            <div class="extra">Original BPM: <input type="text" class="dragReceiver" id="pitchBpm" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="pitchBpmInput();"><span></span>Pitch difference (in st): <input type="text" class="dragReceiver" id="pitchPitch" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="pitchBpmInput();"></div>
+            <div class="extra">
+                original BPM: <input type="text" class="dragReceiver" id="pitchBpm" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="pitchBpmInput();">
+                <span></span>
+                difference (in semitones): <input type="text" class="dragReceiver" id="pitchPitch" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="pitchBpmInput();"></div>
             <div id="pitchDif"></div>
             
             <h2><strong>Convert <span class="convertButton" id="ms" onclick="convertValue(this);">ms</span> / <span class="convertButton" id="hz" onclick="convertValue(this);">hz</span></strong></h2>
-            <div class="extra">type / value: <input type="text" class="dragReceiver" id="convertValue" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="convertValue();"></div>
+                <div class="extra">
+                    type / value: <input type="text" class="dragReceiver" id="convertValue" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="convertValue();">
+                </div>
             <div id="conversionResult"></div>
+
+            <h2><strong>BPM From Time</strong></h2>
+            <div class="info">Calculate a BPM from a given amount of time and measures</div>
+            <div class="extra">
+                time (in seconds): <input type="text" class="dragReceiver" id="BPMTimeTime" placeholder="?" onkeydown="boxValueChanger(event, this);" oninput="convertBPMTime();">
+                <span></span>
+                measure count: <select id="BPMTimeMeasure" class="dragReceiver" oninput="convertBPMTime();">
+                    <option value="" selected disabled hidden>-</option>
+                    <option value="8">8 bars</option>
+                    <option value="4">4 bars</option>
+                    <option value="2">2 bars</option>
+                    <option value="1">1 bar</option>
+                </select>
+            </div>            
+            <div id="BPMTimeBPM"></div>
 
             <h2><strong>Harmonic Calculator</strong></h2>
             <div class="info">Calculate the odd & even harmonics of a given frequency!</div>
-            <div class="extra">Fundamental Frequency: <input type="text" class="dragReceiver" placeholder="?" id="harmonicFreq" onkeydown="boxValueChanger(event, this);" ></div>
+            <div class="extra">fundamental: <input type="text" class="dragReceiver" placeholder="?" id="harmonicFreq" onkeydown="boxValueChanger(event, this);" ></div>
             <div class="splitBox harmonics"><div class="leftSide" id="oddHarm"></div><div class="rightSide" id="evenHarm"></div></div>
         </div>
         <div class="footer">
@@ -780,6 +815,15 @@
                     document.getElementById("harmonicFreq").value = memory("MusiHarmFreq");
                 }
                 harmoniCalc();
+
+                // if BPMTimeTime
+                if (memory("MusiBPMTimeTime")) {
+                    document.getElementById("BPMTimeTime").value = memory("MusiBPMTimeTime");
+                }
+                if (memory("MusiBPMTimeBPM")) {
+                    document.getElementById("BPMTimeBPM").value = memory("MusiBPMTimeBPM");
+                }
+                convertBPMTime();
             };
 
             // function for managing activeSelection class and corresponding memory values
@@ -850,6 +894,20 @@
                         dataDeleted = true;
                     }
                     convertValue();
+
+                    const oldBPMTimeTime = memory("MusiTimeTime");
+                    if (oldBPMTimeTime) {
+                        document.getElementById("BPMTimeTime").value = "";
+                        memory("MusiTimeTime", "");
+                        dataDeleted = true;
+                    }
+                    const oldBPMTimeMeasure = memory("MusiTimeMeasure");
+                    if (oldBPMTimeMeasure) {
+                        document.getElementById("BPMTimeMeasure").value = "";
+                        memory("MusiTimeMeasure", "");
+                        dataDeleted = true;
+                    }
+                    convertBPMTime();
 
                     for (var i = 0; i < document.getElementsByClassName("dragReceiver").length; i++) {
                         if (document.getElementsByClassName("dragReceiver")[i].value) {
@@ -1427,6 +1485,32 @@
                 } else {
                     document.getElementById("conversionResult").innerHTML = "";
                     viewController("#conversionResult", "Hide");
+                }
+            }
+            
+            // for converting time to bpm
+            function convertBPMTime() {
+                const timeTime = Number(document.getElementById("BPMTimeTime").value);
+                const timeMeasure = Number(document.getElementById("BPMTimeMeasure").value);
+
+                if (timeTime > 0) {
+                    memory("MusiTimeTime", timeTime);
+                } else {
+                    memory("MusiTimeTime", "");
+                }
+
+                if (timeMeasure > 0) {
+                    memory("MusiTimeMeasure", timeMeasure);
+                } else {
+                    memory("MusiTimeMeasure", "");
+                }
+
+                if (memory("MusiTimeTime") && memory("MusiTimeMeasure")) {
+                    document.getElementById("BPMTimeBPM").innerHTML = roundNumber(memory("MusiTimeMeasure") * 240 / memory("MusiTimeTime"), 2) +" BPM";
+                    viewController("#BPMTimeBPM", "Show");
+                } else {
+                    document.getElementById("BPMTimeBPM").innerHTML = "";
+                    viewController("#BPMTimeBPM", "Hide");
                 }
             }
 
