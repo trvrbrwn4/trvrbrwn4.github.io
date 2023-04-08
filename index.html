@@ -1,56 +1,645 @@
-<!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="author" content="Trevor Brown"/>
-		<meta name="copyright" content="Copyright © Trevor Brown 2021. All rights reserved.">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>>TAB [HOME]</title>
-        <link rel="icon" href="media/images/icon.png">
-		<link rel="stylesheet" type="text/css" href="styles/siteStyle.css">
+    <head>
+        <title>> TAB [Portfolio]</title>
+        <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
         <style>
-            #currentPage {
-                text-decoration: underline;
-                text-decoration-color: #fff;
+            * {
+                margin: 0;
+                padding: 0;
             }
-            .intro {
+
+            @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;300&family=Open+Sans:wght@800&display=swap');
+            main {
+                font-family: 'IBM Plex Sans', sans-serif;
+                font-weight: 300;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 800;
+            }
+
+
+            html {
+                background-color: #000000;
+                color: #ffffff;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                cursor: default;
+            }
+            body {
+                width: 100%;
+                height: 100vh;
+                overflow: hidden;
+                background-color: #ffffff;
+                background-image: url("../media/stars_tile.png");
+                background-size: auto;
+                background-repeat: repeat;
+                background-position: center center;
+            }
+            .star {
+                position: absolute;
+                background-color: white;
+                width: 2px;
+                height: 2px;
+                opacity: 0;
+                animation: twinkling 1s infinite;
+                z-index: 1;
+            }
+            @keyframes twinkling {
+                0%, 100%{
+                    opacity: 0;
+                }
+
+                50% {
+                    opacity: 1;
+                }
+            }
+
+            /* youtube iframe embed */
+            #Reel iframe {
+                width: 90%;
+                height: 600px;
+                display: block;
+                margin: 0 auto;
+            }
+
+
+
+            /* sets the size of all the main elements */
+            nav, main>section, main>.divider {
+                width: 80%;
+                max-width: 1200px;
+                margin: 2vh auto;
+            }
+            /* sets the background color of all the main elements */
+            nav, main>section {
+                padding: 8px;
+                background-color: #000;
+                border: 1px solid #222;
+                border-radius: 8px;
+            }
+            .divider {
+                display: block;
+                border: 1px solid #222;
+            }
+            .rainbow {
+                border: 2px solid #fff;
+                animation: rainbowSlide 4s ease infinite;
+            }
+            @keyframes rainbowSlide {
+                0%, 100% {
+                    border-image: repeating-linear-gradient(135deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3) 1;
+                }
+                11% {
+                    border-image: repeating-linear-gradient(135deg, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400) 1;
+                }
+                22% {
+                    border-image: repeating-linear-gradient(135deg, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d) 1;
+                }
+                33% {
+                    border-image: repeating-linear-gradient(135deg, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d) 1;
+                }
+                44% {
+                    border-image: repeating-linear-gradient(135deg, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d) 1;
+                }
+                55% {
+                    border-image: repeating-linear-gradient(135deg, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840) 1;
+                }
+                66% {
+                    border-image: repeating-linear-gradient(135deg, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8) 1;
+                }
+                77% {
+                    border-image: repeating-linear-gradient(135deg, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8) 1;
+                }
+                88% {
+                    border-image: repeating-linear-gradient(135deg, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3) 1;
+                }
+                99% {
+                    border-image: repeating-linear-gradient(135deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3) 1;
+                }
+            }
+
+
+
+            /* main is the main container of everything */
+            main {
+                height: 100vh;
+                overflow-y: scroll;
+                scrollbar-width: none;
+            }
+            main>section {
+                scroll-margin-top: 4vh;
+            }
+            main>section>h1 {
+                display: inline-block;
+                font-size: 2em;
+                animation: floating 8s ease infinite;
+                margin-bottom: 8px;
+            }
+            @keyframes floating {
+                0%, 60%, 100%  {
+                    transform: translateY(0);
+                }
+                20% {
+                    transform: translateY(4px);
+                }
+            }
+
+            /* the default menu styling */
+            .menu {
+                list-style-type: none;
+            }
+            .menu li {
+                display: inline-block;
+                margin: 0 8px;
+            }
+
+            /* the active stuff is just for the filter menu */
+            .menu li:not(#active), .menu a {
+                text-decoration: none;
+                color: #888;
+                transition: all 0.2s ease;
+            }
+            .menu li:not(#active):hover, .menu a:hover  {
+                transform: scale(1.1);
+                color: #ccc;
+            }
+            #active {
+                text-decoration: underline;
+                color: #fff;
+            }
+
+
+            /**************** NAV BAR ****************/
+            nav {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                z-index: 999;
+            }
+            nav ul {
                 display: flex;
-                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+
+            /**************** PROJECTS ****************/
+            #menuProjects {
+                margin-bottom: 8px;
+            }
+            #menuProjects li:not(#active) {
+                cursor: pointer;
+            }
+
+            /* projects list */
+            #worksList {
+                display: flex;
+                flex-wrap: nowrap;
+                flex-direction: row;
+                list-style-type: none;
+                overflow-x: scroll;
+                width: 100%;
+            }
+            #worksList li {
+                display: inline-block;
+                margin: 8px;
+                padding: 8px;
+                width: 240px;
+                min-width: 240px;
+                height: 400px;
+                color: #fff;
+                border: #fff 1px solid;
+                border-radius: 32px;
+                overflow-y: scroll;
+                animation: jiggle 8s ease infinite;
+            }
+            @keyframes jiggle {
+                0%, 30%, 100%  {
+                    transform: rotate(0);
+                }
+                10% {
+                    transform: rotate(.5deg);
+                }
+                20% {
+                    transform: rotate(-.5deg);
+                }
+            }
+            #worksList img {
+                height: auto;
+                width: 80%;
+                border: #000 1px solid;
+                transition: all 0.2s ease;
+                animation: imgGrow 8s ease infinite;
+            }
+            #worksList img:hover {
+                cursor: pointer;
+                border: #fff 1px solid;
+            }
+            @keyframes imgGrow {
+                0% {
+                    filter: saturate(1);
+                }
+                10%, 20% {
+                    filter: saturate(4);
+                }
+                30%, 100% {
+                    filter: saturate(1);
+                }
+            }
+            #worksList a {
+                color: #88f;
+                text-decoration: none;
+            }
+            #worksList a:hover {
+                color: #66f;
+                text-decoration: underline;
+            }
+            /* workslist li a */
+            #worksList li p {
+                margin-bottom: 32px;
+            }
+            #worksList iframe {
+                width: 100% !important;
+            }
+            
+            /* img pop up for works */
+            .modal {
+                display: none;
                 justify-content: center;
                 align-items: center;
-                height: 50%;
-                width: auto;
-                background-image: url("../media/images/home/landing.gif");
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                margin: 32px 0;
-                border-top: 4px solid #fff;
-                border-bottom: 4px solid #fff;
+
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.9);
             }
-            sub {
-                font-size: 120%;
-                font-style: italic;
+            .modal-content {
+                margin: auto;
+                height: 80%;
+                max-width: 1200px;
+            }
+            .close {
+                position: absolute;
+                top: 5vh;
+                right: 5vw;
+                padding: 10px;
+                color: #fff;
+                font-size: 200%;
+                font-weight: bold;
+                animation: close 3s ease infinite;
+                cursor: pointer;
+            }
+            @keyframes close {
+                0%, 50%, 100% {
+                    transform: rotate(0);
+                }
+                20% {
+                    transform: rotate(5deg);
+                    color: #faa;
+                }
+                40% {
+                    transform: rotate(-5deg);
+                    color: #f88;
+                }
+            }
+
+            /**************** BIO ****************/
+            #Bio {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+            #Bio img {
+                height: 40%;
+                background-size: auto;
+                border-radius: 16px;
+                margin: 8px;
+                animation: pulse 2s linear infinite;
+            }
+            /* a keyframes animation to slightly animate the saturation of the image  */
+            @keyframes pulse {
+                0%, 100% {
+                    filter: saturate(1);
+                }
+                50% {
+                    filter: saturate(1.2);
+                }
+            }
+
+            #Bio img, #Bio p {
+                width: 60%;
+            }
+            #wave {
+                animation: wave 8s ease infinite;
+            }
+            @keyframes wave {
+                /* a short animation to make text appear to wave */
+                0%, 17% {
+                    transform: rotate(0);
+                }
+                3% {
+                    transform: rotate(4deg);
+                }
+                5% {
+                    transform: rotate(-4deg);
+                }
+                7% {
+                    transform: rotate(1deg);
+                }
+                10% {
+                    transform: rotate(-1deg);
+                }
+                12% {
+                    transform: rotate(.5deg);
+                }
+                15% {
+                    transform: rotate(-.5deg);
+                }
+            }
+            #Bio p {
+                margin: 8px;
+            }
+
+            /**************** CONNECT FORM ****************/
+            #Connect {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                display: none !important;
+            }
+            #Connect form {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                align-items: center;
+                width: 80%;
+                margin: 0 auto;
+                padding: 8px 8px 0 8px;
+            }
+            #Connect form input:not([type="submit"]), #Connect form textarea {
+                width: 60%;
+                padding: 8px;
+                border: #fff 1px solid;
+                border-radius: 4px;
+            }
+            #Connect form label, #Connect form input[type="submit"] {
+                margin: 8px;
+            }
+            #Connect form input {
+                color: #000;
+                width: 20% !important;
+            }
+            #Connect form textarea {
+                resize: vertical;
+            }
+            #Connect form input[type="submit"] {
+                width: 10% !important;
+                background-color: #fff;
+                color: #000;
+                border: #000 1px solid;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            #Connect form input[type="submit"]:hover {
+                background-color: #444;
+                color: #fff;
+            }
+
+            /**************** SOCIAL ****************/
+            #menuSocial {
+                list-style-type: none;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+            #menuSocial li {
+                width: 10%;
+                height: 10%;
+            }
+            #menuSocial img {
+                width: 100%;
+                height: 100%;
+
+                filter: grayscale(100%);
+                transition: all .4s ease;
+            }
+            #menuSocial img:hover {
+                filter: grayscale(0%);
+                transform: scale(1.4);
+                cursor: pointer;
             }
         </style>
-	</head>
-	<body onload="loader();">
-        <nav>
-            <ul class="navMenu">
-                <li id="currentPage">Home</li>
-            </ul>
-        </nav>
-        <div class="intro rainbowBorder">
-            Hello, I'm <strong>Trevor Brown</strong>
-            Welcome to my web portfolio!
-        </div>
-        <sub>More to come ;)</sub>
-        <div class="footer">
-            <ul class="socialMenu">
-                <a href="https://www.instagram.com/trvrbrwn4/" target="_blank"><li><img src="media/images/socials/instagram.png"></li></a>
-            </ul>
-            Copyright © 2022. All rights reserved.
-        </div>
-		<script src="scripts/siteScript.js" type="text/javascript"></script>
-	</body>
+    </head>
+    <body>
+        <main>
+            <section class="red" id="Reel">
+                <iframe src="https://www.youtube.com/embed/TZDhipTSRv0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </section>
+            <span class="divider rainbow"></span>
+            <nav>
+                <ul class="menu">
+                    <a href="#Reel"><li>Show Reel</li></a>
+                    <a href="#Projects"><li>Projects</li></a>
+                    <a href="#Bio"><li>Bio</li></a>
+                    <li><a href="#Connect">Connect</a></li>
+                </ul>
+            </nav>
+            <span class="divider"></span>
+            <section class="yellow" id="Projects">
+                <h1>Projects</h1>
+                <ul class="menu" id="menuProjects">
+                    <li id="active">All</li>
+                    <li>Sample Pack</li>
+                    <li>Sound Redesign</li>
+                    <li>Music Production</li>
+                    <li>Coding</li>
+                </ul>
+                <ul id="worksList"></ul>
+            </section>
+            <span class="divider"></span>
+            <section class="orange" id="Bio">
+                <h1>Bio</h1>
+                <img src="../media/TrevorB.png" alt="Profile Picture">
+                <h1 id="wave">Hello there!</h1>
+                <p>My name is Trevor Brown. You've been dreaming of an audio guy like me.</p>
+                <p>I am currently attending Utah Valley University where I am completing a Bachelors in Digital Audio with a minor in Computer Science.</p>
+                <p>I have over 10 years of experience working with audio, specializing with mixing and sound design. My extensive experience allows me to handle any audio-related task you may require.</p>
+                <p>Due to my strong technical foundation, I am also able to assist with a broad range of technological tasks.</p>
+                <p>Check down below for ways to connect with me :)</p>
+            </section>
+            <!-- <span class="divider"></span> -->
+            <section class="green" id="Connect">
+                <h1>Connect</h1>
+                <form action="submit-form.php" id="contact-form" method="post">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+
+                    <input type="submit" value="Submit">
+                </form>
+            </section>
+            <span class="divider"></span>
+            <section class="blue">
+                <ul class="menu" id="menuSocial">
+                    <li><a href="https://www.linkedin.com/in/trvrbrwn4/" target="_blank"><img src="../media/Icons/linkedin_3d.png" alt="LinkedIn"></li></a>
+                    <li><a href="https://www.instagram.com/trvrbrwn4/"><img src="../media/Icons/instagram_3d.png" alt="Instagram"></li></a>
+                </ul>
+            </section>
+        </main>
+        <script>
+            // reads json file, creates works list of entries there
+            fetch("works.json")
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    data = data["works"];
+                    data.forEach((work) => {
+                        const workItem = document.createElement("li");
+                        workItem.classList.add(work["category"]);
+
+                        const workTitle = document.createElement("h2");
+                        workTitle.innerHTML = work["title"];
+
+                        workItem.appendChild(workTitle);
+
+                        const workImg = document.createElement("img");
+                        workImg.setAttribute("alt", work["title"]);
+                        workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
+
+                        // img pop up for works
+                        var modal = document.createElement("div");
+                        var modalContent = document.createElement("img");
+                        var close = document.createElement("span");
+                        
+                        modal.classList.add("modal");
+                        modalContent.classList.add("modal-content");
+                        close.classList.add("close");
+                        close.innerHTML = "&times;";
+                        
+                        modal.appendChild(modalContent);
+                        modal.appendChild(close);
+                        document.body.appendChild(modal);
+                        
+                        workImg.addEventListener("click", function() {
+                            modal.style.display = "flex";
+                            modalContent.src = this.src;
+                        });
+                        
+                        close.addEventListener("click", function() {
+                            modal.style.display = "none";
+                        });
+
+                        workItem.appendChild(workImg);
+
+
+                        if (work["link"] != null) {
+                            const workLink = document.createElement("a");
+                            workLink.setAttribute("href", work["link"]);
+                            workLink.setAttribute("target", "_blank");
+                            const workDescription = document.createElement("p");
+                            workDescription.innerHTML = work["description"];
+
+                            workLink.appendChild(workDescription);
+
+                            workItem.appendChild(workLink);
+                        } else {
+                            const workDescription = document.createElement("p");
+                            workDescription.innerHTML = work["description"];
+
+                            workItem.appendChild(workDescription);
+                        }
+
+                        if (work["iframe"] != null) {
+                            const workIframe = document.createElement("iframe");
+                            workIframe.setAttribute("src", work["iframe"]);
+                            workIframe.setAttribute("title", work["title"]);
+                            workIframe.setAttribute("frameborder", "0");
+                            workIframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
+                            workIframe.setAttribute("allowfullscreen", "");
+                            workItem.appendChild(workIframe);
+                        }
+
+                        document.querySelector("#worksList").appendChild(workItem);
+                    });
+                });
+
+            // contact form script
+            document.getElementById("contact-form").addEventListener("submit", function(event) {
+                event.preventDefault(); // prevent the form from submitting normally
+
+                var form = event.target;
+                var url = form.action;
+                var formData = new FormData(form);
+
+                fetch(url, {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.status === "success") {
+                    alert(data.message); // display success message in popup
+                    form.reset(); // reset the form
+                } else {
+                    alert(data.message); // display error message in popup
+                }
+                })
+                .catch(error => alert("Oops! Something went wrong. Please try again later."));
+            });
+
+            function createStar() {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = Math.floor(Math.random() * (window.innerHeight - 20)) + 10 + 'px';
+                star.style.left = Math.floor(Math.random() * (window.innerWidth - 20)) + 10 + 'px';
+
+                document.body.appendChild(star);
+                setTimeout(() => {
+                    star.remove();
+                }, 1000);
+            }
+            setInterval(function() {
+                for (let i = 0; i < 10; i++) {
+                    createStar();
+                }
+            }, 50);
+
+            document.querySelectorAll("#menuProjects li").forEach((category) => {
+                category.addEventListener("click", (e) => {
+                    document.querySelector("#active").removeAttribute("id");
+                    e.target.setAttribute("id", "active");
+                    
+                    document.querySelectorAll("#worksList li").forEach((work) => {
+                        // output work to console
+                        if (e.target.innerHTML == "All") {
+                            work.style.display = "inline-block";
+                        } else if (work.classList.contains(e.target.innerHTML.replace(" ", ""))) {
+                            work.style.display = "inline-block";
+                        } else {
+                            work.style.display = "none";
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
 </html>
