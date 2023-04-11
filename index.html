@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>> TAB [Portfolio]</title>
-        <link rel="icon" type="image/x-icon" href="../media/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="../media/icon.png">
         <style>
             * {
                 margin: 0;
@@ -282,21 +282,10 @@
                     transform: rotate(-.5deg);
                 }
             }
-            #worksList li:hover {
-                animation: jiggleHover 1s ease-in-out 0s infinite alternate !important;
-            }
-            @keyframes jiggleHover {
-                0%, 100%  {
-                    transform: scale(1);
-                }
-                50% {
-                    transform: scale(.99);
-                }
-            }
             #worksList li:hover, #worksList li:hover img {
                 box-shadow: 0 0 4px;
             }
-            #worksList li:hover h2, #worksList li:hover p {
+            #worksList a:hover h2, #worksList a:hover p {
                 text-decoration: underline;
             }
 

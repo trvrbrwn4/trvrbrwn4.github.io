@@ -38,22 +38,6 @@
             "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1479967603%3Fsecret_token%3Ds-gKkpiwQtM1E&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         },
         {
-            "title": "Foley 1",
-            "category": "SamplePack",
-            "image": "foley1.png",
-            "description": "Ran multiple recording sessions to capture a wide variety of sounds in order to start building a custom library. Recorded: controllers, vegetable eating, footsteps, kitchen equipment, and plates to name a few.",
-            "link": "https://www.dropbox.com/s/vgu6v6tb03ekpxz/Foley%20Preview.wav?dl=0",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1481473903%3Fsecret_token%3Ds-F5O8JMgpDw5&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
-            "title": "SFX 1",
-            "category": "SamplePack",
-            "image": "sfx1.png",
-            "description": "I built a sampler patch using 127 unique glitch samples, where a random sample is selected and played back through a series of 'chaotic' delays and frequency shifters.",
-            "link": "https://www.dropbox.com/s/1sfqiw4uypwjjjt/SFX%201%20Preview.wav?dl=0",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1479967666%3Fsecret_token%3Ds-FxiQaoZvWNP&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
             "title": "Floating",
             "category": "MusicProduction",
             "image": "transmission.png",
@@ -68,6 +52,14 @@
             "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017026%3Fsecret_token%3Ds-2VioK5OYI9V&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         },
         {
+            "title": "Foley 1",
+            "category": "SamplePack",
+            "image": "foley1.png",
+            "description": "Ran multiple recording sessions to capture a wide variety of sounds in order to start building a custom library. Recorded: controllers, vegetable eating, footsteps, kitchen equipment, and plates to name a few.",
+            "link": "https://www.dropbox.com/s/vgu6v6tb03ekpxz/Foley%20Preview.wav?dl=0",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1481473903%3Fsecret_token%3Ds-F5O8JMgpDw5&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        },
+        {
             "title": "Turn The Page",
             "category": "MusicProduction",
             "image": "transmission.png",
@@ -80,6 +72,14 @@
             "image": "wander.png",
             "description": "A song about learning to wander and explore more.",
             "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017002%3Fsecret_token%3Ds-PzMYuDXaGRg&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        },
+        {
+            "title": "SFX 1",
+            "category": "SamplePack",
+            "image": "sfx1.png",
+            "description": "I built a sampler patch using 127 unique glitch samples, where a random sample is selected and played back through a series of 'chaotic' delays and frequency shifters.",
+            "link": "https://www.dropbox.com/s/1sfqiw4uypwjjjt/SFX%201%20Preview.wav?dl=0",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1479967666%3Fsecret_token%3Ds-FxiQaoZvWNP&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         },
         {
             "title": "Purpose",
