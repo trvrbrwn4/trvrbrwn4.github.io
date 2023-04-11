@@ -8,6 +8,7 @@
                 padding: 0;
             }
 
+            /******************************** FONTS ********************************/
             @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;300&family=Open+Sans:wght@800&display=swap');
             main {
                 font-family: 'IBM Plex Sans', sans-serif;
@@ -18,18 +19,18 @@
                 font-weight: 800;
             }
 
-
             html {
                 background-color: #000000;
                 color: #ffffff;
-                width: 100%;
-                height: 100%;
+                width: 100vw;
+                height: 100vh;
                 text-align: center;
                 cursor: default;
+                font-size: min(max(calc(1vw + 1vh + 1vmin - 8px), calc(1vw + 1vh + 1vmin - 16px)), calc(1.2em));
             }
             body {
                 width: 100%;
-                height: 100vh;
+                height: 100%;
                 overflow: hidden;
                 background-color: #ffffff;
                 background-image: url("../media/stars_tile.png");
@@ -50,25 +51,50 @@
                 0%, 100%{
                     opacity: 0;
                 }
-
                 50% {
                     opacity: 1;
                 }
             }
 
-            /* youtube iframe embed */
-            #Reel iframe {
-                width: 90%;
-                height: 600px;
-                display: block;
-                margin: 0 auto;
+            /* ****************** MAIN ****************** */
+            main {
+                height: 100%;
+                width: 100%;
+                overflow-y: scroll;
+                scrollbar-width: none;
+            }
+            main>section {
+                scroll-margin-top: 4vh;
+            }
+            main>section>h1 {
+                display: inline-block;
+                font-size: 2em;
+                animation: floating 8s ease infinite;
+                margin-bottom: 8px;
+            }
+            @keyframes floating {
+                0%, 60%, 100%  {
+                    transform: translateY(0);
+                }
+                20% {
+                    transform: translateY(4px);
+                }
             }
 
-
-
+            #Reel {
+                /* these dimensions maintain a 16:9 AR */
+                width: 94vw;
+                height: 52vw;
+                max-height: 664px;
+            }
+            #Reel iframe {
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+            }
             /* sets the size of all the main elements */
             nav, main>section, main>.divider {
-                width: 80%;
+                width: 94%;
                 max-width: 1200px;
                 margin: 2vh auto;
             }
@@ -79,13 +105,14 @@
                 border: 1px solid #222;
                 border-radius: 8px;
             }
+            /* divider and sliding rainbow animation */
             .divider {
                 display: block;
                 border: 1px solid #222;
             }
             .rainbow {
                 border: 2px solid #fff;
-                animation: rainbowSlide 4s ease infinite;
+                animation: rainbowSlide 8s ease infinite;
             }
             @keyframes rainbowSlide {
                 0%, 100% {
@@ -120,32 +147,6 @@
                 }
             }
 
-
-
-            /* main is the main container of everything */
-            main {
-                height: 100vh;
-                overflow-y: scroll;
-                scrollbar-width: none;
-            }
-            main>section {
-                scroll-margin-top: 4vh;
-            }
-            main>section>h1 {
-                display: inline-block;
-                font-size: 2em;
-                animation: floating 8s ease infinite;
-                margin-bottom: 8px;
-            }
-            @keyframes floating {
-                0%, 60%, 100%  {
-                    transform: translateY(0);
-                }
-                20% {
-                    transform: translateY(4px);
-                }
-            }
-
             /* the default menu styling */
             .menu {
                 list-style-type: none;
@@ -171,7 +172,7 @@
             }
 
 
-            /**************** NAV BAR ****************/
+            /* **************** NAV BAR **************** */
             nav {
                 position: -webkit-sticky;
                 position: sticky;
@@ -185,12 +186,59 @@
             }
 
 
-            /**************** PROJECTS ****************/
+            /* **************** PROJECTS **************** */
             #menuProjects {
                 margin-bottom: 8px;
+
+                /* disable scrolling */
+                overflow-y: visible;
             }
             #menuProjects li:not(#active) {
                 cursor: pointer;
+            }
+
+            .filterGreen:not(#active) {
+                color: #6DA076 !important;
+            }
+            .filterGreen:not(#active):hover {
+                color: #38D052 !important;
+            }
+            .filterGreen:is(#active), #worksList li:is(.Coding) {
+                color: #1DE840 !important;
+                border-color: #1DE840 !important;
+            }
+
+            .filterPink:not(#active) {
+                color: #9D66A3 !important;
+            }
+            .filterPink:not(#active):hover {
+                color: #C822D8 !important;
+            }
+            .filterPink:is(#active), #worksList li:is(.SoundRedesign) {
+                color: #DD00F3 !important;
+                border-color: #DD00F3 !important;
+            }
+
+            .filterBlue {
+                color: #6D9DA0 !important;
+            }
+            .filterBlue:hover {
+                color: #38C8D0 !important;
+            }
+            .filterBlue:is(#active), #worksList li:is(.MusicProduction) {
+                color: #1DDDE8 !important;
+                border-color: #1DDDE8 !important;
+            }
+
+            .filterYellow:not(#active) {
+                color: #9FA06D !important;
+            }
+            .filterYellow:not(#active):hover {
+                color: #CCD038 !important;
+            }
+            .filterYellow:is(#active), #worksList li:is(.SamplePack) {
+                color: #E3E81D !important;
+                border-color: #E3E81D !important;
             }
 
             /* projects list */
@@ -201,19 +249,27 @@
                 list-style-type: none;
                 overflow-x: scroll;
                 width: 100%;
+                padding-bottom: 16px;
+
+                /* style the scrollbar; */
+                scrollbar-color: #888 #000;
+                scrollbar-width: thick;
+
             }
             #worksList li {
                 display: inline-block;
-                margin: 8px;
+                margin: 8px 16px;
                 padding: 8px;
                 width: 240px;
                 min-width: 240px;
-                height: 400px;
-                color: #fff;
+                height: 30vh;
+                max-height: 500px;
                 border: #fff 1px solid;
                 border-radius: 32px;
                 overflow-y: scroll;
                 animation: jiggle 8s ease infinite;
+                transition: all 0.1s ease;
+                scrollbar-width: none;
             }
             @keyframes jiggle {
                 0%, 30%, 100%  {
@@ -226,18 +282,43 @@
                     transform: rotate(-.5deg);
                 }
             }
+            #worksList li:hover {
+                animation: jiggleHover 1s ease-in-out 0s infinite alternate !important;
+            }
+            @keyframes jiggleHover {
+                0%, 100%  {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(.99);
+                }
+            }
+            #worksList li:hover, #worksList li:hover img {
+                box-shadow: 0 0 4px;
+            }
+            #worksList li:hover h2, #worksList li:hover p {
+                text-decoration: underline;
+            }
+
+            #worksList .divider {
+                border: 1px solid #666;
+            }
+                        
+            /* consistent margins within project block elements */
+            #worksList li h2, #worksList img, #worksList li p, #worksList li iframe {
+                margin: 8px 0;
+            }
+            #worksList li p {
+                margin-top: 0;
+            }
             #worksList img {
                 height: auto;
                 width: 80%;
                 border: #000 1px solid;
                 transition: all 0.2s ease;
-                animation: imgGrow 8s ease infinite;
+                animation: imgPulse 8s ease infinite;
             }
-            #worksList img:hover {
-                cursor: pointer;
-                border: #fff 1px solid;
-            }
-            @keyframes imgGrow {
+            @keyframes imgPulse {
                 0% {
                     filter: saturate(1);
                 }
@@ -248,68 +329,18 @@
                     filter: saturate(1);
                 }
             }
-            #worksList a {
-                color: #88f;
+            #worksList a, #worksList a:visited {
+                color: inherit;
                 text-decoration: none;
-            }
-            #worksList a:hover {
-                color: #66f;
-                text-decoration: underline;
-            }
-            /* workslist li a */
-            #worksList li p {
-                margin-bottom: 32px;
             }
             #worksList iframe {
                 width: 100% !important;
             }
+            .playButton {
+                color: #1DDDE8 !important;
+            }
             
-            /* img pop up for works */
-            .modal {
-                display: none;
-                justify-content: center;
-                align-items: center;
-
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0,0,0,0.9);
-            }
-            .modal-content {
-                margin: auto;
-                height: 80%;
-                max-width: 1200px;
-            }
-            .close {
-                position: absolute;
-                top: 5vh;
-                right: 5vw;
-                padding: 10px;
-                color: #fff;
-                font-size: 200%;
-                font-weight: bold;
-                animation: close 3s ease infinite;
-                cursor: pointer;
-            }
-            @keyframes close {
-                0%, 50%, 100% {
-                    transform: rotate(0);
-                }
-                20% {
-                    transform: rotate(5deg);
-                    color: #faa;
-                }
-                40% {
-                    transform: rotate(-5deg);
-                    color: #f88;
-                }
-            }
-
-            /**************** BIO ****************/
+            /* ****************** BIO ****************** */
             #Bio {
                 display: flex;
                 flex-direction: column;
@@ -318,26 +349,33 @@
                 align-items: center;
             }
             #Bio img {
-                height: 40%;
+                width: 60vmin;
+                height: 40vmin;
                 background-size: auto;
                 border-radius: 16px;
                 margin: 8px;
+                border: 2px solid #000;
                 animation: pulse 2s linear infinite;
             }
             /* a keyframes animation to slightly animate the saturation of the image  */
             @keyframes pulse {
                 0%, 100% {
                     filter: saturate(1);
+                    border-color: #000;
+                    box-shadow: none;
                 }
                 50% {
                     filter: saturate(1.2);
+                    border-color: #00f;
+                    /* a four way box shadow that grows in all directions */
+                    box-shadow: 8px 8px 8px 8px #004, -8px 8px 8px 8px #004, 8px -8px 8px 8px #004, -8px -8px 8px 8px #004;
                 }
             }
 
             #Bio img, #Bio p {
                 width: 60%;
             }
-            #wave {
+            .wave {
                 animation: wave 8s ease infinite;
             }
             @keyframes wave {
@@ -368,7 +406,7 @@
                 margin: 8px;
             }
 
-            /**************** CONNECT FORM ****************/
+            /* **************** CONNECT **************** */
             #Connect {
                 display: flex;
                 flex-direction: column;
@@ -416,7 +454,7 @@
                 color: #fff;
             }
 
-            /**************** SOCIAL ****************/
+            /* ***************** SOCIAL ***************** */
             #menuSocial {
                 list-style-type: none;
                 display: flex;
@@ -437,47 +475,65 @@
                 transform: scale(1.4);
                 cursor: pointer;
             }
+
+            @media only screen and (max-width: 800) { /* For phone */
+                    html {
+                        font-size: 1.2em;
+                    }
+                    nav, main>section, main>.divider {
+                        width: 100%;
+                        margin: none;
+                    }
+            }
         </style>
     </head>
     <body>
         <main>
-            <section class="red" id="Reel">
+            <section id="Reel">
                 <iframe src="https://www.youtube.com/embed/TZDhipTSRv0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </section>
+
             <span class="divider rainbow"></span>
+
             <nav>
                 <ul class="menu">
                     <a href="#Reel"><li>Show Reel</li></a>
                     <a href="#Projects"><li>Projects</li></a>
                     <a href="#Bio"><li>Bio</li></a>
-                    <li><a href="#Connect">Connect</a></li>
+                    <a href="#Connect"><li>Connect</li></a>
                 </ul>
             </nav>
+
             <span class="divider"></span>
-            <section class="yellow" id="Projects">
+
+            <section id="Projects">
                 <h1>Projects</h1>
                 <ul class="menu" id="menuProjects">
-                    <li id="active">All</li>
-                    <li>Sample Pack</li>
-                    <li>Sound Redesign</li>
-                    <li>Music Production</li>
-                    <li>Coding</li>
+                    <li id="active" class="filterRed">All</li>
+                    <li class="filterYellow">Sample Pack</li>
+                    <li class="filterPink">Sound Redesign</li>
+                    <li class="filterBlue">Music Production</li>
+                    <li class="filterGreen">Coding</li>
                 </ul>
                 <ul id="worksList"></ul>
             </section>
+
             <span class="divider"></span>
-            <section class="orange" id="Bio">
+
+            <section id="Bio">
                 <h1>Bio</h1>
                 <img src="../media/TrevorB.png" alt="Profile Picture">
-                <h1 id="wave">Hello there!</h1>
+                <h1 class="wave">Hello there!</h1>
                 <p>My name is Trevor Brown. You've been dreaming of an audio guy like me.</p>
                 <p>I am currently attending Utah Valley University where I am completing a Bachelors in Digital Audio with a minor in Computer Science.</p>
-                <p>I have over 10 years of experience working with audio, specializing with mixing and sound design. My extensive experience allows me to handle any audio-related task you may require.</p>
-                <p>Due to my strong technical foundation, I am also able to assist with a broad range of technological tasks.</p>
+                <p>I have over 10 years of experience working with audio, with a specialty for mixing and sound design. My extensive experience allows me to handle any audio-related task.</p>
+                <p>My technical expertise covers a wide range of topics, including vast programming history, building workflows of tools, utilizing AI, and being able to learn new software quickly and efficiently.</p>
                 <p>Check down below for ways to connect with me :)</p>
             </section>
+
             <!-- <span class="divider"></span> -->
-            <section class="green" id="Connect">
+
+            <section id="Connect">
                 <h1>Connect</h1>
                 <form action="submit-form.php" id="contact-form" method="post">
                     <label for="name">Name:</label>
@@ -492,15 +548,36 @@
                     <input type="submit" value="Submit">
                 </form>
             </section>
+
             <span class="divider"></span>
-            <section class="blue">
+
+            <section>
                 <ul class="menu" id="menuSocial">
                     <li><a href="https://www.linkedin.com/in/trvrbrwn4/" target="_blank"><img src="../media/Icons/linkedin_3d.png" alt="LinkedIn"></li></a>
-                    <li><a href="https://www.instagram.com/trvrbrwn4/"><img src="../media/Icons/instagram_3d.png" alt="Instagram"></li></a>
+                    <li><a href="https://www.instagram.com/trvrbrwn4/" target="_blank"><img src="../media/Icons/instagram_3d.png" alt="Instagram"></li></a>
+                    <li><a href="https://github.com/trvrbrwn4" target="_blank"><img src="../media/Icons/github_3d.png" alt="GitHub"></a></li>
                 </ul>
             </section>
         </main>
         <script>
+            const userAgent = navigator.userAgent;
+            let userDevice = function() {
+                if (/mobile/i.test(userAgent)) {
+                    return 'mobile';
+                } else if (/tablet/i.test(userAgent)) {
+                    return 'tablet';
+                } else {
+                    return 'computer';
+                }
+            }();
+
+            // creates an HTML element, with innerHTML
+            function createElement(typeName, innerText = null) {
+                var el = document.createElement(typeName);
+                if (innerText) el.innerHTML = innerText;
+                return el;
+            }
+
             // reads json file, creates works list of entries there
             fetch("works.json")
                 .then((response) => {
@@ -509,70 +586,70 @@
                 .then((data) => {
                     data = data["works"];
                     data.forEach((work) => {
-                        const workItem = document.createElement("li");
-                        workItem.classList.add(work["category"]);
+                        const workItem = createElement("li");
+                            workItem.classList.add(work["category"]);
 
-                        const workTitle = document.createElement("h2");
-                        workTitle.innerHTML = work["title"];
+                            if (work["link"] != null) {
+                                const workLink = createElement("a");
+                                    workLink.setAttribute("href", work["link"]);
+                                    workLink.setAttribute("target", "_blank");
 
-                        workItem.appendChild(workTitle);
+                                    const workTitle = createElement("h2");
+                                        const mainTitle = createElement("span", work["title"]);
+                                        workTitle.appendChild(mainTitle);
 
-                        const workImg = document.createElement("img");
-                        workImg.setAttribute("alt", work["title"]);
-                        workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
+                                    workLink.appendChild(workTitle);
 
-                        // img pop up for works
-                        var modal = document.createElement("div");
-                        var modalContent = document.createElement("img");
-                        var close = document.createElement("span");
-                        
-                        modal.classList.add("modal");
-                        modalContent.classList.add("modal-content");
-                        close.classList.add("close");
-                        close.innerHTML = "&times;";
-                        
-                        modal.appendChild(modalContent);
-                        modal.appendChild(close);
-                        document.body.appendChild(modal);
-                        
-                        workImg.addEventListener("click", function() {
-                            modal.style.display = "flex";
-                            modalContent.src = this.src;
-                        });
-                        
-                        close.addEventListener("click", function() {
-                            modal.style.display = "none";
-                        });
+                                    const WorkDivider = createElement("span");
+                                        WorkDivider.classList.add("divider");
+                                    workLink.appendChild(WorkDivider);
 
-                        workItem.appendChild(workImg);
+                                    if (work["image"] != null) {
+                                        const workImg = createElement("img");
+                                            // workImg.setAttribute("alt", `${work["title"]} Art`);
+                                            workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
 
+                                        workLink.appendChild(workImg);
+                                    }
 
-                        if (work["link"] != null) {
-                            const workLink = document.createElement("a");
-                            workLink.setAttribute("href", work["link"]);
-                            workLink.setAttribute("target", "_blank");
-                            const workDescription = document.createElement("p");
-                            workDescription.innerHTML = work["description"];
+                                    const workDescription = createElement("p", work["description"]);
+                                    workLink.appendChild(workDescription);
 
-                            workLink.appendChild(workDescription);
+                                workItem.appendChild(workLink);
+                            } else {
+                                const workTitle = createElement("h2");
+                                    const mainTitle = createElement("span", work["title"]);
+                                    workTitle.appendChild(mainTitle);
 
-                            workItem.appendChild(workLink);
-                        } else {
-                            const workDescription = document.createElement("p");
-                            workDescription.innerHTML = work["description"];
+                                workItem.appendChild(workTitle);
 
-                            workItem.appendChild(workDescription);
-                        }
+                                const WorkDivider = createElement("span");
+                                    WorkDivider.classList.add("divider");
+                                workItem.appendChild(WorkDivider);
 
-                        if (work["iframe"] != null) {
-                            const workIframe = document.createElement("iframe");
-                            workIframe.setAttribute("src", work["iframe"]);
-                            workIframe.setAttribute("title", work["title"]);
-                            workIframe.setAttribute("frameborder", "0");
-                            workIframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
-                            workIframe.setAttribute("allowfullscreen", "");
-                            workItem.appendChild(workIframe);
-                        }
+                                if (work["image"] != null) {
+                                    const workImg = createElement("img");
+                                        // workImg.setAttribute("alt", `${work["title"]} Art`);
+                                        workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
+
+                                    workItem.appendChild(workImg);
+                                }
+
+                                const workDescription = createElement("p", work["description"]);
+                                workItem.appendChild(workDescription);
+                            }
+
+                            if (work["iframe"] != null) {
+                                const workIframe = createElement("iframe");
+
+                                    workIframe.setAttribute("src", work["iframe"]);
+                                    workIframe.setAttribute("title", work["title"]);
+                                    workIframe.setAttribute("frameborder", "0");
+                                    workIframe.setAttribute("allowfullscreen", "");
+                                workItem.appendChild(workIframe);
+                            }
+
+                            workItem.style.animationDelay = `${Math.random() * 2}s`;
 
                         document.querySelector("#worksList").appendChild(workItem);
                     });
@@ -602,8 +679,9 @@
                 .catch(error => alert("Oops! Something went wrong. Please try again later."));
             });
 
+            // star animation
             function createStar() {
-                const star = document.createElement('div');
+                const star = createElement('div');
                 star.classList.add('star');
                 star.style.top = Math.floor(Math.random() * (window.innerHeight - 20)) + 10 + 'px';
                 star.style.left = Math.floor(Math.random() * (window.innerWidth - 20)) + 10 + 'px';
@@ -619,23 +697,72 @@
                 }
             }, 50);
 
+            // for auto scrolling on projects
+            const scrollTimeout = 4000; // 4s, 4000ms
+            const worksBox = document.querySelector("#worksList");
+            let timerID;
+            function startTimer() {
+                timerID = setInterval(() => {
+                    if (worksBox.scrollLeft < (worksBox.scrollWidth - worksBox.clientWidth)) {
+                        worksBox.scrollBy({
+                            left: 150+Math.random()*100,
+                            behavior: "smooth"
+                        });
+                    } else {
+                        worksBox.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: "smooth"
+                        });
+                    }
+                }, scrollTimeout);
+            }
+            function stopTimer() {
+                clearInterval(timerID);
+            }
+            worksBox.scrollTo(0, 0);
+            worksBox.addEventListener('mouseenter', stopTimer);
+            worksBox.addEventListener('mouseleave', startTimer);
+            worksBox.addEventListener('touchstart', stopTimer);
+            // worksBox.addEventListener('touchend', startTimer);
+            startTimer();
+
+            // filter logic for projects section
             document.querySelectorAll("#menuProjects li").forEach((category) => {
-                category.addEventListener("click", (e) => {
+                // filters projects when a category is clicked
+                const handleCategoryClick = (event) => {
+                    if (event.target.id == "active") return;
+
                     document.querySelector("#active").removeAttribute("id");
-                    e.target.setAttribute("id", "active");
+                    event.target.setAttribute("id", "active");
                     
                     document.querySelectorAll("#worksList li").forEach((work) => {
-                        // output work to console
-                        if (e.target.innerHTML == "All") {
+                        work.scrollTo(0, 0);
+
+                        if (event.target.innerHTML == "All") {
                             work.style.display = "inline-block";
-                        } else if (work.classList.contains(e.target.innerHTML.replace(" ", ""))) {
+                        } else if (work.classList.contains(event.target.innerHTML.replace(" ", ""))) {
                             work.style.display = "inline-block";
                         } else {
                             work.style.display = "none";
                         }
+
+                        stopTimer();
+                        worksBox.scrollTo(0, 0);
+                        startTimer();
                     });
-                });
+                }
+
+                category.addEventListener('click', handleCategoryClick);
+                category.addEventListener('touchstart', handleCategoryClick);
             });
+
+            // a function for me to create constant width comments :)
+            function commentMaker(title) {
+                const fixedWidth = 40;
+                const sidewidth = (fixedWidth - title.split("").length) / 2;
+                console.log("*".repeat(sidewidth) + " " + title + " " + "*".repeat(sidewidth));
+            }
         </script>
     </body>
 </html>
