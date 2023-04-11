@@ -24,7 +24,7 @@
                 color: #ffffff;
                 width: 100vw;
                 height: 100vh;
-                text-align: center;
+                text-align: center !important;
                 cursor: default;
                 font-size: min(max(calc(1vw + 1vh + 1vmin - 8px), calc(1vw + 1vh + 1vmin - 16px)), calc(1.2em));
             }
@@ -94,13 +94,12 @@
             }
             /* sets the size of all the main elements */
             nav, main>section, main>.divider {
-                width: 94%;
+                width: 94vw;
                 max-width: 1200px;
                 margin: 2vh auto;
             }
             /* sets the background color of all the main elements */
             nav, main>section {
-                padding: 8px;
                 background-color: #000;
                 border: 1px solid #222;
                 border-radius: 8px;
@@ -177,7 +176,7 @@
                 position: -webkit-sticky;
                 position: sticky;
                 top: 0;
-                z-index: 999;
+                z-index: 2;
             }
             nav ul {
                 display: flex;
@@ -185,13 +184,9 @@
                 align-items: center;
             }
 
-
             /* **************** PROJECTS **************** */
             #menuProjects {
                 margin-bottom: 8px;
-
-                /* disable scrolling */
-                overflow-y: visible;
             }
             #menuProjects li:not(#active) {
                 cursor: pointer;
@@ -248,13 +243,11 @@
                 flex-direction: row;
                 list-style-type: none;
                 overflow-x: scroll;
-                width: 100%;
                 padding-bottom: 16px;
 
                 /* style the scrollbar; */
                 scrollbar-color: #888 #000;
                 scrollbar-width: thick;
-
             }
             #worksList li {
                 display: inline-block;
@@ -465,14 +458,10 @@
                 cursor: pointer;
             }
 
-            @media only screen and (max-width: 800) { /* For phone */
-                    html {
-                        font-size: 1.2em;
-                    }
-                    nav, main>section, main>.divider {
-                        width: 100%;
-                        margin: none;
-                    }
+            @media screen and (max-width: 600px) { /* For phone */
+                #menuProjects li {
+                    display: block;
+                }
             }
         </style>
     </head>
@@ -687,14 +676,14 @@
             }, 50);
 
             // for auto scrolling on projects
-            const scrollTimeout = 4000; // 4s, 4000ms
+            const scrollTimeout = 8000; // 4s, 4000ms
             const worksBox = document.querySelector("#worksList");
             let timerID;
             function startTimer() {
                 timerID = setInterval(() => {
                     if (worksBox.scrollLeft < (worksBox.scrollWidth - worksBox.clientWidth)) {
                         worksBox.scrollBy({
-                            left: 150+Math.random()*100,
+                            left: 200+Math.random()*200,
                             behavior: "smooth"
                         });
                     } else {
@@ -704,7 +693,7 @@
                             behavior: "smooth"
                         });
                     }
-                }, scrollTimeout);
+                }, scrollTimeout-Math.random()*2000);
             }
             function stopTimer() {
                 clearInterval(timerID);
