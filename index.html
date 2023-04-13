@@ -45,7 +45,6 @@
                 height: 2px;
                 opacity: 0;
                 animation: twinkling 1s infinite;
-                z-index: 1;
             }
             @keyframes twinkling {
                 0%, 100%{
@@ -65,6 +64,7 @@
             }
             main>section {
                 scroll-margin-top: 4vh;
+                z-index: 5;
             }
             main>section>h1 {
                 display: inline-block;
@@ -83,9 +83,10 @@
 
             #Reel {
                 /* these dimensions maintain a 16:9 AR */
-                width: 94vw;
-                height: 52vw;
+                width: 47vw;
+                height: 26vw;
                 max-height: 664px;
+                z-index: 999;
             }
             #Reel iframe {
                 width: 100%;
@@ -255,7 +256,7 @@
                 padding: 8px;
                 width: 240px;
                 min-width: 240px;
-                height: 30vh;
+                height: max(30vh, 400px);
                 max-height: 500px;
                 border: #fff 1px solid;
                 border-radius: 32px;
@@ -275,6 +276,18 @@
                     transform: rotate(-.5deg);
                 }
             }
+            #worksList li:hover {
+                animation: jiggle 8s ease infinite, softHover 2s ease infinite alternate;
+            }
+            @keyframes softHover {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.02);
+                }
+            }
+
             #worksList li:hover, #worksList li:hover img {
                 box-shadow: 0 0 4px;
             }
@@ -331,8 +344,8 @@
                 align-items: center;
             }
             #Bio img {
-                width: 60vmin;
-                height: 40vmin;
+                width: 30vw;
+                height: 20vw;
                 background-size: auto;
                 border-radius: 16px;
                 margin: 8px;
@@ -354,7 +367,7 @@
                 }
             }
 
-            #Bio img, #Bio p {
+            #Bio p {
                 width: 60%;
             }
             .wave {
@@ -394,7 +407,6 @@
                 flex-direction: column;
                 flex-wrap: wrap;
                 justify-content: space-evenly;
-                display: none !important;
             }
             #Connect form {
                 display: flex;
@@ -478,7 +490,7 @@
                     <a href="#Reel"><li>Show Reel</li></a>
                     <a href="#Projects"><li>Projects</li></a>
                     <a href="#Bio"><li>Bio</li></a>
-                    <a href="#Connect"><li>Connect</li></a>
+                    <!-- <a href="#Connect"><li>Connect</li></a> -->
                 </ul>
             </nav>
 
@@ -505,11 +517,10 @@
                 <p>My name is Trevor Brown. You've been dreaming of an audio guy like me.</p>
                 <p>I am currently attending Utah Valley University where I am completing a Bachelors in Digital Audio with a minor in Computer Science.</p>
                 <p>I have over 10 years of experience working with audio, with a specialty for mixing and sound design. My extensive experience allows me to handle any audio-related task.</p>
-                <p>My technical expertise covers a wide range of topics, including vast programming history, building workflows of tools, utilizing AI, and being able to learn new software quickly and efficiently.</p>
-                <p>Check down below for ways to connect with me :)</p>
+                <p>My technical expertise covers a wide range of topics, including a vast programming history, creating new workflows, utilizing AI, and being able to learn new software quickly and efficiently.</p>                <p>Check down below for ways to connect with me :)</p>
             </section>
 
-            <!-- <span class="divider"></span> -->
+            <!-- <span class="divider"></span>
 
             <section id="Connect">
                 <h1>Connect</h1>
@@ -526,7 +537,7 @@
                     <input type="submit" value="Submit">
                 </form>
             </section>
-
+ -->
             <span class="divider"></span>
 
             <section>
@@ -549,6 +560,46 @@
                 }
             }();
 
+            // for auto scrolling
+            const scrollTimeout = 8000; // 8s, 8000ms
+            const worksBox = document.querySelector("#worksList");
+            let timerContainer = {};
+            function startHorizontalScroll(box, container, timer) {
+                container[timer] = setInterval(() => {
+                    if (box.scrollLeft < (box.scrollWidth - box.clientWidth)) {
+                        box.scrollBy({
+                            left: 200+Math.random()*200,
+                            behavior: "smooth"
+                        });
+                    } else {
+                        box.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: "smooth"
+                        });
+                    }
+                }, scrollTimeout-Math.random()*2000);
+            }
+            function startVerticalScroll(box, container, timer) {
+                container[timer] = setInterval(() => {
+                    if (box.scrollTop < (box.scrollHeight - box.clientHeight)) {
+                        box.scrollBy({
+                            top: 40+Math.random()*40,
+                            behavior: "smooth"
+                        });
+                    } else {
+                        box.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: "smooth"
+                        });
+                    }
+                }, scrollTimeout-Math.random()*2000);
+            }
+            function stopScroll(container, timer) {
+                clearInterval(container[timer]);
+            }
+
             // creates an HTML element, with innerHTML
             function createElement(typeName, innerText = null) {
                 var el = document.createElement(typeName);
@@ -557,6 +608,7 @@
             }
 
             // reads json file, creates works list of entries there
+            var projectID = 0;
             fetch("works.json")
                 .then((response) => {
                     return response.json();
@@ -630,32 +682,44 @@
                             workItem.style.animationDelay = `${Math.random() * 2}s`;
 
                         document.querySelector("#worksList").appendChild(workItem);
+                        
+                        // create unique timers for each project. 
+                        // these timers control whether the project is scrolling vertically
+                        const projectTimer = "project"+projectID++;
+                        workItem.data = projectTimer;
+                        timerContainer[workItem.data] = null;
+
+                        workItem.scrollTo(0, 0);
+                        workItem.addEventListener('mouseenter', () => stopScroll(timerContainer, workItem.data));
+                        workItem.addEventListener('mouseleave', () => startVerticalScroll(workItem, timerContainer, workItem.data));
+                        workItem.addEventListener('touchstart', () => stopScroll(timerContainer, workItem.data));
+                        startVerticalScroll(workItem, timerContainer, workItem.data);
                     });
                 });
 
             // contact form script
-            document.getElementById("contact-form").addEventListener("submit", function(event) {
-                event.preventDefault(); // prevent the form from submitting normally
+            // document.getElementById("contact-form").addEventListener("submit", function(event) {
+            //     event.preventDefault(); // prevent the form from submitting normally
 
-                var form = event.target;
-                var url = form.action;
-                var formData = new FormData(form);
+            //     var form = event.target;
+            //     var url = form.action;
+            //     var formData = new FormData(form);
 
-                fetch(url, {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                if (data.status === "success") {
-                    alert(data.message); // display success message in popup
-                    form.reset(); // reset the form
-                } else {
-                    alert(data.message); // display error message in popup
-                }
-                })
-                .catch(error => alert("Oops! Something went wrong. Please try again later."));
-            });
+            //     fetch(url, {
+            //         method: "POST",
+            //         body: formData
+            //     })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //     if (data.status === "success") {
+            //         alert(data.message); // display success message in popup
+            //         form.reset(); // reset the form
+            //     } else {
+            //         alert(data.message); // display error message in popup
+            //     }
+            //     })
+            //     .catch(error => alert("Oops! Something went wrong. Please try again later."));
+            // });
 
             // star animation
             function createStar() {
@@ -664,7 +728,9 @@
                 star.style.top = Math.floor(Math.random() * (window.innerHeight - 20)) + 10 + 'px';
                 star.style.left = Math.floor(Math.random() * (window.innerWidth - 20)) + 10 + 'px';
 
-                document.body.appendChild(star);
+                // document.body.appendChild(star);
+                document.querySelector("main").insertBefore(star, document.querySelector("main").firstChild);
+
                 setTimeout(() => {
                     star.remove();
                 }, 1000);
@@ -675,35 +741,14 @@
                 }
             }, 50);
 
-            // for auto scrolling on projects
-            const scrollTimeout = 8000; // 4s, 4000ms
-            const worksBox = document.querySelector("#worksList");
-            let timerID;
-            function startTimer() {
-                timerID = setInterval(() => {
-                    if (worksBox.scrollLeft < (worksBox.scrollWidth - worksBox.clientWidth)) {
-                        worksBox.scrollBy({
-                            left: 200+Math.random()*200,
-                            behavior: "smooth"
-                        });
-                    } else {
-                        worksBox.scrollTo({
-                            top: 0,
-                            left: 0,
-                            behavior: "smooth"
-                        });
-                    }
-                }, scrollTimeout-Math.random()*2000);
-            }
-            function stopTimer() {
-                clearInterval(timerID);
-            }
+            // initializes scrolling on worksList
+            timerContainer["works"] = null;
+            
             worksBox.scrollTo(0, 0);
-            worksBox.addEventListener('mouseenter', stopTimer);
-            worksBox.addEventListener('mouseleave', startTimer);
-            worksBox.addEventListener('touchstart', stopTimer);
-            // worksBox.addEventListener('touchend', startTimer);
-            startTimer();
+            worksBox.addEventListener('mouseenter', () => stopScroll(timerContainer, "works"));
+            worksBox.addEventListener('mouseleave', () => startHorizontalScroll(worksBox, timerContainer, "works"));
+            worksBox.addEventListener('touchstart', () => stopScroll(timerContainer, "works"));
+            startHorizontalScroll(worksBox, timerContainer, "works");
 
             // filter logic for projects section
             document.querySelectorAll("#menuProjects li").forEach((category) => {
@@ -715,7 +760,9 @@
                     event.target.setAttribute("id", "active");
                     
                     document.querySelectorAll("#worksList li").forEach((work) => {
+                        stopScroll(timerContainer, work.data);
                         work.scrollTo(0, 0);
+                        startVerticalScroll(work, timerContainer, work.data);
 
                         if (event.target.innerHTML == "All") {
                             work.style.display = "inline-block";
@@ -724,11 +771,11 @@
                         } else {
                             work.style.display = "none";
                         }
-
-                        stopTimer();
-                        worksBox.scrollTo(0, 0);
-                        startTimer();
                     });
+
+                    stopScroll(timerContainer, "works");
+                    worksBox.scrollTo(0, 0);
+                    startHorizontalScroll(worksBox, timerContainer, "works");
                 }
 
                 category.addEventListener('click', handleCategoryClick);
