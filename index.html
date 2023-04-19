@@ -576,8 +576,13 @@
                 }
             }();
 
+            // a function to return a random number between a min and a max (inclusive)
+            function randomFrom(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+
             // for auto scrolling
-            const scrollTimeout = 8000; // 8s, 8000ms
+            const scrollTimeout = 16000; // 16s
             const worksBox = document.querySelector("#worksList");
             let timerContainer = {};
             function startHorizontalScroll(box, container, timer) {
@@ -594,7 +599,7 @@
                             behavior: "smooth"
                         });
                     }
-                }, scrollTimeout-Math.random()*2000);
+                }, scrollTimeout-Math.random()*4000);
             }
             function startVerticalScroll(box, container, timer) {
                 container[timer] = setInterval(() => {
@@ -610,7 +615,7 @@
                             behavior: "smooth"
                         });
                     }
-                }, scrollTimeout-Math.random()*2000);
+                }, scrollTimeout-(Math.random()*8000 + 4000));
             }
             function stopScroll(container, timer) {
                 clearInterval(container[timer]);
@@ -797,6 +802,58 @@
                 category.addEventListener('click', handleCategoryClick);
                 category.addEventListener('touchstart', handleCategoryClick);
             });
+
+            // everything for tab title updates after inactivity
+            // Schedule a new timeout to change the title after 30 seconds of inactivity
+            const activeChoices = "Awaiting : Listening : Observing".split(" : ");
+            const inactiveChoices = "Loading : Pinging".split(" : ");
+            const renameTab = () => {
+                if (document.hasFocus()) {
+                    document.title = "> TAB ["+activeChoices[randomFrom(0, activeChoices.length-1)]+"...]";
+                } else {
+                    document.title = "> TAB ["+inactiveChoices[randomFrom(0, inactiveChoices.length-1)]+"...]";
+                }
+            }
+
+            let titleTimeout, periodInterval;
+            setTitleAfterInactivity();
+            function setTitleAfterInactivity() {
+                document.title = "> TAB [Portfolio]";
+
+                titleTimeout = setTimeout(() => {
+                    renameTab();
+                    startPeriodInterval();
+                }, 30000);
+
+                // Reset the timeout whenever the user interacts with the page
+                window.onfocus = resetTitleTimeout;
+                document.addEventListener('mousemove', resetTitleTimeout);
+                document.addEventListener('keydown', resetTitleTimeout);
+                document.addEventListener('scroll', resetTitleTimeout);
+            }
+            function resetTitleTimeout() {
+                clearTimeout(titleTimeout);
+                stopPeriodInterval();
+                setTitleAfterInactivity();
+            }
+
+            function startPeriodInterval() {
+                clearInterval(periodInterval);
+
+                // Start a new interval to append a period to the title every 10 seconds
+                periodInterval = setInterval(() => {
+                    var currentTitle = document.title;
+                    if (currentTitle.includes("..........]")) {
+                        renameTab();
+                    } else {
+                        document.title = currentTitle.replace(']', '')+'.]';
+                    }
+                }, 10000);
+            }
+
+            function stopPeriodInterval() {
+                clearInterval(periodInterval);
+            }
 
             // a function for me to create constant width comments :)
             function commentMaker(title) {
