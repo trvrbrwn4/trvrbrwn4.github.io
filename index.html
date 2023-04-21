@@ -201,6 +201,20 @@
                 align-items: center;
             }
 
+            /* highlight animation for navbar */
+            .highlight {
+                /* call the animation 2 times with a length of 2s  */
+                animation: highlight 1s linear 2;
+            }
+            @keyframes highlight {
+                0%, 100% {
+                    border-color: black;
+                }
+                50% {
+                    border-color: white;
+                }
+            }
+
             /* **************** PROJECTS **************** */
             #menuProjects {
                 margin-bottom: 8px;
@@ -576,6 +590,27 @@
                 }
             }();
 
+            // for the nav bar jumping
+            document.querySelectorAll("nav a").forEach((navSpot) => {
+                navSpot.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const target = document.querySelector(navSpot.getAttribute("href"));
+
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                    // wait .5 seconds, then highlight
+                    setTimeout(() => {
+                        target.classList.add('highlight');
+                        setTimeout(() => {
+                            target.classList.remove('highlight');
+                        }, 2000);
+                    }, 200);
+                });
+            });
+
             // a function to return a random number between a min and a max (inclusive)
             function randomFrom(min, max) {
                 return Math.floor(Math.random() * (max - min + 1) + min);
@@ -764,7 +799,6 @@
 
             // initializes scrolling on worksList
             timerContainer["works"] = null;
-            
             worksBox.scrollTo(0, 0);
             worksBox.addEventListener('mouseenter', () => stopScroll(timerContainer, "works"));
             worksBox.addEventListener('mouseleave', () => startHorizontalScroll(worksBox, timerContainer, "works"));
@@ -836,7 +870,6 @@
                 stopPeriodInterval();
                 setTitleAfterInactivity();
             }
-
             function startPeriodInterval() {
                 clearInterval(periodInterval);
 
@@ -850,7 +883,6 @@
                     }
                 }, 10000);
             }
-
             function stopPeriodInterval() {
                 clearInterval(periodInterval);
             }
