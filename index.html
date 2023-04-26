@@ -80,7 +80,6 @@
             }
             main>section {
                 scroll-margin-top: 4vh;
-                z-index: 5;
             }
             main>section>h1 {
                 display: inline-block;
@@ -837,7 +836,7 @@
             // everything for tab title updates after inactivity
             // Schedule a new timeout to change the title after 30 seconds of inactivity
             const activeChoices = "Awaiting : Listening : Observing".split(" : ");
-            const inactiveChoices = "Loading : Pinging".split(" : ");
+            const inactiveChoices = "Communicating : Pinging".split(" : ");
             const renameTab = () => {
                 if (document.hasFocus()) {
                     document.title = "> TAB ["+activeChoices[randomFrom(0, activeChoices.length-1)]+"...]";
