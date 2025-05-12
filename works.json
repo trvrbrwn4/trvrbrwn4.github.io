@@ -2,91 +2,124 @@
     "works": [
         {
             "title": "MusiCalc",
-            "category": "Coding",
+            "category": "Dev",
+            "tags": ["Developer", "Designer"],
             "image": "musicalc.png",
-            "description": "This is a web tool for various musical calculations. Developed entirely from scratch.",
+            "description": "Self developed web tool for various musical calculations.",
             "link": "../MusiCalc.html"
         },
         {
-            "title": "SFX 2",
-            "category": "SamplePack",
-            "image": "sfx2.png",
-            "description": "I made a synth patch that plays random frequencies of notes at random times, which is then frequency shifted 'chaotically'. <br><br>Over 150+ samples currently!",
-            "link": "https://www.dropbox.com/s/r7nqycnmd74foye/SFX%202%20Preview.wav?dl=0",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1479967636%3Fsecret_token%3Ds-4m2PUtpHc9q&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            "title": "Anatomy of the Terrible",
+            "category": "Dev",
+            "tags": ["Developer", "SoundDesign", "Mixing", "SoundImplementation", "Designer"],
+            "image": "anatomyoftheterrible.png",
+            "description": "Co-developed an award winning game.",
+            "link": "https://store.steampowered.com/app/3680390"
+        },
+        {
+            "title": "Ripples",
+            "category": "Music",
+            "tags": ["Composition", "SoundDesign", "Mixing", "Mastering", "Designer"],
+            "image": "ripples.png",
+            "description": "20 minute mix showcasing many unreleased tracks.",
+            "link": "https://soundcloud.com/tvomusicus/ripples",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1735910955&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         },
         {
             "title": "MTS",
             "category": "SoundRedesign",
+            "tags": ["Composition", "SoundDesign", "Mixing"],
             "image": "marchtsound.png",
-            "description": "Participated in a month long challenge doing daily redesigns. Only used custom libraries of my own recordings along with synthesis, for every single one.",
+            "description": "Completed a month long sound redesign challenge using only original recordings and sound design techniques.",
             "link": "https://www.dropbox.com/sh/jsd7sgg33asg8w2/AAB-B6LRyBAWcJIiBXzgwRr4a?dl=0"
         },
         {
-            "title": "Transmission",
-            "category": "MusicProduction",
-            "image": "",
-            "description": "Shine bright.",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017011%3Fsecret_token%3Ds-yvny3SKTjsc&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
-            "title": "Rumbles",
-            "category": "SamplePack",
-            "image": "rumbles.png",
-            "description": "Explored a technique for synthesizing low frequency rumbling sounds. The technique also yielded wind and ocean waves, along with stereo and mono versions. <br><br>Over 20+ samples currently!",
-            "link": "https://www.dropbox.com/s/1oegmyaqoebf92y/Rumbles%20Preview.wav?dl=0",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1479967603%3Fsecret_token%3Ds-gKkpiwQtM1E&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
-            "title": "Floating",
-            "category": "MusicProduction",
-            "image": "",
-            "description": "Float above the clouds.",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017023%3Fsecret_token%3Ds-eGqil22vMJt&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
-            "title": "Drift",
-            "category": "MusicProduction",
-            "image": "",
-            "description": "Enjoy the journey.",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017026%3Fsecret_token%3Ds-2VioK5OYI9V&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
-            "title": "Foley 1",
-            "category": "SamplePack",
-            "image": "foley1.png",
-            "description": "Ran multiple recording sessions to capture a wide variety of sounds to start building a custom library. Recorded: controllers, vegetable eating, footsteps, kitchen equipment, and plates to name a few. <br><br>Over 250+ samples currently!",
-            "link": "https://www.dropbox.com/s/rvdgg135qy5tnhd/Foley%201%20Preview.wav?dl=0",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1481473903%3Fsecret_token%3Ds-F5O8JMgpDw5&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-        },
-        {
-            "title": "Turn The Page",
-            "category": "MusicProduction",
-            "image": "",
-            "description": "Embracing the next chapter.",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017008%3Fsecret_token%3Ds-7EvWZJvL2o9&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            "title": "Daydreaming at Night",
+            "category": "Music",
+            "tags": ["SoundDesign", "Mixing"],
+            "image": "daydreamingatnight.png",
+            "description": "Mixed this album using individual tracks.",
+            "link": "https://album.link/s/30vJ2sQEpFoCoor7hR62jx"
         },
         {
             "title": "Wander",
-            "category": "MusicProduction",
-            "image": "",
-            "description": "Create a new path for yourself.",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017002%3Fsecret_token%3Ds-PzMYuDXaGRg&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            "category": "Music",
+            "tags": ["Composition", "SoundDesign", "Mixing", "Mastering", "Designer"],
+            "image": "wanderforever.png",
+            "link": "https://soundcloud.com/tvomusicus/wander",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1522951066&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         },
         {
-            "title": "SFX 1",
-            "category": "SamplePack",
-            "image": "sfx1.png",
-            "description": "I built a sampler patch using 127 unique glitch samples, where a random sample is selected and played back through a series of 'chaotic' delays and frequency shifters. <br><br>Over 330+ samples!",
-            "link": "https://www.dropbox.com/s/o46pm54370my9fr/SFX%201%20Preview.wav?dl=0",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1479967666%3Fsecret_token%3Ds-FxiQaoZvWNP&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            "title": "Forever",
+            "category": "Music",
+            "tags": ["Composition", "SoundDesign", "Mixing", "Mastering", "Designer"],
+            "image": "wanderforever.png",
+            "link": "https://soundcloud.com/tvomusicus/forever",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1522952752&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
         },
         {
-            "title": "Purpose",
-            "category": "MusicProduction",
-            "image": "",
-            "description": "How do you want to spend your life?",
-            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1488017014%3Fsecret_token%3Ds-qLdym4cnYsN&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+            "title": "Transmission",
+            "category": "Music",
+            "tags": ["Composition", "SoundDesign", "Mixing", "Mastering", "Designer"],
+            "image": "transmission.png",
+            "link": "https://soundcloud.com/tvomusicus/transmission",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1565101192&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        },
+        {
+            "title": "Listen",
+            "category": "Music",
+            "tags": ["Composition", "SoundDesign", "Mixing", "Mastering", "Designer"],
+            "image": "listeniluvu.png",
+            "link": "https://soundcloud.com/tvomusicus/listen-1",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1705572804&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        },
+        {
+            "title": "I LUV U",
+            "category": "Music",
+            "tags": ["Composition", "SoundDesign", "Mixing", "Mastering", "Designer"],
+            "image": "listeniluvu.png",
+            "link": "https://soundcloud.com/tvomusicus/i-luv-u",
+            "iframe": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1705572831&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        },
+        {
+            "title": "Dogleg",
+            "category": "Sets",
+            "tags": ["Mixing"],
+            "image": "dogleg.png",
+            "description": "Assisted with mixing audio for this short film.",
+            "link": "https://www.youtube.com/watch?v=p716czRJgDI"
+        },
+        {
+            "title": "Purrder",
+            "category": "Sets",
+            "tags": ["BoomMixer"],
+            "image": "purrder.png",
+            "description": "Boomed and mixed audio for this short film.",
+            "link": "https://www.youtube.com/watch?v=I9I-L0x2aEo"
+        },
+        {
+            "title": "What We Never Said",
+            "category": "Sets",
+            "tags": ["BoomMixer"],
+            "image": "whatweneversaid.png",
+            "description": "Boomed and mixed audio for this short film.",
+            "link": "https://www.youtube.com/watch?v=qku5KLiZNOI"
+        },
+        {
+            "title": "Tragedy of Frakenstein",
+            "category": "Sets",
+            "tags": ["BoomMixer"],
+            "image": "frakenstein.png",
+            "description": "Mixed audio for this short film.",
+            "link": "https://www.youtube.com/watch?v=sCdHO3_7wPc"
+        },
+        {
+            "title": "Winston",
+            "category": "Sets",
+            "tags": ["BoomMixer"],
+            "image": "winston.png",
+            "description": "Boomed and mixed audio for this short film.",
+            "link": "https://www.youtube.com/watch?v=Qx33dbtMsvQ"
         }
     ]
 }

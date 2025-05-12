@@ -225,17 +225,23 @@
                 cursor: pointer;
             }
 
+            /* === GREEN === */
             .filterGreen:not(#active) {
                 color: #6DA076 !important;
             }
             .filterGreen:not(#active):hover {
                 color: #38D052 !important;
             }
-            .filterGreen:is(#active), #worksList li:is(.Coding) {
+            .filterGreen:is(#active), #worksList li:is(.Dev) {
+                color: #1DE840 !important;
+                border-color: #1DE840 !important;
+            }
+            .overrideGreen {
                 color: #1DE840 !important;
                 border-color: #1DE840 !important;
             }
 
+            /* === PINK === */
             .filterPink:not(#active) {
                 color: #9D66A3 !important;
             }
@@ -246,27 +252,89 @@
                 color: #DD00F3 !important;
                 border-color: #DD00F3 !important;
             }
+            .overridePink {
+                color: #DD00F3 !important;
+                border-color: #DD00F3 !important;
+            }
 
+            /* === BLUE === */
             .filterBlue {
-                color: #6D9DA0 !important;
+                color: #6964A8 !important;
             }
             .filterBlue:hover {
+                color: #4E43EC !important;
+            }
+            .filterBlue:is(#active) {
+                color: #4E43EC !important;
+                border-color: #4E43EC !important;
+            }
+            .overrideBlue {
+                color: #4E43EC !important;
+                border-color: #4E43EC !important;
+            }
+
+            /* === LIGHT BLUE === */
+            .filterBlueLight {
+                color: #6D9DA0 !important;
+            }
+            .filterBlueLight:hover {
                 color: #38C8D0 !important;
             }
-            .filterBlue:is(#active), #worksList li:is(.MusicProduction) {
+            .filterBlueLight:is(#active), #worksList li:is(.Music) {
+                color: #1DDDE8 !important;
+                border-color: #1DDDE8 !important;
+            }
+            .overrideBlueLight {
                 color: #1DDDE8 !important;
                 border-color: #1DDDE8 !important;
             }
 
+            /* === RED === */
+            .filterRed {
+                color: #987676 !important;
+            }
+            .filterRed:hover {
+                color: #e81d1d !important;
+            }
+            .filterRed:is(#active) {
+                color: #e81d1d !important;
+                border-color: #e81d1d !important;
+            }
+            .overrideRed {
+                color: #e81d1d !important;
+                border-color: #e81d1d !important;
+            }
+
+            /* === YELLOW === */
             .filterYellow:not(#active) {
                 color: #9FA06D !important;
             }
             .filterYellow:not(#active):hover {
                 color: #CCD038 !important;
             }
-            .filterYellow:is(#active), #worksList li:is(.SamplePack) {
+            .filterYellow:is(#active), #worksList li:is(.Sets) {
                 color: #E3E81D !important;
                 border-color: #E3E81D !important;
+            }
+            .overrideYellow {
+                color: #E3E81D !important;
+                border-color: #E3E81D !important;
+            }
+
+            /* === ORANGE === */
+            .filterOrange:not(#active) {
+                color: #A87E64 !important;
+            }
+            .filterOrange:not(#active):hover {
+                color: #E86A1C !important;
+            }
+            .filterOrange:is(#active) {
+                color: #E86A1C !important;
+                border-color: #E86A1C !important;
+            }
+            .overrideOrange {
+                color: #E86A1C !important;
+                border-color: #E86A1C !important;
             }
 
             /* projects list */
@@ -511,15 +579,15 @@
     </head>
     <body>
         <main>
-            <section id="Reel">
+            <!-- <section id="Reel">
                 <iframe src="https://www.youtube.com/embed/OmEGqFT99yI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </section>
+            </section> -->
 
             <span class="divider rainbow"></span>
 
             <nav>
                 <ul class="menu">
-                    <a href="#Reel"><li>Show Reel</li></a>
+                    <!-- <a href="#Reel"><li>Show Reel</li></a> -->
                     <a href="#Projects"><li>Projects</li></a>
                     <a href="#Bio"><li>Bio</li></a>
                     <!-- <a href="#Connect"><li>Connect</li></a> -->
@@ -531,11 +599,15 @@
             <section id="Projects">
                 <h1>Projects</h1>
                 <ul class="menu" id="menuProjects">
-                    <li id="active" class="filterRed">All</li>
-                    <li class="filterYellow">Sample Pack</li>
-                    <li class="filterPink">Sound Redesign</li>
-                    <li class="filterBlue">Music Production</li>
-                    <li class="filterGreen">Coding</li>
+                    <li id="active" class="filterClear">All</li>
+                    <li class="filterGreen">Developer</li>
+                    <li class="filterPink">Sound Design</li>
+                    <li class="filterBlueLight">Composition</li>
+                    <li class="filterBlue">Mixing</li>
+                    <li class="filterRed">Sound Implementation</li>
+                    <li class="filterYellow">Boom Mixer</li>
+                    <li class="filterOrange">Designer</li>
+                    
                 </ul>
                 <ul id="worksList"></ul>
             </section>
@@ -545,11 +617,13 @@
             <section id="Bio">
                 <h1>Bio</h1>
                 <img src="../media/TrevorB.png" alt="Profile Picture">
-                <h1 class="wave">Hello there!</h1>
-                <p>My name is Trevor Brown. You've been dreaming of an audio guy like me.</p>
-                <p>I am currently attending Utah Valley University where I am completing a Bachelors in Digital Audio with a minor in Computer Science.</p>
-                <p>I have over 10 years of experience working with audio, with a specialty for mixing and sound design. My extensive experience allows me to handle any audio-related task.</p>
-                <p>My technical expertise covers a wide range of topics, including a vast programming history, creating new workflows, utilizing AI, and being able to learn new software quickly and efficiently.</p>                <p>Check down below for ways to connect with me :)</p>
+                <h1 class="wave">Hey there!</h1>
+                <h2>I'm Trevor Brown.</h2>
+                <p>I’m a sound designer, programmer, and recent graduate from Utah Valley University, where I earned a B.S. in Digital Audio with a minor in Computer Science (Class of 2025).</p>
+                <p>With over a decade of hands-on experience, I specialize in sound design and mixing for games, film, and media. I’m also deeply passionate about music production and love exploring new sonic textures.</p>
+                <p>On the technical side, I’ve developed strong programming skills across multiple languages, and I enjoy building tools, solving complex problems, and streamlining creative workflows.</p>
+                <p>Whether I’m sculpting soundscapes or scripting systems, I’m always driven by curiosity and a desire to create.</p>
+                <p>Let’s connect — links below!</p>
             </section>
 
             <!-- <span class="divider"></span>
@@ -644,6 +718,10 @@
                     data.forEach((work) => {
                         const workItem = createElement("li");
                             workItem.classList.add(work["category"]);
+                            work["tags"].forEach((tag) => {
+                                workItem.classList.add(tag);
+                            });
+                            workItem.dataset.tags = work["category"]+","+work["tags"];
 
                             if (work["link"] != null) {
                                 const workLink = createElement("a");
@@ -814,13 +892,26 @@
                         stopScroll(timerContainer, work.data);
                         work.scrollTo(0, 0);
                         startVerticalScroll(work, timerContainer, work.data);
+                        const colors = {
+                            "Developer": "overrideGreen", 
+                            "SoundDesign": "overridePink",
+                            "Composition": "overrideBlueLight",
+                            "Mixing": "overrideBlue",
+                            "SoundImplementation": "overrideRed",
+                            "BoomMixer": "overrideYellow",
+                            "Designer": "overrideOrange"
+                        }
+                        let filterTag = event.target.innerHTML.replaceAll(" ", "");
 
+                        work.classList = work.dataset.tags.replaceAll(",", " ");
                         if (event.target.innerHTML == "All") {
                             work.style.display = "inline-block";
-                        } else if (work.classList.contains(event.target.innerHTML.replace(" ", ""))) {
+                        } else if (work.classList.contains(filterTag)) {
                             work.style.display = "inline-block";
+                            work.classList = colors[filterTag];
                         } else {
                             work.style.display = "none";
+                            work.classList = work.dataset.tags.replaceAll(",", " ");
                         }
                     });
 
