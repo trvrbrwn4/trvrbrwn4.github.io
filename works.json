@@ -86,7 +86,7 @@
             "category": "Sets",
             "tags": ["Mixing"],
             "image": "dogleg.png",
-            "description": "Assisted with mixing audio for this short film.",
+            "description": "Mix assistant for this short film.",
             "link": "https://www.youtube.com/watch?v=p716czRJgDI"
         },
         {
@@ -94,15 +94,15 @@
             "category": "Sets",
             "tags": ["BoomMixer"],
             "image": "purrder.png",
-            "description": "Boomed and mixed audio for this short film.",
+            "description": "Location sound for this short film. Boom Op + Sound Mixer.",
             "link": "https://www.youtube.com/watch?v=I9I-L0x2aEo"
         },
         {
             "title": "What We Never Said",
             "category": "Sets",
-            "tags": ["BoomMixer"],
+            "tags": ["Mixing"],
             "image": "whatweneversaid.png",
-            "description": "Boomed and mixed audio for this short film.",
+            "description": "Recorded and mixed an original composition for this short film.",
             "link": "https://www.youtube.com/watch?v=qku5KLiZNOI"
         },
         {
@@ -110,7 +110,7 @@
             "category": "Sets",
             "tags": ["BoomMixer"],
             "image": "frakenstein.png",
-            "description": "Mixed audio for this short film.",
+            "description": "Location sound for this short film. Sound Mixer.",
             "link": "https://www.youtube.com/watch?v=sCdHO3_7wPc"
         },
         {
@@ -118,7 +118,7 @@
             "category": "Sets",
             "tags": ["BoomMixer"],
             "image": "winston.png",
-            "description": "Boomed and mixed audio for this short film.",
+            "description": "Location sound for this short film. Boom Op + Sound Mixer.",
             "link": "https://www.youtube.com/watch?v=Qx33dbtMsvQ"
         }
     ]
