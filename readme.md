@@ -12,7 +12,8 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 1. twinkling
     `.star` div elements.
 
-    Fade in, then out.
+    <details>
+    <summary>Fade in, then out.</summary>
 
     ```css
     @keyframes twinkling {
@@ -24,6 +25,7 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
         }
     }
     ```
+    </details>
 
 <br />
 
