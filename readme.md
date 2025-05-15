@@ -1,0 +1,30 @@
+# Personal Portfolio
+Welcome to the nitty gritty of my portfolio! This is where I have documentation about my portfolio- mainly for personal use, but thought it would be cool to make a readme file for GitHub.
+
+## CSS
+[tab-style.css](css/tab-style.css) where I house sitewide styles.
+
+My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans).
+My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
+
+I have lots of little animations I've made for page elements too:
+
+1. twinkling
+    `.star` div elements.
+    Fade in, then out.
+
+<br />
+
+2. floating
+    Header elements.
+    Element drifts down, then back up.
+
+<br />
+
+3. rainbowSlide
+    `.rainbow` span elements.
+
+<br />
+
+4. highlight
+    `<section>` elements.
