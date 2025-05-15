@@ -292,13 +292,15 @@ Here's a demonstration of the functionality,
         "link": "Wrap the title, image, description in an <a> tag to this URL.",
         "iframe": "Display an iframe in this project. (SoundCloud embed)"
     },
-    ...
+    {},
+    {}
 ]
 ```
 
 #### works.json tags
 <details>
 <summary>The tags are what get used for the project filtering functionality</summary>
+
 ```javascript
 "tags": [
     "Developer",
@@ -318,7 +320,7 @@ More info later: [Project Filtering](https://github.com/trvrbrwn4/trvrbrwn4.gith
 #### Project Auto-Scroll
 Project specific auto scroll is started upon project insertion into `#worksList`.
 
-More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.github.io#auto-scroll)
+More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.github.io#auto-scroll-feature)
 
 
 ### Site Specific
@@ -352,7 +354,7 @@ setInterval(function() {
 
 #### Nav Bar
 <details>
-<summary>Attach the scrollIntoView and highlight animation to the `nav a` elements.</summary>
+<summary>Attach scrollIntoView and highlight animation to the `nav a` elements.</summary>
 
 ```javascript
 document.querySelectorAll("nav a").forEach((navSpot) => {
@@ -382,23 +384,26 @@ document.querySelectorAll("nav a").forEach((navSpot) => {
 </details>
 
 
-#### Auto-Scroll
+#### Auto-Scroll Feature
 <details>
 <summary>The project section and each project get a auto-scroll function applied to them.</summary>
 
 ```javascript
-// psuedo-code overview
-"ProjectSection": startHorizontalScroll(box, container, timer);
-"EachProject": startVerticalScroll(box, container, timer);
+startHorizontalScroll(box, container, timer); // Project Section
+startVerticalScroll(box, container, timer);   // Per Project
 
 stopScroll(container, timer);
 ```
+</details>
 
 The auto-scroll is disabled while the mouse is inside of it: `mouseenter` & `touchstart`.
-The auto-scroll timer resets and starts again.
+The auto-scroll timer resets and starts again on: `mouseleave`.
 
 Each project already has its auto-scroll timer started by now.
-So we just start it for the Project Section,
+
+<details>
+<summary>So just start it for the Project Section.</summary>
+
 ```javascript
 // initializes scrolling on worksList
  timerContainer["works"] = null;
@@ -410,5 +415,31 @@ So we just start it for the Project Section,
 ```
 </details>
 
-
 #### Project Filtering
+For each `#menuProjects li`, on `click` or `touchstart`, run filter logic.
+
+Basic rundown:
+1. Remove `#active` from the current `#active` option.
+2. Set target as `#active`.
+3. For each project:
+   - reset auto-scroll.
+   - replace current classes with original parsed classes.
+   - if `project.classList.contains(filterTag)`, show. Otherwise, hide.
+4. Reset auto-scroll of project section.
+
+#### Dynamic Site Title
+After 30s of inactivity, the `document.title`, or tab name, will change.
+
+Format is: `> TAB [...]`, where a chosen title gets put inserted into the square brackets.
+
+Once a title is chosen, periods are added on every 10s until `currentTitle.includes("..........]")`, then a new title will be chosen, and periods reset back to `...`.
+
+Title options depend on whether the tab has focus, `document.hasFocus()` or not.
+<details>
+<summary>Title options</summary>
+
+```javascript
+const activeChoices = "Awaiting : Listening : Observing".split(" : ");
+const inactiveChoices = "Communicating : Pinging".split(" : ");
+```
+</details>
