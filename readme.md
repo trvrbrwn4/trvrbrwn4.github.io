@@ -20,8 +20,6 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
 ### Animations
 
-<details>
-<summary>View Animation Details</summary>
 1. *twinkling*
 
     `.star` div elements.
@@ -31,19 +29,19 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
     ```css
     @keyframes twinkling {
-        0%, 100%{
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-        }
+    0%, 100%{
+    opacity: 0;
+    }
+    50% {
+    opacity: 1;
+    }
     }
     ```
     </details>
 
 <br />
 
-2. *floating*
+1. *floating*
 
     Header elements.
 
@@ -52,13 +50,13 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
     ```css
     @keyframes floating {
-    0%, 60%, 100%  {
-        transform: translateY(0);
+        0%, 60%, 100%  {
+            transform: translateY(0);
+        }
+        20% {
+            transform: translateY(4px);
+        }
     }
-    20% {
-        transform: translateY(4px);
-    }
-}
     ```
     </details>
 
@@ -260,7 +258,6 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
     }
     ```
     </details>
-</details>
 
 
 
