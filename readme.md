@@ -1,5 +1,9 @@
-# Personal Portfolio
-Welcome to the nitty gritty of my portfolio! This is where I have documentation about my portfolio- mainly for personal use, but thought it would be cool to make a readme file for GitHub.
+# What is this?
+This site is the home of my web portfolio and various web tools I have created.
+
+And ***this***, specifcally? This is just my documentation of it all.
+
+Feed your curiosity and look around- you never know what you might find. :)
 
 
 
