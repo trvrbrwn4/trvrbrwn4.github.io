@@ -8,15 +8,26 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 
 My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
-#### Animations
+### Animations
 1. twinkling
     `.star` div elements.
 
     Fade in, then out.
 
+    ```css
+    @keyframes twinkling {
+        0%, 100%{
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+    ```
+
 <br />
 
-2. floating
+1. floating
     Header elements.
 
     Element drifts down, then back up.
