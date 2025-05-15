@@ -275,21 +275,129 @@ Then, each page will use inline JavaScript for page specific features.
 ## Portfolio
 This site is the home of my personal brand in order to showcase my ability and style.
 
-## Projects Section
+### Projects Section
 Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
 
-Each project is represented in JSON,
-```
+
+#### works.json
+Here's a demonstration of the functionality,
+```json
 "works": [
     {
-        "title": <h2>, // Project Title
-        "category": "string", // Project Title
-        "tags": "string", // Project Title
-        "image": "string", // Project Title
-        "description": "string", // Project Title
-        "link": "string", // Project Title
-        "iframe": "string", // Project Title
+        "title": "Project Title",
+        "category": "Project Category (sets default color)",
+        "tags": ["Some", "Tags", "For", "Filtering"],
+        "image": "../Path/To/Image.png (512x512)",
+        "description": "Short blurb.",
+        "link": "Wrap the title, image, description in an <a> tag to this URL.",
+        "iframe": "Display an iframe in this project. (SoundCloud embed)"
     },
     ...
 ]
 ```
+
+#### works.json tags
+More info later: 
+The tags are what get used for the project filtering functionality,
+```javascript
+"tags": [
+    "Developer",
+    "SoundDesign",
+    "Composition",
+    "Mixing",
+    "SoundImplementation",
+    "Mastering", // unused
+    "BoomMixer"
+]
+```
+
+#### Project auto-scroll feature
+Project specific auto scroll is started upon project insertion into `#worksList`.
+
+More info later: 
+
+### Site Features
+After the projects are loaded into `#worksList`, a couple of other things come to life.
+
+#### Stars
+<details>
+<summary>Start the star animation.</summary>
+
+```javascript
+function createStar() {
+    const star = createElement('div');
+    star.classList.add('star');
+    star.style.top = Math.floor(Math.random() * (window.innerHeight - 20)) + 10 + 'px';
+    star.style.left = Math.floor(Math.random() * (window.innerWidth - 20)) + 10 + 'px';
+
+    // document.body.appendChild(star);
+    document.querySelector("main").insertBefore(star, document.querySelector("main").firstChild);
+
+    setTimeout(() => {
+        star.remove();
+    }, 1000);
+}
+setInterval(function() {
+    for (let i = 0; i < 10; i++) {
+        createStar();
+    }
+}, 50);
+```
+<details>
+
+#### Nav bar
+Attach the scrollIntoView and highlight animation to the `nav a` elements.
+
+```javascript
+document.querySelectorAll("nav a").forEach((navSpot) => {
+    const currentURL = window.location.href;
+    navSpot.addEventListener("click", (e) => {
+        e.preventDefault();
+        history.pushState(null, null, currentURL);
+
+        const target = document.querySelector(navSpot.getAttribute("href"));
+
+        target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        // wait .5 seconds, then highlight
+        setTimeout(() => {
+            target.classList.add('highlight');
+            setTimeout(() => {
+                target.classList.remove('highlight');
+            }, 1200);
+        }, 300);
+        
+    });
+});
+```
+
+#### Auto-scroll feature
+The project section and each project get a auto-scroll function applied to them.
+
+```javascript
+// psuedo-code overview
+"ProjectSection": startHorizontalScroll(box, container, timer);
+"EachProject": startVerticalScroll(box, container, timer);
+
+stopScroll(container, timer);
+```
+
+The auto-scroll is disabled while the mouse is inside of it: `mouseenter` & `touchstart`.
+The auto-scroll timer resets and starts again.
+
+Each project already has its auto-scroll timer started by now.
+So we just start it for the Project Section,
+```javascript
+// initializes scrolling on worksList
+ timerContainer["works"] = null;
+ worksBox.scrollTo(0, 0);
+ worksBox.addEventListener('mouseenter', () => stopScroll(timerContainer, "works"));
+ worksBox.addEventListener('mouseleave', () => startHorizontalScroll(worksBox, timerContainer, "works"));
+ worksBox.addEventListener('touchstart', () => stopScroll(timerContainer, "works"));
+ startHorizontalScroll(worksBox, timerContainer, "works");
+```
+
+#### Filtering
