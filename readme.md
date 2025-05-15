@@ -272,7 +272,7 @@ Then, each page will use inline JavaScript for page specific features.
 
 
 
-## Portfolio
+## Personal Portfolio
 This site is the home of my personal brand in order to showcase my ability and style.
 
 ### Projects Section
@@ -297,8 +297,8 @@ Here's a demonstration of the functionality,
 ```
 
 #### works.json tags
-More info later: 
-The tags are what get used for the project filtering functionality,
+<details>
+<summary>The tags are what get used for the project filtering functionality</summary>
 ```javascript
 "tags": [
     "Developer",
@@ -310,13 +310,18 @@ The tags are what get used for the project filtering functionality,
     "BoomMixer"
 ]
 ```
+</details>
 
-#### Project auto-scroll feature
+More info later: [Project Filtering](https://github.com/trvrbrwn4/trvrbrwn4.github.io#project-filtering)
+
+
+#### Project Auto-Scroll
 Project specific auto scroll is started upon project insertion into `#worksList`.
 
-More info later: 
+More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.github.io#auto-scroll)
 
-### Site Features
+
+### Site Specific
 After the projects are loaded into `#worksList`, a couple of other things come to life.
 
 #### Stars
@@ -343,10 +348,11 @@ setInterval(function() {
     }
 }, 50);
 ```
-<details>
+</details>
 
-#### Nav bar
-Attach the scrollIntoView and highlight animation to the `nav a` elements.
+#### Nav Bar
+<details>
+<summary>Attach the scrollIntoView and highlight animation to the `nav a` elements.</summary>
 
 ```javascript
 document.querySelectorAll("nav a").forEach((navSpot) => {
@@ -373,9 +379,12 @@ document.querySelectorAll("nav a").forEach((navSpot) => {
     });
 });
 ```
+</details>
 
-#### Auto-scroll feature
-The project section and each project get a auto-scroll function applied to them.
+
+#### Auto-Scroll
+<details>
+<summary>The project section and each project get a auto-scroll function applied to them.</summary>
 
 ```javascript
 // psuedo-code overview
@@ -399,5 +408,7 @@ So we just start it for the Project Section,
  worksBox.addEventListener('touchstart', () => stopScroll(timerContainer, "works"));
  startHorizontalScroll(worksBox, timerContainer, "works");
 ```
+</details>
 
-#### Filtering
+
+#### Project Filtering
