@@ -268,9 +268,28 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
 Then, each page will use inline JavaScript for page specific features.
 
-### Portfolio
 
-<details>
-<summary>View Portfolio Details</summary>
 
-</details>
+
+
+## Portfolio
+This site is the home of my personal brand in order to showcase my ability and style.
+
+## Projects Section
+Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
+
+Each project is represented in JSON,
+```json
+"works": [
+    {
+        "title": <h2>, // Project Title
+        "category": "string", // Project Title
+        "tags": "string", // Project Title
+        "image": "string", // Project Title
+        "description": "string", // Project Title
+        "link": "string", // Project Title
+        "iframe": "string", // Project Title
+    },
+    ...
+]
+```
