@@ -6,7 +6,7 @@ And ***this***, specifcally? This is just my documentation of it all.
 Feed your curiosity and look around- you never know what you might find. :)
 
 
-
+<br /><br /><br />
 
 
 ## CSS
@@ -14,9 +14,7 @@ Feed your curiosity and look around- you never know what you might find. :)
 
 Then, each page will use inline CSS for page specific features.
 
-My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans).
-
-My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
+My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans). My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
 ### Animations
 
@@ -29,12 +27,12 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
     ```css
     @keyframes twinkling {
-    0%, 100%{
-    opacity: 0;
-    }
-    50% {
-    opacity: 1;
-    }
+        0%, 100%{
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
     }
     ```
     </details>
@@ -260,7 +258,7 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
     </details>
 
 
-
+<br /><br /><br />
 
 
 ## JavaScript
@@ -269,7 +267,7 @@ My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 Then, each page will use inline JavaScript for page specific features.
 
 
-
+<br /><br /><br />
 
 
 ## Personal Portfolio
@@ -278,9 +276,9 @@ This site is the home of my personal brand in order to showcase my ability and s
 ### Projects Section
 Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
 
+<details>
+<summary>Project json format</summary>
 
-#### works.json
-Here's a demonstration of the functionality,
 ```json
 "works": [
     {
@@ -288,16 +286,16 @@ Here's a demonstration of the functionality,
         "category": "Project Category (sets default color)",
         "tags": ["Some", "Tags", "For", "Filtering"],
         "image": "../Path/To/Image.png (512x512)",
-        "description": "Short blurb.",
-        "link": "Wrap the title, image, description in an <a> tag to this URL.",
-        "iframe": "Display an iframe in this project. (SoundCloud embed)"
+        "description": "Short blurb.",                                              // optional
+        "link": "Wrap the title, image, description in an <a> tag to this URL.",    // optional
+        "iframe": "Display an iframe in this project. (SoundCloud embed)"           // optional
     },
     {},
     {}
 ]
 ```
+</details>
 
-#### works.json tags
 <details>
 <summary>The tags are what get used for the project filtering functionality</summary>
 
@@ -323,12 +321,14 @@ Project specific auto scroll is started upon project insertion into `#worksList`
 More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.github.io#auto-scroll-feature)
 
 
+<br />
+
+
 ### Site Specific
 After the projects are loaded into `#worksList`, a couple of other things come to life.
 
-#### Stars
 <details>
-<summary>Start the star animation.</summary>
+<summary>#### Stars</summary>
 
 ```javascript
 function createStar() {
