@@ -6,7 +6,9 @@ And ***this***, specifcally? This is just my documentation of it all.
 Feed your curiosity and look around- you never know what you might find. :)
 
 
-<br /><br /><br />
+<br /><br />
+---
+<br /><br />
 
 
 ## CSS
@@ -39,7 +41,7 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 
 <br />
 
-1. *floating*
+2. *floating*
 
     Header elements.
 
@@ -57,8 +59,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     }
     ```
     </details>
-
-<br />
 
 3. *rainbowSlide*
 
@@ -103,8 +103,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     ```
     </details>
 
-<br />
-
 4. *highlight*
 
     `<section>` elements.
@@ -125,8 +123,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     }
     ```
     </details>
-
-<br />
 
 5. *jiggle*
 
@@ -150,7 +146,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     ```
     </details>
 
-<br />
 
 6. *softHover*
 
@@ -170,8 +165,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     }
     ```
     </details>
-
-<br />
 
 7. *imgPulse*
 
@@ -194,8 +187,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     }
     ```
     </details>
-
-<br />
 
 8. *pulse*
 
@@ -220,8 +211,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     }
     ```
     </details>
-
-<br />
 
 9. *wave*
 
