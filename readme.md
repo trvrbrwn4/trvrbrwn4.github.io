@@ -276,43 +276,43 @@ This site is the home of my personal brand in order to showcase my ability and s
 ### Projects Section
 Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
 
-<details>
-<summary>Project json format</summary>
+    <details>
+    <summary>Project json format</summary>
 
-```json
-"works": [
-    {
-        "title": "Project Title",
-        "category": "Project Category (sets default color)",
-        "tags": ["Some", "Tags", "For", "Filtering"],
-        "image": "../Path/To/Image.png (512x512)",
-        "description": "Short blurb.",                                              // optional
-        "link": "Wrap the title, image, description in an <a> tag to this URL.",    // optional
-        "iframe": "Display an iframe in this project. (SoundCloud embed)"           // optional
-    },
-    {},
-    {}
-]
-```
-</details>
+    ```json
+    "works": [
+        {
+            "title": "Project Title",
+            "category": "Project Category (sets default color)",
+            "tags": ["Some", "Tags", "For", "Filtering"],
+            "image": "../Path/To/Image.png (512x512)",
+            "description": "Short blurb.",                                              // optional
+            "link": "Wrap the title, image, description in an <a> tag to this URL.",    // optional
+            "iframe": "Display an iframe in this project. (SoundCloud embed)"           // optional
+        },
+        {},
+        {}
+    ]
+    ```
+    </details>
 
-<details>
-<summary>The tags are what get used for the project filtering functionality</summary>
+    <details>
+    <summary>The tags are what get used for the project filtering functionality</summary>
 
-```javascript
-"tags": [
-    "Developer",
-    "SoundDesign",
-    "Composition",
-    "Mixing",
-    "SoundImplementation",
-    "Mastering", // unused
-    "BoomMixer"
-]
-```
-</details>
+    ```javascript
+    "tags": [
+        "Developer",
+        "SoundDesign",
+        "Composition",
+        "Mixing",
+        "SoundImplementation",
+        "Mastering", // unused
+        "BoomMixer"
+    ]
+    ```
+    </details>
 
-More info later: [Project Filtering](https://github.com/trvrbrwn4/trvrbrwn4.github.io#project-filtering)
+    More info later: [Project Filtering](https://github.com/trvrbrwn4/trvrbrwn4.github.io#project-filtering)
 
 
 #### Project Auto-Scroll
