@@ -279,7 +279,7 @@ This site is the home of my personal brand in order to showcase my ability and s
 Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
 
 Each project is represented in JSON,
-```json
+```
 "works": [
     {
         "title": <h2>, // Project Title
