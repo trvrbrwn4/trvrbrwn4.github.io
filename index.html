@@ -10,6 +10,7 @@
         <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/trvrbrwn4/trvrbrwn4.github.io/ea19f93d37f9614bbe4b80dc2ead8698d2ff0085/media/preview.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
+
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@trvrbrwn4" />
         <meta name="twitter:creator" content="@trvrbrwn4" />
@@ -19,88 +20,12 @@
         
         <title>> TAB [Portfolio]</title>
         <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/trvrbrwn4/trvrbrwn4.github.io/3efbc63fcbc1a56c87e3da2d24375be14037de30/media/icon.png">
+        
+        <link rel="stylesheet" href="css/tab-style.css">
         <style>
-            * {
-                margin: 0;
-                padding: 0;
-            }
-
-            /******************************** FONTS ********************************/
-            @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;300&family=Open+Sans:wght@800&display=swap');
-            main {
-                font-family: 'IBM Plex Sans', sans-serif;
-                font-weight: 300;
-            }
-            h1, h2, h3, h4, h5, h6 {
-                font-family: 'Open Sans', sans-serif;
-                font-weight: 800;
-            }
-
-            html {
-                background-color: #000000;
-                color: #ffffff;
-                width: 100vw;
-                height: 100vh;
-                text-align: center !important;
-                cursor: default;
-                font-size: min(max(calc(1vw + 1vh + 1vmin - 8px), calc(1vw + 1vh + 1vmin - 16px)), calc(1.2em));
-            }
-            body {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                background-color: #ffffff;
-                background-image: url("../media/stars_tile.png");
-                background-size: auto;
-                background-repeat: repeat;
-                background-position: center center;
-            }
-            .star {
-                position: absolute;
-                background-color: white;
-                width: 2px;
-                height: 2px;
-                opacity: 0;
-                animation: twinkling 1s infinite;
-            }
-            @keyframes twinkling {
-                0%, 100%{
-                    opacity: 0;
-                }
-                50% {
-                    opacity: 1;
-                }
-            }
-
-            /* ****************** MAIN ****************** */
-            main {
-                height: 100%;
-                width: 100%;
-                overflow-y: scroll;
-                scrollbar-width: none;
-            }
-            main>section {
-                scroll-margin-top: 4vh;
-            }
-            main>section>h1 {
-                display: inline-block;
-                font-size: 2em;
-                animation: floating 8s ease infinite;
-                margin-bottom: 8px;
-            }
-            @keyframes floating {
-                0%, 60%, 100%  {
-                    transform: translateY(0);
-                }
-                20% {
-                    transform: translateY(4px);
-                }
-            }
-
             #Reel {
                 padding: 8px 0;
             }
-
             #Reel iframe {
                 /* these dimensions maintain a 16:9 AR */
                 width: 64vmin;
@@ -109,114 +34,7 @@
 
                 margin: 0 auto;
             }
-            /* sets the size of all the main elements */
-            nav, main>section, main>.divider {
-                width: 94vw;
-                max-width: 1200px;
-                margin: 2vh auto;
-            }
-            /* sets the background color of all the main elements */
-            nav, main>section {
-                background-color: #000;
-                border: 1px solid #222;
-                border-radius: 8px;
-            }
-            /* divider and sliding rainbow animation */
-            .divider {
-                display: block;
-                border: 1px solid #222;
-            }
-            .rainbow {
-                border: 2px solid #fff;
-                animation: rainbowSlide 8s ease infinite;
-            }
-            @keyframes rainbowSlide {
-                0%, 100% {
-                    border-image: repeating-linear-gradient(135deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3) 1;
-                }
-                11% {
-                    border-image: repeating-linear-gradient(135deg, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400) 1;
-                }
-                22% {
-                    border-image: repeating-linear-gradient(135deg, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d) 1;
-                }
-                33% {
-                    border-image: repeating-linear-gradient(135deg, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d) 1;
-                }
-                44% {
-                    border-image: repeating-linear-gradient(135deg, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d) 1;
-                }
-                55% {
-                    border-image: repeating-linear-gradient(135deg, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840) 1;
-                }
-                66% {
-                    border-image: repeating-linear-gradient(135deg, #2b1de8, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8) 1;
-                }
-                77% {
-                    border-image: repeating-linear-gradient(135deg, #dd00f3, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8) 1;
-                }
-                88% {
-                    border-image: repeating-linear-gradient(135deg, #dd00f3, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3) 1;
-                }
-                99% {
-                    border-image: repeating-linear-gradient(135deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3) 1;
-                }
-            }
 
-            /* the default menu styling */
-            .menu {
-                list-style-type: none;
-            }
-            .menu li {
-                display: inline-block;
-                margin: 0 8px;
-            }
-
-            /* the active stuff is just for the filter menu */
-            .menu li:not(#active), .menu a {
-                text-decoration: none;
-                color: #888;
-                transition: all 0.2s ease;
-            }
-            .menu li:not(#active):hover, .menu a:hover  {
-                transform: scale(1.1);
-                color: #ccc;
-            }
-            #active {
-                text-decoration: underline;
-                color: #fff;
-            }
-
-
-            /* **************** NAV BAR **************** */
-            nav {
-                position: -webkit-sticky;
-                position: sticky;
-                top: 0;
-                z-index: 2;
-                padding: 8px 0;
-            }
-            nav ul {
-                display: flex;
-                justify-content: space-evenly;
-                align-items: center;
-            }
-
-            /* highlight animation for navbar */
-            .highlight {
-                /* call the animation 2 times with a length of 2s  */
-                animation: highlight .6s linear 2;
-            }
-            @keyframes highlight {
-                0%, 100% {
-                    border-color: #000;
-                    transform: scale(1);
-                }
-                50% {
-                    border-color: #888;
-                    transform: scale(1.01);
-                }
-            }
 
             /* **************** PROJECTS **************** */
             #menuProjects {
@@ -366,40 +184,18 @@
                 transition: all 0.1s ease;
                 scrollbar-width: none;
             }
-            @keyframes jiggle {
-                0%, 30%, 100%  {
-                    transform: rotate(0);
-                }
-                10% {
-                    transform: rotate(.5deg);
-                }
-                20% {
-                    transform: rotate(-.5deg);
-                }
-            }
             #worksList li:hover {
                 animation: jiggle 8s ease infinite, softHover 2s ease infinite alternate;
             }
-            @keyframes softHover {
-                0%, 100% {
-                    transform: scale(1);
-                }
-                50% {
-                    transform: scale(1.02);
-                }
-            }
-
             #worksList li:hover, #worksList li:hover img {
                 box-shadow: 0 0 4px;
             }
             #worksList a:hover h2, #worksList a:hover p {
                 text-decoration: underline;
             }
-
             #worksList .divider {
                 border: 1px solid #666;
-            }
-                        
+            }        
             /* consistent margins within project block elements */
             #worksList li h2, #worksList img, #worksList li p, #worksList li iframe {
                 margin: 8px 0;
@@ -414,17 +210,6 @@
                 transition: all 0.2s ease;
                 animation: imgPulse 8s ease infinite;
             }
-            @keyframes imgPulse {
-                0% {
-                    filter: saturate(1);
-                }
-                10%, 20% {
-                    filter: saturate(3);
-                }
-                30%, 100% {
-                    filter: saturate(1);
-                }
-            }
             #worksList a, #worksList a:visited {
                 color: inherit;
                 text-decoration: none;
@@ -436,6 +221,7 @@
                 color: #1DDDE8 !important;
             }
             
+
             /* ****************** BIO ****************** */
             #Bio {
                 display: flex;
@@ -453,53 +239,16 @@
                 border: 2px solid #000;
                 animation: pulse 2s linear infinite;
             }
-            @keyframes pulse {
-                0%, 100% {
-                    filter: saturate(1);
-                    border-color: #000;
-                    box-shadow: none;
-                }
-                50% {
-                    filter: saturate(1.2);
-                    border-color: #00f;
-                    /* a four way box shadow that grows in all directions */
-                    box-shadow: 8px 8px 8px 8px #004, -8px 8px 8px 8px #004, 8px -8px 8px 8px #004, -8px -8px 8px 8px #004;
-                }
-            }
-
             #Bio p {
                 width: 60%;
             }
             .wave {
                 animation: wave 8s ease infinite;
             }
-            @keyframes wave {
-                /* a short animation to make text appear to wave */
-                0%, 17% {
-                    transform: rotate(0);
-                }
-                3% {
-                    transform: rotate(4deg);
-                }
-                5% {
-                    transform: rotate(-4deg);
-                }
-                7% {
-                    transform: rotate(1deg);
-                }
-                10% {
-                    transform: rotate(-1deg);
-                }
-                12% {
-                    transform: rotate(.5deg);
-                }
-                15% {
-                    transform: rotate(-.5deg);
-                }
-            }
             #Bio p {
                 margin: 8px;
             }
+
 
             /* **************** CONNECT **************** */
             #Connect {
@@ -546,28 +295,6 @@
             #Connect form input[type="submit"]:hover {
                 background-color: #444;
                 color: #fff;
-            }
-
-            /* ***************** SOCIAL ***************** */
-            #menuSocial {
-                list-style-type: none;
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-evenly;
-                align-items: center;
-            }
-            #menuSocial img {
-                width: auto;
-                height: 8vh;
-
-                filter: grayscale(100%);
-                transition: all .4s ease;
-            }
-            #menuSocial img:hover {
-                filter: grayscale(0%);
-                transform: scale(1.4);
-                cursor: pointer;
             }
 
             @media screen and (max-width: 600px) { /* For phone */
@@ -653,328 +380,309 @@
                     <li><a href="https://www.instagram.com/trvrbrwn4/" target="_blank"><img src="../media/Icons/instagram_3d.png" alt="Instagram"></li></a>
                     <li><a href="https://github.com/trvrbrwn4" target="_blank"><img src="../media/Icons/github_3d.png" alt="GitHub"></a></li>
                 </ul>
+                Copyright © 2024-2025. All rights reserved.
             </section>
         </main>
-        <script src="../js/tab-lib.js"></script>
-        <script>
-            const userAgent = navigator.userAgent;
-            let userDevice = function() {
-                if (/mobile/i.test(userAgent)) {
-                    return 'mobile';
-                } else if (/tablet/i.test(userAgent)) {
-                    return 'tablet';
+    </body>
+    <script src="../js/tab-lib.js"></script>
+    <script>
+        const userAgent = navigator.userAgent;
+        let userDevice = function() {
+            if (/mobile/i.test(userAgent)) {
+                return 'mobile';
+            } else if (/tablet/i.test(userAgent)) {
+                return 'tablet';
+            } else {
+                return 'computer';
+            }
+        }();
+
+        // for auto scrolling
+        const scrollTimeout = 16000; // 16s
+        const worksBox = document.querySelector("#worksList");
+        let timerContainer = {};
+        function startHorizontalScroll(box, container, timer) {
+            container[timer] = setInterval(() => {
+                if (box.scrollLeft < (box.scrollWidth - box.clientWidth)) {
+                    box.scrollBy({
+                        left: 200+Math.random()*200,
+                        behavior: "smooth"
+                    });
                 } else {
-                    return 'computer';
+                    box.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth"
+                    });
                 }
-            }();
+            }, scrollTimeout-Math.random()*4000);
+        }
+        function startVerticalScroll(box, container, timer) {
+            container[timer] = setInterval(() => {
+                if (box.scrollTop < (box.scrollHeight - box.clientHeight)) {
+                    box.scrollBy({
+                        top: 40+Math.random()*40,
+                        behavior: "smooth"
+                    });
+                } else {
+                    box.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth"
+                    });
+                }
+            }, scrollTimeout-(Math.random()*8000 + 4000));
+        }
+        function stopScroll(container, timer) {
+            clearInterval(container[timer]);
+        }
 
-            // for auto scrolling
-            const scrollTimeout = 16000; // 16s
-            const worksBox = document.querySelector("#worksList");
-            let timerContainer = {};
-            function startHorizontalScroll(box, container, timer) {
-                container[timer] = setInterval(() => {
-                    if (box.scrollLeft < (box.scrollWidth - box.clientWidth)) {
-                        box.scrollBy({
-                            left: 200+Math.random()*200,
-                            behavior: "smooth"
+        // reads json file, creates works list of entries there
+        var projectID = 0;
+        fetch("works.json")
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                data = data["works"];
+                data.forEach((work) => {
+                    const workItem = createElement("li");
+                        workItem.classList.add(work["category"]);
+                        work["tags"].forEach((tag) => {
+                            workItem.classList.add(tag);
                         });
-                    } else {
-                        box.scrollTo({
-                            top: 0,
-                            left: 0,
-                            behavior: "smooth"
-                        });
-                    }
-                }, scrollTimeout-Math.random()*4000);
-            }
-            function startVerticalScroll(box, container, timer) {
-                container[timer] = setInterval(() => {
-                    if (box.scrollTop < (box.scrollHeight - box.clientHeight)) {
-                        box.scrollBy({
-                            top: 40+Math.random()*40,
-                            behavior: "smooth"
-                        });
-                    } else {
-                        box.scrollTo({
-                            top: 0,
-                            left: 0,
-                            behavior: "smooth"
-                        });
-                    }
-                }, scrollTimeout-(Math.random()*8000 + 4000));
-            }
-            function stopScroll(container, timer) {
-                clearInterval(container[timer]);
-            }
+                        workItem.dataset.tags = work["category"]+","+work["tags"];
 
-            // reads json file, creates works list of entries there
-            var projectID = 0;
-            fetch("works.json")
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    data = data["works"];
-                    data.forEach((work) => {
-                        const workItem = createElement("li");
-                            workItem.classList.add(work["category"]);
-                            work["tags"].forEach((tag) => {
-                                workItem.classList.add(tag);
-                            });
-                            workItem.dataset.tags = work["category"]+","+work["tags"];
+                        if (work["link"] != null) {
+                            const workLink = createElement("a");
+                                workLink.setAttribute("href", work["link"]);
+                                workLink.setAttribute("target", "_blank");
 
-                            if (work["link"] != null) {
-                                const workLink = createElement("a");
-                                    workLink.setAttribute("href", work["link"]);
-                                    workLink.setAttribute("target", "_blank");
-
-                                    const workTitle = createElement("h2");
-                                        const mainTitle = createElement("span", work["title"]);
-                                        workTitle.appendChild(mainTitle);
-
-                                    workLink.appendChild(workTitle);
-
-                                    const WorkDivider = createElement("span");
-                                        WorkDivider.classList.add("divider");
-                                    workLink.appendChild(WorkDivider);
-
-                                    if (work["image"] != null) {
-                                        const workImg = createElement("img");
-                                            // workImg.setAttribute("alt", `${work["title"]} Art`);
-                                            workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
-
-                                        workLink.appendChild(workImg);
-                                    }
-
-                                    const workDescription = createElement("p", work["description"]);
-                                    workLink.appendChild(workDescription);
-
-                                workItem.appendChild(workLink);
-                            } else {
                                 const workTitle = createElement("h2");
                                     const mainTitle = createElement("span", work["title"]);
                                     workTitle.appendChild(mainTitle);
 
-                                workItem.appendChild(workTitle);
+                                workLink.appendChild(workTitle);
 
                                 const WorkDivider = createElement("span");
                                     WorkDivider.classList.add("divider");
-                                workItem.appendChild(WorkDivider);
+                                workLink.appendChild(WorkDivider);
 
                                 if (work["image"] != null) {
                                     const workImg = createElement("img");
                                         // workImg.setAttribute("alt", `${work["title"]} Art`);
                                         workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
 
-                                    workItem.appendChild(workImg);
+                                    workLink.appendChild(workImg);
                                 }
 
                                 const workDescription = createElement("p", work["description"]);
-                                workItem.appendChild(workDescription);
-                            }
+                                workLink.appendChild(workDescription);
 
-                            if (work["iframe"] != null) {
-                                const workIframe = createElement("iframe");
-
-                                    workIframe.setAttribute("src", work["iframe"]);
-                                    workIframe.setAttribute("title", work["title"]);
-                                    workIframe.setAttribute("frameborder", "0");
-                                    workIframe.setAttribute("allowfullscreen", "");
-                                workItem.appendChild(workIframe);
-                            }
-
-                            workItem.style.animationDelay = `${Math.random() * 2}s`;
-
-                        document.querySelector("#worksList").appendChild(workItem);
-                        
-                        // create unique timers for each project. 
-                        // these timers control whether the project is scrolling vertically
-                        const projectTimer = "project"+projectID++;
-                        workItem.data = projectTimer;
-                        timerContainer[workItem.data] = null;
-
-                        workItem.scrollTo(0, 0);
-                        workItem.addEventListener('mouseenter', () => stopScroll(timerContainer, workItem.data));
-                        workItem.addEventListener('mouseleave', () => startVerticalScroll(workItem, timerContainer, workItem.data));
-                        workItem.addEventListener('touchstart', () => stopScroll(timerContainer, workItem.data));
-                        startVerticalScroll(workItem, timerContainer, workItem.data);
-                    });
-                });
-
-            // contact form script
-            // document.getElementById("contact-form").addEventListener("submit", function(event) {
-            //     event.preventDefault(); // prevent the form from submitting normally
-
-            //     var form = event.target;
-            //     var url = form.action;
-            //     var formData = new FormData(form);
-
-            //     fetch(url, {
-            //         method: "POST",
-            //         body: formData
-            //     })
-            //     .then(response => response.json())
-            //     .then(data => {
-            //     if (data.status === "success") {
-            //         alert(data.message); // display success message in popup
-            //         form.reset(); // reset the form
-            //     } else {
-            //         alert(data.message); // display error message in popup
-            //     }
-            //     })
-            //     .catch(error => alert("Oops! Something went wrong. Please try again later."));
-            // });
-
-            // star animation
-            function createStar() {
-                const star = createElement('div');
-                star.classList.add('star');
-                star.style.top = Math.floor(Math.random() * (window.innerHeight - 20)) + 10 + 'px';
-                star.style.left = Math.floor(Math.random() * (window.innerWidth - 20)) + 10 + 'px';
-
-                // document.body.appendChild(star);
-                document.querySelector("main").insertBefore(star, document.querySelector("main").firstChild);
-
-                setTimeout(() => {
-                    star.remove();
-                }, 1000);
-            }
-            setInterval(function() {
-                for (let i = 0; i < 10; i++) {
-                    createStar();
-                }
-            }, 50);
-
-            // for the nav bar jumping
-            document.querySelectorAll("nav a").forEach((navSpot) => {
-                const currentURL = window.location.href;
-                navSpot.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    history.pushState(null, null, currentURL);
-
-                    const target = document.querySelector(navSpot.getAttribute("href"));
-
-                    target.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                    // wait .5 seconds, then highlight
-                    setTimeout(() => {
-                        target.classList.add('highlight');
-                        setTimeout(() => {
-                            target.classList.remove('highlight');
-                        }, 1200);
-                    }, 300);
-                    
-                });
-            });
-
-
-            // initializes scrolling on worksList
-            timerContainer["works"] = null;
-            worksBox.scrollTo(0, 0);
-            worksBox.addEventListener('mouseenter', () => stopScroll(timerContainer, "works"));
-            worksBox.addEventListener('mouseleave', () => startHorizontalScroll(worksBox, timerContainer, "works"));
-            worksBox.addEventListener('touchstart', () => stopScroll(timerContainer, "works"));
-            startHorizontalScroll(worksBox, timerContainer, "works");
-
-            // filter logic for projects section
-            document.querySelectorAll("#menuProjects li").forEach((category) => {
-                // filters projects when a category is clicked
-                const handleCategoryClick = (event) => {
-                    if (event.target.id == "active") return;
-
-                    document.querySelector("#active").removeAttribute("id");
-                    event.target.setAttribute("id", "active");
-                    
-                    document.querySelectorAll("#worksList li").forEach((work) => {
-                        stopScroll(timerContainer, work.data);
-                        work.scrollTo(0, 0);
-                        startVerticalScroll(work, timerContainer, work.data);
-                        const colors = {
-                            "Developer": "overrideGreen", 
-                            "SoundDesign": "overridePink",
-                            "Composition": "overrideBlueLight",
-                            "Mixing": "overrideBlue",
-                            "SoundImplementation": "overrideRed",
-                            "BoomMixer": "overrideYellow",
-                            "Designer": "overrideOrange"
-                        }
-                        let filterTag = event.target.innerHTML.replaceAll(" ", "");
-
-                        work.classList = work.dataset.tags.replaceAll(",", " ");
-                        if (event.target.innerHTML == "All") {
-                            work.style.display = "inline-block";
-                        } else if (work.classList.contains(filterTag)) {
-                            work.style.display = "inline-block";
-                            work.classList = colors[filterTag];
+                            workItem.appendChild(workLink);
                         } else {
-                            work.style.display = "none";
-                            work.classList = work.dataset.tags.replaceAll(",", " ");
+                            const workTitle = createElement("h2");
+                                const mainTitle = createElement("span", work["title"]);
+                                workTitle.appendChild(mainTitle);
+
+                            workItem.appendChild(workTitle);
+
+                            const WorkDivider = createElement("span");
+                                WorkDivider.classList.add("divider");
+                            workItem.appendChild(WorkDivider);
+
+                            if (work["image"] != null) {
+                                const workImg = createElement("img");
+                                    // workImg.setAttribute("alt", `${work["title"]} Art`);
+                                    workImg.setAttribute("src", `../media/works/${work["category"]}/${work["image"]}`);
+
+                                workItem.appendChild(workImg);
+                            }
+
+                            const workDescription = createElement("p", work["description"]);
+                            workItem.appendChild(workDescription);
                         }
-                    });
 
-                    stopScroll(timerContainer, "works");
-                    worksBox.scrollTo(0, 0);
-                    startHorizontalScroll(worksBox, timerContainer, "works");
-                }
+                        if (work["iframe"] != null) {
+                            const workIframe = createElement("iframe");
 
-                category.addEventListener('click', handleCategoryClick);
-                category.addEventListener('touchstart', handleCategoryClick);
+                                workIframe.setAttribute("src", work["iframe"]);
+                                workIframe.setAttribute("title", work["title"]);
+                                workIframe.setAttribute("frameborder", "0");
+                                workIframe.setAttribute("allowfullscreen", "");
+                            workItem.appendChild(workIframe);
+                        }
+
+                        workItem.style.animationDelay = `${Math.random() * 2}s`;
+
+                    document.querySelector("#worksList").appendChild(workItem);
+                    
+                    // create unique timers for each project. 
+                    // these timers control whether the project is scrolling vertically
+                    const projectTimer = "project"+projectID++;
+                    workItem.data = projectTimer;
+                    timerContainer[workItem.data] = null;
+
+                    workItem.scrollTo(0, 0);
+                    workItem.addEventListener('mouseenter', () => stopScroll(timerContainer, workItem.data));
+                    workItem.addEventListener('mouseleave', () => startVerticalScroll(workItem, timerContainer, workItem.data));
+                    workItem.addEventListener('touchstart', () => stopScroll(timerContainer, workItem.data));
+                    startVerticalScroll(workItem, timerContainer, workItem.data);
+                });
             });
 
-            // everything for tab title updates after inactivity
-            // Schedule a new timeout to change the title after 30 seconds of inactivity
-            const activeChoices = "Awaiting : Listening : Observing".split(" : ");
-            const inactiveChoices = "Communicating : Pinging".split(" : ");
-            const renameTab = () => {
-                if (document.hasFocus()) {
-                    document.title = "> TAB ["+activeChoices[randomFrom(0, activeChoices.length-1)]+"...]";
-                } else {
-                    document.title = "> TAB ["+inactiveChoices[randomFrom(0, inactiveChoices.length-1)]+"...]";
-                }
-            }
+        // contact form script
+        // document.getElementById("contact-form").addEventListener("submit", function(event) {
+        //     event.preventDefault(); // prevent the form from submitting normally
 
-            let titleTimeout, periodInterval;
-            setTitleAfterInactivity();
-            function setTitleAfterInactivity() {
-                document.title = "> TAB [Portfolio]";
+        //     var form = event.target;
+        //     var url = form.action;
+        //     var formData = new FormData(form);
 
-                titleTimeout = setTimeout(() => {
-                    renameTab();
-                    startPeriodInterval();
-                }, 30000);
+        //     fetch(url, {
+        //         method: "POST",
+        //         body: formData
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //     if (data.status === "success") {
+        //         alert(data.message); // display success message in popup
+        //         form.reset(); // reset the form
+        //     } else {
+        //         alert(data.message); // display error message in popup
+        //     }
+        //     })
+        //     .catch(error => alert("Oops! Something went wrong. Please try again later."));
+        // });
 
-                // Reset the timeout whenever the user interacts with the page
-                window.onfocus = resetTitleTimeout;
-                document.addEventListener('mousemove', resetTitleTimeout);
-                document.addEventListener('keydown', resetTitleTimeout);
-                document.addEventListener('scroll', resetTitleTimeout);
-            }
-            function resetTitleTimeout() {
-                clearTimeout(titleTimeout);
-                stopPeriodInterval();
-                setTitleAfterInactivity();
-            }
-            function startPeriodInterval() {
-                clearInterval(periodInterval);
+        // for the nav bar jumping
+        document.querySelectorAll("nav a").forEach((navSpot) => {
+            const currentURL = window.location.href;
+            navSpot.addEventListener("click", (e) => {
+                e.preventDefault();
+                history.pushState(null, null, currentURL);
 
-                // Start a new interval to append a period to the title every 10 seconds
-                periodInterval = setInterval(() => {
-                    var currentTitle = document.title;
-                    if (currentTitle.includes("..........]")) {
-                        renameTab();
-                    } else {
-                        document.title = currentTitle.replace(']', '')+'.]';
+                const target = document.querySelector(navSpot.getAttribute("href"));
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+                // wait .5 seconds, then highlight
+                setTimeout(() => {
+                    target.classList.add('highlight');
+                    setTimeout(() => {
+                        target.classList.remove('highlight');
+                    }, 1200);
+                }, 300);
+                
+            });
+        });
+
+
+        // initializes scrolling on worksList
+        timerContainer["works"] = null;
+        worksBox.scrollTo(0, 0);
+        worksBox.addEventListener('mouseenter', () => stopScroll(timerContainer, "works"));
+        worksBox.addEventListener('mouseleave', () => startHorizontalScroll(worksBox, timerContainer, "works"));
+        worksBox.addEventListener('touchstart', () => stopScroll(timerContainer, "works"));
+        startHorizontalScroll(worksBox, timerContainer, "works");
+
+        // filter logic for projects section
+        document.querySelectorAll("#menuProjects li").forEach((category) => {
+            // filters projects when a category is clicked
+            const handleCategoryClick = (event) => {
+                if (event.target.id == "active") return;
+
+                document.querySelector("#active").removeAttribute("id");
+                event.target.setAttribute("id", "active");
+                
+                document.querySelectorAll("#worksList li").forEach((work) => {
+                    stopScroll(timerContainer, work.data);
+                    work.scrollTo(0, 0);
+                    startVerticalScroll(work, timerContainer, work.data);
+                    const colors = {
+                        "Developer": "overrideGreen", 
+                        "SoundDesign": "overridePink",
+                        "Composition": "overrideBlueLight",
+                        "Mixing": "overrideBlue",
+                        "SoundImplementation": "overrideRed",
+                        "BoomMixer": "overrideYellow",
+                        "Designer": "overrideOrange"
                     }
-                }, 10000);
-            }
-            function stopPeriodInterval() {
-                clearInterval(periodInterval);
+                    let filterTag = event.target.innerHTML.replaceAll(" ", "");
+
+                    work.classList = work.dataset.tags.replaceAll(",", " ");
+                    if (event.target.innerHTML == "All") {
+                        work.style.display = "inline-block";
+                    } else if (work.classList.contains(filterTag)) {
+                        work.style.display = "inline-block";
+                        work.classList = colors[filterTag];
+                    } else {
+                        work.style.display = "none";
+                        work.classList = work.dataset.tags.replaceAll(",", " ");
+                    }
+                });
+
+                stopScroll(timerContainer, "works");
+                worksBox.scrollTo(0, 0);
+                startHorizontalScroll(worksBox, timerContainer, "works");
             }
 
-        </script>
-    </body>
+            category.addEventListener('click', handleCategoryClick);
+            category.addEventListener('touchstart', handleCategoryClick);
+        });
+
+        // everything for tab title updates after inactivity
+        // Schedule a new timeout to change the title after 30 seconds of inactivity
+        const activeChoices = "Awaiting : Listening : Observing".split(" : ");
+        const inactiveChoices = "Communicating : Pinging".split(" : ");
+        const renameTab = () => {
+            if (document.hasFocus()) {
+                document.title = "> TAB ["+activeChoices[randomFrom(0, activeChoices.length-1)]+"...]";
+            } else {
+                document.title = "> TAB ["+inactiveChoices[randomFrom(0, inactiveChoices.length-1)]+"...]";
+            }
+        }
+
+        let titleTimeout, periodInterval;
+        setTitleAfterInactivity();
+        function setTitleAfterInactivity() {
+            document.title = "> TAB [Portfolio]";
+
+            titleTimeout = setTimeout(() => {
+                renameTab();
+                startPeriodInterval();
+            }, 30000);
+
+            // Reset the timeout whenever the user interacts with the page
+            window.onfocus = resetTitleTimeout;
+            document.addEventListener('mousemove', resetTitleTimeout);
+            document.addEventListener('keydown', resetTitleTimeout);
+            document.addEventListener('scroll', resetTitleTimeout);
+        }
+        function resetTitleTimeout() {
+            clearTimeout(titleTimeout);
+            stopPeriodInterval();
+            setTitleAfterInactivity();
+        }
+        function startPeriodInterval() {
+            clearInterval(periodInterval);
+
+            // Start a new interval to append a period to the title every 10 seconds
+            periodInterval = setInterval(() => {
+                var currentTitle = document.title;
+                if (currentTitle.includes("..........]")) {
+                    renameTab();
+                } else {
+                    document.title = currentTitle.replace(']', '')+'.]';
+                }
+            }, 10000);
+        }
+        function stopPeriodInterval() {
+            clearInterval(periodInterval);
+        }
+
+    </script>
 </html>

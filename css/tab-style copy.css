@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/**************** FONTS ****************/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;300&family=Open+Sans:wght@800&display=swap');
+body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 100;
+}
+.intro {
+    font-weight: 300;
+    font-size: 2em;
+}
+nav, #featuredWorks {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+}
+strong {
+    font-family: 'Open Sans', sans-serif;
+	font-weight: 800;
+}
+
+
+
+/**************** SITEWIDE ****************/
+html {
+    width: 100vw;
+    height: 100vh;
+}
+body {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 32px 0;
+    cursor: default;
+}
+.rainbowBorder {
+    border-image: repeating-linear-gradient(135deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3) 1;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-evenly;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.navMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    list-style-type: none;
+    cursor: default;
+    width: 100%;
+}
+.navMenu li {
+    display: inline-block;
+    padding: 16px;
+    list-style-type: none;
+    transition: all .3s;
+}
+.navMenu a>li:hover {
+    background-color: #333;
+    transition: all .3s;
+}
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* SLIDER IS UNDER THE NAV BAR */
+.slider {
+    width: 100%;
+    height: 5px;
+    display: block;
+    background: #333;
+    margin-top: 10px;
+}
+.slider .bar {
+    width: 18%;
+    height: 5px;
+    background: #fff;
+    border-radius: 5px;
+    /* margin-left: 16%; */
+}
+.footer {
+    max-width: 60%;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    cursor: default;
+}
+.socialMenu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+    padding-top: 32px;
+}
+.socialMenu img:hover {
+    cursor: pointer;
+}
+.socialMenu a {
+    margin: 32px 64px;
+}
+.socialMenu img {
+    width: 80px;
+    filter: grayscale(1);
+}
+.socialMenu li img {
+    transition: all .3s;
+}
+.socialMenu a:hover img {
+    transform: scale(1.4);
+    transition: all .3s;
+}
+.socialMenu a:hover img {
+    filter: grayscale(0);
+    transition: all .3s;
+}

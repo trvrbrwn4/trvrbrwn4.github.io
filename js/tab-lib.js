@@ -16,3 +16,26 @@ function createElement(typeName, innerText = null) {
 function randomFrom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    setInterval(function() {
+        for (let i = 0; i < 10; i++) {
+            createStar();
+        }
+    }, 50);
+});
+
+// star animation
+function createStar() {
+    const star = createElement('div');
+    star.classList.add('star');
+    star.style.top = Math.floor(Math.random() * (window.innerHeight - 20)) + 10 + 'px';
+    star.style.left = Math.floor(Math.random() * (window.innerWidth - 20)) + 10 + 'px';
+
+    // document.body.appendChild(star);
+    document.querySelector("main").insertBefore(star, document.querySelector("main").firstChild);
+
+    setTimeout(() => {
+        star.remove();
+    }, 1000);
+}
