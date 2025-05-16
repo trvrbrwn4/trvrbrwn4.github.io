@@ -1,4 +1,5 @@
 # What is this?
+---
 This site is the home of my web portfolio and various web tools I have created.
 
 And ***this***, specifcally? This is just my documentation of it all.
@@ -6,19 +7,23 @@ And ***this***, specifcally? This is just my documentation of it all.
 Feed your curiosity and look around- you never know what you might find. :)
 
 
-<br /><br />
----
-<br /><br />
+<br /><br /><br />
 
 
 ## CSS
+---
 [tab-style.css](css/tab-style.css) where I house sitewide styles.
 
 Then, each page will use inline CSS for page specific features.
 
 My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans). My heading(s) font is [Open Sans](https://fonts.google.com/specimen/Open+Sans).
 
+
+<br />
+
+
 ### Animations
+---
 
 1. *twinkling*
 
@@ -38,8 +43,6 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
     }
     ```
     </details>
-
-<br />
 
 2. *floating*
 
@@ -251,6 +254,7 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 
 
 ## JavaScript
+---
 [tab-lib.js](js/tab-lib.js) where I house sitewide code.
 
 Then, each page will use inline JavaScript for page specific features.
@@ -260,9 +264,11 @@ Then, each page will use inline JavaScript for page specific features.
 
 
 ## Personal Portfolio
+---
 This site is the home of my personal brand in order to showcase my ability and style.
 
 ### Projects Section
+---
 Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
 
 <details>
@@ -286,7 +292,7 @@ Projects are loaded client-side during site load by parsing them through the [wo
 </details>
 
 <details>
-<summary>The tags are what get used for the project filtering functionality</summary>
+<summary>Tags are what get used for the project filtering functionality</summary>
 
 ```javascript
 "tags": [
@@ -307,8 +313,7 @@ More info later: [Project Filtering](https://github.com/trvrbrwn4/trvrbrwn4.gith
 <br />
 
 
-#### Project Auto-Scroll
-Project specific auto scroll is started upon project insertion into `#worksList`.
+Project specific auto scroll is started upon project's insertion into `#worksList`.
 
 More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.github.io#auto-scroll-feature)
 
@@ -317,10 +322,10 @@ More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.gi
 
 
 ### Site Specific
-After the projects are loaded into `#worksList`, a couple of other things come to life.
+---
 
 <details>
-<summary>#### Stars</summary>
+<summary>Star animation</summary>
 
 ```javascript
 function createStar() {
@@ -344,9 +349,8 @@ setInterval(function() {
 ```
 </details>
 
-#### Nav Bar
 <details>
-<summary>Attach scrollIntoView and highlight animation to the `nav a` elements.</summary>
+<summary>Attach scrollIntoView and highlight animation to the `nav a` elements</summary>
 
 ```javascript
 document.querySelectorAll("nav a").forEach((navSpot) => {
@@ -380,9 +384,9 @@ document.querySelectorAll("nav a").forEach((navSpot) => {
 
 
 #### Auto-Scroll Feature
-
+---
 <details>
-<summary>The project section and each project get a auto-scroll function applied to them.</summary>
+<summary>The project section and each project get a auto-scroll function applied to them</summary>
 
 ```javascript
 startHorizontalScroll(box, container, timer); // Project Section
@@ -398,7 +402,7 @@ The auto-scroll timer resets and starts again on: `mouseleave`.
 Each project already has its auto-scroll timer started by now.
 
 <details>
-<summary>So just start it for the Project Section.</summary>
+<summary>So just start it for the Project Section</summary>
 
 ```javascript
 // initializes scrolling on worksList
@@ -416,6 +420,7 @@ Each project already has its auto-scroll timer started by now.
 
 
 #### Project Filtering
+---
 For each `#menuProjects li`, on `click` or `touchstart`, run filter logic.
 
 Basic rundown:
@@ -427,14 +432,19 @@ Basic rundown:
    - if `project.classList.contains(filterTag)`, show. Otherwise, hide.
 4. Reset auto-scroll of project section.
 
+
+<br />
+
+
 #### Dynamic Site Title
+---
 After 30s of inactivity, the `document.title`, or tab name, will change.
 
 Format is: `> TAB [...]`, where a chosen title gets put inserted into the square brackets.
 
-Once a title is chosen, periods are added on every 10s until `currentTitle.includes("..........]")`, then a new title will be chosen, and periods reset back to `...`.
+Once a title is chosen, periods are added on every 10s until `currentTitle.includes("..........]")`, then a new title will be chosen, and periods reset back to `...` .
 
-Title options depend on whether the tab has focus, `document.hasFocus()` or not.
+Title options depend on whether the tab has focus, `document.hasFocus()`, or not.
 <details>
 <summary>Title options</summary>
 
