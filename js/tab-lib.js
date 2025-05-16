@@ -1,4 +1,4 @@
-// a function for me to create constant width comments :)
+// a function to output consistent width comments for my codebase
 function commentMaker(title) {
     const fixedWidth = 40;
     const sidewidth = (fixedWidth - title.split("").length) / 2;
