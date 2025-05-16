@@ -24,6 +24,9 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 ### Animations
 ---
 
+<details>
+<summary>View all animations</summary>
+
 <table>
   <tr>
     <td> Animation </td>
@@ -325,6 +328,8 @@ Header elements
 </td>
   </tr>
 </table>
+
+</details>
 
 
 
