@@ -1,5 +1,4 @@
 # What is this?
----
 This site is the home of my web portfolio and various web tools I have created.
 
 And ***this***, specifcally? This is just my documentation of it all.
@@ -10,7 +9,7 @@ Feed your curiosity and look around- you never know what you might find. :)
 <br /><br /><br />
 
 
-## CSS
+### CSS
 ---
 [tab-style.css](css/tab-style.css) where I house sitewide styles.
 
@@ -22,8 +21,7 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 <br />
 
 
-### Animations
----
+## Animations
 
 1. *twinkling*
 
@@ -253,7 +251,7 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 <br /><br /><br />
 
 
-## JavaScript
+### JavaScript
 ---
 [tab-lib.js](js/tab-lib.js) where I house sitewide code.
 
@@ -263,12 +261,12 @@ Then, each page will use inline JavaScript for page specific features.
 <br /><br /><br />
 
 
-## Personal Portfolio
+### Personal Portfolio
 ---
 This site is the home of my personal brand in order to showcase my ability and style.
 
-### Projects Section
----
+## Projects Section
+
 Projects are loaded client-side during site load by parsing them through the [works.json](works.json) file.
 
 <details>
@@ -321,8 +319,7 @@ More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.gi
 <br />
 
 
-### Site Specific
----
+## Site Specific
 
 <details>
 <summary>Star animation</summary>
@@ -383,8 +380,8 @@ document.querySelectorAll("nav a").forEach((navSpot) => {
 <br />
 
 
-#### Auto-Scroll Feature
----
+## Auto-Scroll Feature
+
 <details>
 <summary>The project section and each project get a auto-scroll function applied to them</summary>
 
@@ -419,8 +416,8 @@ Each project already has its auto-scroll timer started by now.
 <br />
 
 
-#### Project Filtering
----
+## Project Filtering
+
 For each `#menuProjects li`, on `click` or `touchstart`, run filter logic.
 
 Basic rundown:
@@ -436,8 +433,8 @@ Basic rundown:
 <br />
 
 
-#### Dynamic Site Title
----
+## Dynamic Site Title
+
 After 30s of inactivity, the `document.title`, or tab name, will change.
 
 Format is: `> TAB [...]`, where a chosen title gets put inserted into the square brackets.
