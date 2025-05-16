@@ -351,7 +351,7 @@ More info later: [Project Filtering](https://github.com/trvrbrwn4/trvrbrwn4.gith
 <br />
 
 
-Project specific auto scroll is started upon project's insertion into `#worksList`.
+Project specific auto-scroll is started upon project's insertion into `#worksList`.
 
 More info later: [Auto-Scroll Feature](https://github.com/trvrbrwn4/trvrbrwn4.github.io#auto-scroll-feature)
 
@@ -461,9 +461,7 @@ Each project already has its auto-scroll timer started by now.
 ### Project Filtering
 ---
 
-For each `#menuProjects li`, on `click` & `touchstart`, run filter logic.
-
-Basic rundown:
+For each `#menuProjects li`, on `click` & `touchstart`, 
 1. Remove `#active` from the current `#active` element.
 2. Set clicked element as `#active`.
 3. For each project:
@@ -481,9 +479,9 @@ Basic rundown:
 
 After 30s of inactivity, the `document.title`, or tab name, will change.
 
-Format is: `> TAB [...]`, where a chosen title gets put inserted into the square brackets.
+Format is: `> TAB [...]`, where a chosen title gets inserted after the first square bracket.
 
-Once a title is chosen, periods are added on every 10s until `currentTitle.includes("..........]")`, then a new title will be chosen, and periods reset back to `...` .
+Once a title is chosen, periods are added on every 10s until `currentTitle.includes("..........]")`, then a new title will be chosen, and periods reset back to `...` . This cycle is 70s.
 
 Title options depend on whether the tab has focus, `document.hasFocus()`, or not.
 <details>
