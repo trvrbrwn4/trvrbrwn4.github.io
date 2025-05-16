@@ -312,7 +312,7 @@ Projects are loaded client-side during site load by parsing them through the [wo
 <details>
 <summary>Project json format</summary>
 
-```json
+```javascript
 "works": [
     {
         "title": "Project Title",
