@@ -29,20 +29,19 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 
 <table>
   <tr>
-    <td> Animation </td>
-    <td> CSS Code </td>
     <td> Targets </td>
+    <td> CSS Code </td>
   </tr>
-
   <tr>
     <td>
 
-**1. _twinkling_**
+`.star` div elements
 
 </td>
     <td>
 
 ```css
+/* star flash */
 @keyframes twinkling {
     0%, 100%{
         opacity: 0;
@@ -54,22 +53,17 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 ```
 
 </td>
-    <td>
-
-`.star` div elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**2. _floating_**
+Header elements
 
 </td>
     <td>
 
 ```css
+/* drift down, then back up */
 @keyframes floating {
     0%, 60%, 100%  {
         transform: translateY(0);
@@ -81,22 +75,17 @@ My main font is [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)
 ```
 
 </td>
-    <td>
-
-Header elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**3. _rainbowSlide_**
+`.rainbow` span elements
 
 </td>
     <td>
 
 ```css
+/* slide the rainbow divider */
 @keyframes rainbowSlide {
     0%, 100% {
         border-image: repeating-linear-gradient(135deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3) 1;
@@ -132,22 +121,17 @@ Header elements
 ```
 
 </td>
-    <td>
-
-`.rainbow` span elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**4. _highlight_**
+`<section>` elements
 
 </td>
     <td>
 
 ```css
+/* flash a page section */
 @keyframes highlight {
     0%, 100% {
         border-color: #000;
@@ -161,22 +145,17 @@ Header elements
 ```
 
 </td>
-    <td>
-
-`<section>` elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**5. _jiggle_**
+`#workslist li` elements
 
 </td>
     <td>
 
 ```css
+/* subtle jiggle of project elements */
 @keyframes jiggle {
     0%, 30%, 100%  {
         transform: rotate(0);
@@ -191,22 +170,17 @@ Header elements
 ```
 
 </td>
+  </tr>
+  <tr>
     <td>
 
 `#workslist li` elements
 
 </td>
-  </tr>
-
-  <tr>
-    <td>
-
-**6. _softHover_**
-
-</td>
     <td>
 
 ```css
+/* subtle pulse of project element */
 @keyframes softHover {
     0%, 100% {
         transform: scale(1);
@@ -218,22 +192,17 @@ Header elements
 ```
 
 </td>
-    <td>
-
-`#workslist li` elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**7. _imgPulse_**
+`#workslist img` elements
 
 </td>
     <td>
 
 ```css
+/* subtle image flash for projects */
 @keyframes imgPulse {
     0% {
         filter: saturate(1);
@@ -248,22 +217,17 @@ Header elements
 ```
 
 </td>
-    <td>
-
-`#workslist img` elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**8. _pulse_**
+`#Bio img` elements
 
 </td>
     <td>
 
 ```css
+/* subtle glowing effect of headshot */
 @keyframes pulse {
     0%, 100% {
         filter: saturate(1);
@@ -279,22 +243,17 @@ Header elements
 ```
 
 </td>
-    <td>
-
-`#Bio img` elements
-
-</td>
   </tr>
-
   <tr>
     <td>
 
-**9. _wave_**
+`.wave` p elements
 
 </td>
     <td>
 
 ```css
+/* wave animation for bio title */
 @keyframes wave {
     0%, 17% {
         transform: rotate(0);
@@ -319,11 +278,6 @@ Header elements
     }
 }
 ```
-
-</td>
-    <td>
-
-`.wave` p elements
 
 </td>
   </tr>
@@ -507,11 +461,11 @@ Each project already has its auto-scroll timer started by now.
 ### Project Filtering
 ---
 
-For each `#menuProjects li`, on `click` or `touchstart`, run filter logic.
+For each `#menuProjects li`, on `click` & `touchstart`, run filter logic.
 
 Basic rundown:
-1. Remove `#active` from the current `#active` option.
-2. Set target as `#active`.
+1. Remove `#active` from the current `#active` element.
+2. Set clicked element as `#active`.
 3. For each project:
    - reset auto-scroll.
    - replace current classes with original parsed classes.
