@@ -869,6 +869,48 @@
                     dataDeleted = true;
                 }
 
+                const oldBeReeseNote = memory("MusiBEReeseNote");
+                if (oldBeReeseNote) {
+                    document.getElementById("beReeseNote").value = "";
+                    memory("MusiBEReeseNote", "");
+                    dataDeleted = true;
+                }
+                const oldBeReeseRate = memory("MusiBEReeseRate");
+                if (oldBeReeseRate) {
+                    document.getElementById("beReeseRate").value = "";
+                    memory("MusiBEReeseRate", "");
+                    dataDeleted = true;
+                }
+                beDetuneFinder();
+
+                const oldBeBeatingOne = memory("MusiBEBeatingOne");
+                if (oldBeBeatingOne) {
+                    document.getElementById("beBeatingOne").value = "";
+                    memory("MusiBEBeatingOne", "");
+                    dataDeleted = true;
+                }
+                const oldBeBeatingTwo = memory("MusiBEBeatingTwo");
+                if (oldBeBeatingTwo) {
+                    document.getElementById("beBeatingTwo").value = "";
+                    memory("MusiBEBeatingTwo", "");
+                    dataDeleted = true;
+                }
+                beBeatingFinder();
+
+                const oldPitchBpm = memory("MusiPitchBpm");
+                if (oldPitchBpm) {
+                    document.getElementById("pitchBpm").value = "";
+                    memory("MusiPitchBpm", "");
+                    dataDeleted = true;
+                }
+                const oldPitchPitch = memory("MusiPitchPitch");
+                if (oldPitchPitch) {
+                    document.getElementById("pitchPitch").value = "";
+                    memory("MusiPitchPitch", "");
+                    dataDeleted = true;
+                }
+                pitchBpmInput();
+
                 const oldConversionValue = memory("MusiConversionValue");
                 if (oldConversionValue) {
                     document.getElementById("convertValue").value = "";
@@ -904,10 +946,6 @@
                     harmoniCalc();
                     dataDeleted = true;
                 }
-
-                beDetuneFinder();
-                beBeatingFinder();
-                pitchBpmInput();
             };
             
             if (popupHidden) {
