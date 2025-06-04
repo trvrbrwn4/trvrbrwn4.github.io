@@ -22,6 +22,10 @@
                 overflow-x: hidden;
                 touch-action: manipulation;
             }
+            /* key selector and scale selector */
+            #keySelector, #scaleSelector {
+                margin-bottom: 8px;
+            }
             #scaleSelector li { /* User Scale Selector */
                 font-size: 24px;
             }
@@ -85,13 +89,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: center;
-                width: auto;
-                
-            }
-            #toolBox > div {
-                display: inline-block;
-                margin-bottom: 8px;
+                align-items: center;                
             }
             #toolBox input { /* text input boxes */
                 text-align: center;
@@ -178,12 +176,9 @@
             #relativeNames {
                 font-weight: 900;
             }
-            #scaleDegrees {
-                margin-top: -16px;
-            }
             #scaleDegrees li {
                 cursor: default;
-                margin: 0 2vw;
+                margin: 0 2%;
             }
             .splitBox {
                 width: 100%;
@@ -230,6 +225,9 @@
             }
             .extra {
                 font-weight: 300;
+            }
+            .extra input {
+                margin: 8px 0;
             }
             .extra input:focus {
                 caret-color: #000;
@@ -476,7 +474,7 @@
                     font-size: 48px;
                 }
                 #relativeNames { /* Calculated Relative Scales */
-                    font-size: 40px;
+                    font-size: 40px;.,
                 }
                 #scaleDegrees li { /* Calculated Scale Keys */
                     font-size: 24px;
@@ -899,10 +897,17 @@
                 }
                 convertBPMTime();
 
+                const oldHarmFreq = memory("MusiHarmFreq");
+                if (oldHarmFreq) {
+                    document.getElementById("harmonicFreq").value = "";
+                    memory("MusiHarmFreq", "");
+                    harmoniCalc();
+                    dataDeleted = true;
+                }
+
                 beDetuneFinder();
                 beBeatingFinder();
                 pitchBpmInput();
-                harmoniCalc();
             };
             
             if (popupHidden) {
