@@ -1,0 +1,141 @@
+/* Style for the main mainContainer */
+        #mainContainer {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            width: 80%;
+        }
+        #inputContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 50%;
+        }
+        #buttonContainer {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Text areas styling */
+        textarea {
+            width: 50%;
+            height: 300px;
+            resize: vertical;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        #outputText {
+            width: 70%;
+        }
+
+        /* Styling for output control buttons */
+        #buttonContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .output-button {
+            padding: 5px;
+            font-size: 14px;
+            color: white;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .output-button:hover {
+            background-color: #555;
+        }
+
+        /* Button mainContainer */
+        #buttonContainer {
+            width: 60%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        #clearOutput {
+            background-color: #6e1b23;
+        }
+        #clearOutput:hover {
+            background-color: #982530;
+        }
+
+        /* Button styling */
+        button {
+            padding: 8px 15px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        #buttonNewFilter {
+            background-color: #007bff;
+        }
+        #buttonNewFilter:hover {
+            background-color: #3094ff;
+        }
+
+        #buttonApplyFilter {
+            background-color: #28a745;
+        }
+        #buttonApplyFilter:hover {
+            background-color: #51b868;
+        }
+
+        /* Filter mainContainer */
+        #filterContainer {
+            width: 60%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-module {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+        }
+
+        /* Input fields inside filter module */
+        .filter-module input[type="text"] {
+            margin: 0 5px;
+            width: 100px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Remove button inside filter module */
+        .filter-module button {
+            margin-left: auto;
+            background-color: #dc3545;
+            color: white;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }

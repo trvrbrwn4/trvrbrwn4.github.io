@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="textmateLogo.png">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 8px;
+        }
+
+        h1 {
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Main layout containers */
+        main {
+            display: flex;
+            width: 98%;
+            gap: 20px;
+        }
+        header {
+            text-align: center;
+        }
+
+        #allInputs {
+            width: 80%;
+        }
+        /* 80% width for inputContainer */
+        #textContainer {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        #inputContainer, #outputContainer {
+            width: 48%;
+            border-radius: 8px;
+        }
+        /* Text areas styling */
+        textarea {
+            width: 100%; /* Full width to fit container */
+            height: 300px;
+            resize: vertical;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        .textarea-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        .textarea-controls button {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: none;
+        }
+
+        /* Button colors */
+        .textarea-controls button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* 20% width for buttonContainer */
+        #buttonContainer {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            gap: 10px;
+        }
+
+        /* Filter container: Row layout */
+        #filterContainer {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* Filter buttons inside filter container */
+        #buttonNewFilter, #buttonApplyFilter {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1; /* Share available space equally */
+        }
+
+        #buttonNewFilter {
+            background-color: #005dc0;
+        }
+
+        #buttonNewFilter:hover {
+            background-color: #307ccc;
+        }
+
+        #buttonApplyFilter {
+            background-color: #a07905;
+        }
+
+        #buttonApplyFilter:hover {
+            background-color: #b29334;
+        }
+
+        /* Applied filters module: Column layout */
+        #filterModules {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 60%;
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        /* Styling for individual filter modules */
+        .filter-module {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            width: 100%;
+        }
+
+        .filter-module input[type="text"] {
+            margin: 0 10px;
+            width: 100px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .filter-module button:first-of-type {
+            margin-left: auto;
+        }
+        .filter-module button {
+            padding: 5px;
+            font-size: 14px;
+            color: white;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Remove button inside filter module */
+        .filter-module .remove-button {
+
+            background-color: #dc3545;
+            color: white;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Output control buttons styling */
+        .output-button {
+            padding: 10px;
+            font-size: 14px;
+            color: white;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .output-button:hover {
+            background-color: #555;
+        }
+
+        #copyOutput {
+            background-color: #1e7e34;
+        }
+        #copyOutput:hover {
+            background-color: #49975b;
+        }
+
+        #clearAll {
+            background-color: #6e1b23;
+        }
+        #clearAll:hover {
+            background-color: #982530;
+        }
+
+        /* Visual feedback for dragging */
+        .dragging {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <div id="allInputs">
+        <header>
+            <h1>TextLab</h1>
+        </header>
+        <div id="textContainer">
+            <div id="inputContainer">
+                <!-- Input Textarea with Clear and Undo Buttons -->
+                <div class="textarea-controls">
+                    <button onclick="clearText('inputText')">Clear</button>
+                    <button onclick="undoText('inputText')">Undo</button>
+                </div>
+                <textarea id="inputText" placeholder="Enter text here..."></textarea>
+            </div>
+            
+            <div id="outputContainer">
+                <!-- Output Textarea with Clear and Undo Buttons -->
+                <div class="textarea-controls">
+                    <button onclick="clearText('outputText')">Clear</button>
+                    <button onclick="undoText('outputText')">Undo</button>
+                </div>
+                <textarea id="outputText" placeholder="Output text will appear here..." readonly></textarea>
+            </div>
+        </div>
+        
+        <!-- Filters Section -->
+        <div id="filterContainer">
+            <button onclick="addFilter()" id="buttonNewFilter">Create New Filter</button>
+            <button onclick="applyFilters()" id="buttonApplyFilter">Apply Filters</button>
+        </div>
+        <div id="filterModules"></div>
+    </div>
+
+    <div id="buttonContainer">
+        <!-- Output Control Buttons -->
+        <button class="output-button" onclick="capitalizeAll()">Capitalize All</button>
+        <button class="output-button" onclick="lowercaseAll()">Lowercase All</button>
+        <button class="output-button" onclick="swapCaseAll()">SwAp CaSe AlL</button>
+        <button class="output-button" onclick="sentenceCase()">Sentence Case</button>
+        <button class="output-button" onclick="titleCase()">Title Case</button>
+        <button class="output-button" onclick="reverseText()">Reverse Text</button>
+
+        <button class="output-button" onclick="trimNewlines()">Trim Newlines</button>
+        <button class="output-button" onclick="removeExtraSpaces()">Remove Extra Spaces</button>
+        <button class="output-button" onclick="removeSymbols()">Remove Symbols</button>
+        <button class="output-button" onclick="removeNumbers()">Remove Numbers</button>
+
+        <button class="output-button" onclick="sortLinesAZ()">Sort Lines A-Z</button>
+        <button class="output-button" onclick="sortLinesZA()">Sort Lines Z-A</button>
+
+        <button class="output-button" id="copyOutput" onclick="copyOutput()">Copy Output</button>
+    </div>
+</main>
+
+<script>
+    // when either the input or output textareas are scrolled in, the other textarea should scroll in the same amount
+    document.getElementById('inputText').addEventListener('scroll', function() {
+        document.getElementById('outputText').scrollTop = this.scrollTop;
+    });
+    document.getElementById('outputText').addEventListener('scroll', function() {
+        document.getElementById('inputText').scrollTop = this.scrollTop;
+    });
+
+    // when either the input or output textareas are resized, the other textarea should resize to the same height
+    const inputTextarea = document.getElementById('inputText');
+    const outputTextarea = document.getElementById('outputText');
+
+    // Create a ResizeObserver that listens for changes on both textareas
+    const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            if (entry.target.id === 'inputText') {
+                // Update outputText height when inputText is resized
+                outputTextarea.style.height = entry.contentRect.height + 'px';
+            } else if (entry.target.id === 'outputText') {
+                // Update inputText height when outputText is resized
+                inputTextarea.style.height = entry.contentRect.height + 'px';
+            }
+        }
+    });
+    // Observe both textareas
+    resizeObserver.observe(inputTextarea);
+    resizeObserver.observe(outputTextarea);
+
+    // Stores previous content for each textarea
+    const undoStacks = {
+        inputText: [],
+        outputText: []
+    };
+
+    function clearText(textareaId) {
+        const textarea = document.getElementById(textareaId);
+        
+        // Push current content to the undo stack
+        undoStacks[textareaId].push(textarea.value);
+        
+        // Clear the textarea content
+        textarea.value = '';
+    }
+
+    function undoText(textareaId) {
+        const textarea = document.getElementById(textareaId);
+        
+        // Restore the last content if available
+        if (undoStacks[textareaId].length > 0) {
+            textarea.value = undoStacks[textareaId].pop();
+        }
+    }
+
+    function redoText(textareaId) {
+        const textarea = document.getElementById(textareaId);
+        
+        // Restore the next content if available
+        if (undoStacks[textareaId].length > 0) {
+            textarea.value = undoStacks[textareaId].shift();
+        }
+    }
+
+    // Add filter module
+    function addFilter() {
+        const filterModules = document.getElementById('filterModules');
+        
+        const filterDiv = document.createElement('div'); // filter module container
+        filterDiv.className = 'filter-module';
+
+        const filterType = document.createElement('select'); // filter type dropdown
+        filterType.innerHTML = `
+            <option value="text">Text</option>
+            <option value="newline">Newline</option>
+            <option value="regex">Regex</option>
+        `;
+
+        const findText = document.createElement('input'); // find text input
+        findText.type = 'text';
+        findText.placeholder = 'Find Text';
+
+        const replaceText = document.createElement('input'); // replace text input
+        replaceText.type = 'text';
+        replaceText.placeholder = 'Replace Text';
+
+        const toggleLabel = document.createElement('label');  // toggle switch
+        toggleLabel.textContent = 'Enabled:';
+        const toggle = document.createElement('input');
+        toggle.type = 'checkbox';
+        toggle.checked = true;
+
+        const upButton = document.createElement('button'); // move up button
+        upButton.textContent = '↑';
+        upButton.onclick = () => moveUp(filterDiv);
+
+        const downButton = document.createElement('button'); // move down button
+        downButton.textContent = '↓';
+        downButton.onclick = () => moveDown(filterDiv);
+
+        const removeButton = document.createElement('button'); // remove filter button
+        removeButton.textContent = 'X';
+        removeButton.className = 'remove-button';
+        removeButton.onclick = () => filterDiv.remove();
+
+        filterType.addEventListener('change', () => {
+            if (filterType.value === 'newline') {
+                findText.style.visibility = 'hidden';
+            } else {
+                findText.style.visibility = 'visible';
+            }
+        });
+
+        filterDiv.appendChild(filterType);
+        filterDiv.appendChild(findText);
+        filterDiv.appendChild(replaceText);
+        filterDiv.appendChild(toggleLabel);
+        filterDiv.appendChild(toggle);
+        filterDiv.appendChild(upButton);
+        filterDiv.appendChild(downButton);
+        filterDiv.appendChild(removeButton);
+
+        filterModules.appendChild(filterDiv);
+    }
+
+    // Move filter module up
+    function moveUp(filterDiv) {
+        const previousSibling = filterDiv.previousElementSibling;
+        if (previousSibling) {
+            filterDiv.parentNode.insertBefore(filterDiv, previousSibling);
+        }
+    }
+
+    // Move filter module down
+    function moveDown(filterDiv) {
+        const nextSibling = filterDiv.nextElementSibling;
+        if (nextSibling) {
+            filterDiv.parentNode.insertBefore(nextSibling, filterDiv);
+        }
+    }
+
+    function applyFilters() {
+        let inputText = document.getElementById('inputText').value;
+        const filters = document.querySelectorAll('.filter-module');
+
+        filters.forEach(filter => {
+            const filterType = filter.querySelector('select').value;
+            let findText = filter.querySelector('input[type="text"]:first-of-type').value;
+            let replaceText = filter.querySelector('input[type="text"]:nth-of-type(2)').value;
+            
+            // Replace \n and \t in both find and replace text fields
+            findText = findText.replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+            replaceText = replaceText.replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+
+            // if replace text has char*5, replace with 5 instances of char
+            replaceText = replaceText.replace(/(.)(\*\d+)/g, (match, char, count) => char.repeat(parseInt(count.slice(1))));
+
+            if (filterType === 'text' && findText) {
+                inputText = inputText.split(findText).join(replaceText);
+            } else if (filterType === 'newline') {
+                inputText = inputText.replaceAll('\n', replaceText);
+            } else if (filterType === 'regex' && findText) {
+                const regex = new RegExp(findText, 'g');
+
+                // Apply \lower and \upper transformations only for regex filter type
+                if (replaceText === '\\lower') {
+                    inputText = inputText.replace(regex, match => match.toLowerCase());
+                } else if (replaceText === '\\upper') {
+                    inputText = inputText.replace(regex, match => match.toUpperCase());
+                } else {
+                    // Regular regex replacement if no \lower or \upper
+                    inputText = inputText.replace(regex, replaceText);
+                }
+            }
+        });
+
+        document.getElementById('outputText').value = inputText;
+    }
+
+    // Output control functions
+    function capitalizeAll() {
+        document.getElementById('outputText').value = document.getElementById('outputText').value.toUpperCase();
+    }
+
+    function lowercaseAll() {
+        document.getElementById('outputText').value = document.getElementById('outputText').value.toLowerCase();
+    }
+
+    function swapCaseAll() {
+        const output = document.getElementById('outputText').value;
+        // point of this is to swap the case of each character. hello -> HeLlO
+        let swapped = '';
+
+        if (output[0] != output[0].toUpperCase()) {
+            for (let i = 0; i < output.length; i++) {
+                if (i % 2 === 0) {
+                    swapped += output[i].toUpperCase();
+                } else {
+                    swapped += output[i].toLowerCase();
+                }
+            }
+        } else if (output[0] != output[0].toLowerCase) {
+            for (let i = 0; i < output.length; i++) {
+                if (i % 2 === 0) {
+                    swapped += output[i].toLowerCase();
+                } else {
+                    swapped += output[i].toUpperCase();
+                }
+            }
+        }
+
+        document.getElementById('outputText').value = swapped;
+    }
+
+    function sentenceCase() {
+        const output = document.getElementById('outputText').value.toLowerCase();
+        document.getElementById('outputText').value = output.replace(/(^\w)|(\.\s*\w)/g, char => char.toUpperCase());
+    }
+
+    function titleCase() {
+        const output = document.getElementById('outputText').value.toLowerCase();
+        document.getElementById('outputText').value = output.replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function reverseText() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.split('').reverse().join('');
+    }
+
+
+    function trimNewlines() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.replace(/^\s+|\s+$/gm, '');
+    }
+
+    function removeExtraSpaces() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.replace(/ +(?= )/g, '');
+    }
+
+    function removeSymbols() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.replace(/[^\w\s]/g, '');
+    }
+
+    function removeNumbers() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.replace(/\d/g, '');
+    }
+
+    function sortLinesAZ() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.split('\n').sort().join('\n');
+    }
+
+    function sortLinesZA() {
+        const output = document.getElementById('outputText').value;
+        document.getElementById('outputText').value = output.split('\n').sort().reverse().join('\n');
+    }
+
+    function copyOutput() {
+        const outputText = document.getElementById('outputText');
+        outputText.select();
+        document.execCommand('copy');
+    }
+</script>
+
+</body>
+</html>

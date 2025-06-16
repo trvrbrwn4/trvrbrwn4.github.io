@@ -492,3 +492,24 @@ const activeChoices = "Awaiting : Listening : Observing".split(" : ");
 const inactiveChoices = "Communicating : Pinging".split(" : ");
 ```
 </details>
+
+
+<br /><br /><br />
+
+
+## MusiCalc
+
+This site is a webtool for musica calculations.
+
+The main module section houses the Key Selector + Mode Selector, and the Tempo Calculator + Note Selector.
+
+The extra module section houses many modules, which are loaded in from the [modules.json](modules.json) file.
+
+### Main Module Section
+---
+4 main modules:
+1. **Key Selector**: Select a key ~~and mode~~, then see the corresponding scale.
+2. **Mode Selector**: Select a ~~key and~~ mode, then see the corresponding scale.
+3. **Tempo Calculator**: Calculate time + note values given a BPM.
+4. **Note Selector**: Select a note and see its note + time values.
+   
